@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "parser_utils.h"
 
 char **parser_array_trim(char **str)
 {
@@ -8,7 +8,7 @@ char **parser_array_trim(char **str)
 	i = 0;
 	if(!str)
 		return(NULL);
-	ret = (char **)malloc(sizeof(char **) * ft_array_size(str) + 1);
+	ret = (char **)malloc(sizeof(char **) * parser_array_getsize(str) + 1);
 	while(str[i])
 	{
 		ret[i] = ft_strtrim(str[i], " ");
@@ -36,6 +36,19 @@ int	parser_array_cmp(char *str, char **arr)
 	}
 	return (-1);
 }
+
+int parser_array_getsize(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return (0);
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
+}
+
 
 int parser_check_valid_syntax(char **str, char **arr)
 {

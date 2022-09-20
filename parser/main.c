@@ -13,7 +13,8 @@ int	main(void)
 		free(str);
 		if (arg == NULL)
 			continue ;
-		array_writer(arg);
-		ft_double_free(arg, ft_array_size(arg));
+		//array_writer(arg);
+		ft_double_free(arg, parser_array_getsize(arg));
+		system("leaks a.out");
 	}
 }

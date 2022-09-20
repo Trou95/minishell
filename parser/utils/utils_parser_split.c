@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "parser_utils.h"
 
 int		parser_word_cnt(char *str, char **arr)
 {
@@ -13,7 +13,7 @@ int		parser_word_cnt(char *str, char **arr)
 		return (0);
 	while (str[i])
 	{
-		while (j < ft_array_size(arr))
+		while (j < parser_array_getsize(arr))
 		{
 			if (str[i] == arr[j][0] && ft_strncmp(&str[i], arr[j], ft_strlen(arr[j])) == 0)
 			{
@@ -51,16 +51,6 @@ int	parse_non_redir_word_count(char **str, char **arr)
 	return (size);
 }
 
-int parser_cmd_quate_endidx(const char* str, char c)
-{
-	int i;
-
-	i = 0;
-	while(str[i] && str[i] != c)
-		i++;
-	return i;
-}
-
 char	**parser_cmd_split(char* str, char c)
 {
 	int i;
@@ -83,11 +73,9 @@ char	**parser_cmd_split(char* str, char c)
 	last_idx = 0;
 	while(str[++i])
 	{
-		//while(str[i] && str[i] == ' ')
-		//i++;
 		char ch = str[i];
 		if(str[i] == '"')
-			i += parser_cmd_quate_endidx(&str[i] + 1,str[i]) + 1;
+			i += parser_quote_endidx(&str[i] + 1,str[i]) + 1;
 		if(str[i] == c || str[i + 1] == '\0')
 		{
 			if(str[i + 1] == '\0')
@@ -134,5 +122,3 @@ char **parser_redirect_split(char **str, char ***ret, char **arr)
 	*((*ret) + v.k_idx) = 0;
 	return *ret;
 }
-
-
