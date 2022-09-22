@@ -2,27 +2,24 @@
 
 char **parser_redirect(char **str)
 {
-	static char	*arr[5] = {">>", "<<", ">", "<", 0};
-	char	**ret;
+	 int i;
+	 t_data *data;
 
-	if (!str)
-		return (NULL);
-	ret = malloc(sizeof(char **) * parse_non_redir_word_count(str, arr) + 1);
-	if(ret == NULL)
-		return NULL;
-	if(parser_check_valid_syntax(str,arr)== -1)
-	{
-		free(ret);
-		return NULL;
-	}
-	parser_redirect_split(str,&ret,arr);
-	return (ret);
+	 i = 0;
+	 while(str[i])
+	 {
+		 data = parser_redirect_split(str[i]);
+		 i++;
+	 }
+
+	return 0;
+
 }
 
 char **parser_process(char *str)
 {
-	char **ret;
-	char **tmp;
+	char	**ret;
+	char	**tmp;
 
 	if(!ft_strlen(str))
 		return NULL;
@@ -43,7 +40,7 @@ char **parser_process(char *str)
 	if(ret == NULL)
 		return ft_double_free(tmp, parser_array_getsize(tmp));
 	ft_double_free(tmp, parser_array_getsize(tmp));
-	//ret = parser_redirect(ret);
+	ret = parser_redirect(ret);
 	//ft_double_free(tmp, parser_array_getsize(tmp));
 	return (ret);
 }

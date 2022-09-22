@@ -1,7 +1,13 @@
-#include "test.h"
+#include "test2.h"
 
-void test()
+t_data test()
 {
+	t_data data;
+	return data;
+}
 
 
+int main()
+{
+	test();
 }

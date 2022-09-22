@@ -1,12 +1,13 @@
 //
-// Created by Gorkem Demirtas on 9/20/22.
+// Created by Gorkem Demirtas on 9/21/22.
 //
 
 #ifndef PARSER_TEST2_H
 #define PARSER_TEST2_H
 
-#include "test.h"
+#include "test1.h"
 
-void test();
+t_data test();
+
 
 #endif //PARSER_TEST2_H

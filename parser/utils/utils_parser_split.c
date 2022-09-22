@@ -95,6 +95,7 @@ char	**parser_cmd_split(char* str, char c)
 	return commands;
 }
 
+/*
 char **parser_redirect_split(char **str, char ***ret, char **arr)
 {
 	t_redir_var v;
@@ -122,3 +123,4 @@ char **parser_redirect_split(char **str, char ***ret, char **arr)
 	*((*ret) + v.k_idx) = 0;
 	return *ret;
 }
+*/
