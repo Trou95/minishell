@@ -4,11 +4,12 @@ char **parser_redirect(char **str)
 {
 	 int i;
 	 t_data *data;
+	char *arr[5] = {">>", "<<", ">", "<", 0};
 
 	 i = 0;
 	 while(str[i])
 	 {
-		 data = parser_redirect_split(str[i]);
+		 data = parser_redirect_split(str[i],arr);
 		 i++;
 	 }
 

@@ -1,8 +1,6 @@
 #include "parser_utils.h"
 
-t_data *parser_redirect_addarg(char *command, char *redir, char *redir_arg);
-
-int parser_redirect_check(char *str, char *arr)
+int parser_redirect_check(char *str, char **arr)
 {
 	int i;
 
@@ -11,7 +9,20 @@ int parser_redirect_check(char *str, char *arr)
 		i++;
 	if(!str[i])
 		return 0;
-	return parser_array_cmp(&str[i],arr) > -1;
+	return parser_array_cmp(&str[i],arr);
+}
+
+int parser_redirect_add_cmdarg(t_redir_var *v, char *str, char **arr)
+{
+	v->len = ft_wordlen(&str[v->idx],arr);
+	if(v->idx + v->len <= v->arg_len)
+		v->cmd = ft_free_strjoin(v->cmd," ");
+	v->cmd = parser_redirect_cmdjoin(v->cmd,ft_get_next_word(&str[v->idx],arr));
+	v->idx += ft_wordlen(&str[v->idx],arr);
+	if(str[v->idx] == ' ')
+		v->idx++;
+	v->last_idx = v->idx;
+	return 0;
 }
 
 char *parser_redirect_cmdjoin(char *n_cmd, char* cmd)
@@ -21,57 +32,39 @@ char *parser_redirect_cmdjoin(char *n_cmd, char* cmd)
 	return n_cmd;
 }
 
-t_data *parser_redirect_split(char *str)
+
+int parser_redirect_init_vars(char *str, t_redir_var *v)
+{
+	ft_memset(v,0,sizeof(t_redir_var));
+	v->arg_len = ft_strlen(str);
+	v->cmd = ft_calloc(1,sizeof(char));
+	return 1;
+}
+
+
+t_data *parser_redirect_split(char *str, char **arr)
 {
 	t_redir_var v;
 	t_data *data;
-	char *cmd;
-	//char *tmp;
-	char *arg;
-	int str_len;
-	int len;
-	char *arr[5] = {">>", "<<", ">", "<", 0};
 
-	data = malloc(sizeof(t_data));
-	cmd = malloc(sizeof(char));
-	ft_memset(&v, 0, sizeof(t_redir_var));
-	str_len = ft_strlen(str);
-	while(v.idx < str_len)
+	parser_redirect_init_vars(str,&v);
+	while(v.idx < v.arg_len)
 	{
 		v.arr_idx = parser_array_cmp(&str[v.idx],arr);
 		if(v.arr_idx > -1)
 		{
-			if(parser_redirect_check(&str[v.idx + ft_strlen(arr[v.arr_idx])],arr))
-			{
-				printf("Syntax Error\n");
-				return 0;
-			}
-			cmd = parser_redirect_cmdjoin(cmd,ft_substr(str, v.last_idx,  v.idx - v.last_idx));
-			arg = ft_get_next_word(&str[v.idx + ft_strlen(arr[v.arr_idx])], arr);
 
-
-			len = ft_wordlen(&str[v.idx + ft_strlen(arr[v.arr_idx])], arr) + 1;
-			//char ch = str[v.idx + len];
-			v.idx += ft_strlen(arr[v.arr_idx]) + len;
-			//ch = str[v.idx];
-			v.last_idx = v.idx; // + 1;
-
-			//printf("after - %s\n",&str[v.idx]);
-
-
-			while(v.idx < str_len && parser_array_cmp(&str[v.idx],arr) == -1)
-			{
-				len = ft_wordlen(&str[v.idx],arr);
-				if(v.idx + len < str_len)
-					cmd = ft_free_strjoin(cmd," ");
-				cmd = parser_redirect_cmdjoin(cmd,ft_get_next_word(&str[v.idx],arr));
-				v.idx += ft_wordlen(&str[v.idx],arr);
-				if(str[v.idx] == ' ')
-					v.idx++;
-				v.last_idx = v.idx;
-				printf("- %d %d %c\n",v.idx, str[v.idx],str[v.idx]);
-			}
-			data = parser_redirect_addarg(cmd,ft_strdup(arr[v.arr_idx]),arg);
+			if(parser_redirect_check(&str[v.idx + ft_strlen(arr[v.arr_idx])],arr) > -1)
+				return RET_ERR(ft_error(MSG_ERR_SYNTAX, arr[v.arr_idx],ERR_RET));
+			v.cmd = parser_redirect_cmdjoin(v.cmd,ft_substr(str, v.last_idx,  v.idx - v.last_idx));
+			v.arg = ft_get_next_word(&str[v.idx + ft_strlen(arr[v.arr_idx])], arr);
+			v.len = ft_wordlen(&str[v.idx + ft_strlen(arr[v.arr_idx])],arr) + (str[v.idx] == ' ');
+			v.idx += ft_strlen(arr[v.arr_idx]) + v.len;
+			char ch = str[v.idx];
+			v.last_idx = v.idx;
+			while(v.idx < v.arg_len && parser_array_cmp(&str[v.idx],arr) == -1)
+				parser_redirect_add_cmdarg(&v,str,arr);
+			data = parser_redirect_add(v.cmd,ft_strdup(arr[v.arr_idx]),v.arg);
 		}
 		if(str[v.idx] && parser_array_cmp(&str[v.idx],arr) == -1)
 			v.idx++;
@@ -79,7 +72,7 @@ t_data *parser_redirect_split(char *str)
 	return data;
 }
 
-t_data *parser_redirect_addarg(char *command, char *redir, char *redir_arg)
+t_data *parser_redirect_add(char *command, char *redir, char *redir_arg)
 {
 	t_data *data;
 

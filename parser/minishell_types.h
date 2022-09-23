@@ -10,6 +10,13 @@
 #include <errno.h>
 #include <signal.h>
 
+#define ERR_RET 0
+
+#define MSG_ERR_SYNTAX "Error: Syntax Error "
+
+#define RET_ERR(i) (void*)(uintptr_t)(i)
+
+
 typedef struct s_redirection
 {
 	char					*redir;
@@ -77,6 +84,10 @@ typedef struct s_redir_var
 	int k_idx;
 	int last_idx;
 	int arr_idx;
+	int len;
+	int arg_len;
+	char *cmd;
+	char *arg;
 } t_redir_var;
 
 

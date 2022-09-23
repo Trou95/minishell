@@ -12,7 +12,17 @@ int parser_array_getsize(char **arr);
 int		parser_word_cnt(char *str, char **arr);
 int	parse_non_redir_word_count(char **str, char **arr);
 char	**parser_cmd_split(char* str, char c);
-t_data *parser_redirect_split(char *str);
+t_data *parser_redirect_split(char *str, char **arr);
+t_data *parser_redirect_add(char *command, char *redir, char *redir_arg);
+char *parser_redirect_cmdjoin(char *n_cmd, char* cmd);
+int parser_redirect_check(char *str, char **arr);
+int parser_redirect_add_cmdarg(t_redir_var *v, char *str, char **arr);
+char *parser_redirect_cmdjoin(char *n_cmd, char* cmd);
+int parser_redirect_init_vars(char *str, t_redir_var *v);
+t_data *parser_redirect_add(char *command, char *redir, char *redir_arg);
+
+
+
 
 int parser_quote_endidx(const char *str, char c);
 int parser_check_quetes(char *str);
@@ -42,6 +52,7 @@ int ft_str_clearspace_end(const char *str);
 size_t ft_wordlen(char *str, char **arr);
 char *ft_get_next_word(char *str, char **arr);
 
+int ft_error(char *err_msg, char *err_arg, int err_type);
 
 
 
