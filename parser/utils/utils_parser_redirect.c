@@ -14,12 +14,19 @@ int parser_redirect_check(char *str, char *arr)
 	return parser_array_cmp(&str[i],arr) > -1;
 }
 
+char *parser_redirect_cmdjoin(char *n_cmd, char* cmd)
+{
+	n_cmd = ft_free_strjoin(n_cmd, cmd);
+	free(cmd);
+	return n_cmd;
+}
+
 t_data *parser_redirect_split(char *str)
 {
 	t_redir_var v;
 	t_data *data;
 	char *cmd;
-	char *tmp;
+	//char *tmp;
 	char *arg;
 	int str_len;
 	int len;
@@ -39,28 +46,28 @@ t_data *parser_redirect_split(char *str)
 				printf("Syntax Error\n");
 				return 0;
 			}
-			tmp = ft_substr(str, v.last_idx,  v.idx - v.last_idx);
-			cmd = ft_free_strjoin(cmd,tmp);
+			cmd = parser_redirect_cmdjoin(cmd,ft_substr(str, v.last_idx,  v.idx - v.last_idx));
 			arg = ft_get_next_word(&str[v.idx + ft_strlen(arr[v.arr_idx])], arr);
 
 
 			len = ft_wordlen(&str[v.idx + ft_strlen(arr[v.arr_idx])], arr) + 1;
-			char ch = str[v.idx + len];
+			//char ch = str[v.idx + len];
 			v.idx += ft_strlen(arr[v.arr_idx]) + len;
-			ch = str[v.idx];
+			//ch = str[v.idx];
 			v.last_idx = v.idx; // + 1;
 
-			printf("after - %s\n",&str[v.idx]);
+			//printf("after - %s\n",&str[v.idx]);
 
 
 			while(v.idx < str_len && parser_array_cmp(&str[v.idx],arr) == -1)
 			{
 				len = ft_wordlen(&str[v.idx],arr);
-				tmp = ft_get_next_word(&str[v.idx],arr);
-				cmd = ft_free_strjoin(cmd,tmp);
-				if(str[v.idx + len] == ' ')
+				if(v.idx + len < str_len)
 					cmd = ft_free_strjoin(cmd," ");
-				v.idx += ft_wordlen(&str[v.idx],arr) + 1;
+				cmd = parser_redirect_cmdjoin(cmd,ft_get_next_word(&str[v.idx],arr));
+				v.idx += ft_wordlen(&str[v.idx],arr);
+				if(str[v.idx] == ' ')
+					v.idx++;
 				v.last_idx = v.idx;
 				printf("- %d %d %c\n",v.idx, str[v.idx],str[v.idx]);
 			}
