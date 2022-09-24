@@ -1,8 +1,8 @@
 #ifndef PARSER_UTILS_H
 # define PARSER_UTILS_H
 
-# include "../minishell_types.h"
-# include "../libft/libft.h"
+# include "../../minishell_types.h"
+# include "../../libft/libft.h"
 
 char	**parser_process(char *str);
 

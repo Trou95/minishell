@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "minishell_interpreter.h"
 
 int ft_is_valid_env(const char *str)
 {
@@ -38,6 +38,30 @@ int ft_get_env(const char *str)
 		i++;
 	}
 	return -1;
+}
+
+void	ft_env_copy(char **env)
+{
+	int		i;
+	int		j;
+	int		len;
+
+	len = 0;
+	while(env[len])
+		len++;
+
+
+	g_env = ft_calloc(sizeof(char *), len + 1);
+	i = -1;
+	while (env[++i])
+		g_env[i] = ft_calloc(sizeof(char), ft_strlen(env[i]) + 1);
+	i = -1;
+	while (env[++i])
+	{
+		j = -1;
+		while (env[i][++j])
+			g_env[i][j] = env[i][j];
+	}
 }
 
 

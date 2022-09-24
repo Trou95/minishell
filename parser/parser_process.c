@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 char	**parser_process(char *str)
 {
@@ -26,7 +26,10 @@ char	**parser_process(char *str)
 	if (ret == NULL)
 		return (ft_double_free(tmp, parser_array_getsize(tmp)));
 	ft_double_free(tmp, parser_array_getsize(tmp));
-	ret = parser_redirect(ret);
+	tmp = interpreter_array_format(ret);
+	ret = tmp;
+
+	//ret = parser_redirect(ret);
 	//parser_array_clearquotes(ret);
 	//ft_double_free(tmp, parser_array_getsize(tmp));
 	return (ret);

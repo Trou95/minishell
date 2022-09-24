@@ -1,25 +1,41 @@
-SRCS			= main.c
-RM				= rm -f
-GCC				= gcc -Wall -Wextra -Werror
-NAME			= minishell
-
-all:			$(SRCS) $(NAME)
-
-
-$(NAME): $(SRCS)
-	@make -C Libft
-	@$(GCC) $(SRCS) -L/usr/local/lib -I/usr/local/include -lreadline -o $(NAME)
-	@echo Libft is compiled successfully
-	@echo minishell is created successfully
-clean:
-	@$(RM) $(NAME)
-	@echo minishell is removed successfully
-
-fclean:			clean
-	@make clean -C Libft
-
-re:				fclean
-	make
+SRC =  utils/*c \
+		parser/*c \
+	parser/utils/*c \
+	parser/utils/strutils/*c \
+	interpreter/*c \
+	./*c
 
 
-.PHONY:			all clean fclean re
+OBJS = $(SRC:.c=.o)
+
+LIBFT = ./libft/libft.a
+
+NAME = minishell
+
+CC = gcc
+
+all: $(NAME)
+
+$(NAME) : $(OBJS)
+	@make -sC ./libft
+	$(CC) -lreadline $(OBJS) $(LIBFT)  -ggdb -I./minishell.h -o $(NAME)
+
+clean :
+	@make fclean -C ./libft
+	@rm -rf	./utils/*o
+	@rm -rf	./parser/*o
+	@rm -rf	./parser/utils/*o
+	@rm -rf	./parser/utils/strutils/*o
+	@rm -rf	./interpreter/*o
+	@rm -rf	./*o
+
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+
+fclean : clean
+	rm -rf $(NAME)
+
+re : fclean all
+
+.PHONY : clean fclean re all
