@@ -7,6 +7,7 @@ char* ft_check_quote(const char *str)
 	char *tmp[2];
 
 	i = -1;
+	env_len = 0;
 	tmp[1] = ft_calloc(sizeof(char),1);
 	while(str[++i])
 	{
@@ -18,8 +19,8 @@ char* ft_check_quote(const char *str)
 		{
 			if(str[i] == '$')
 			{
-				tmp[0] = ft_format(&str[i + 1],&env_len);;
-				i += env_len;
+				tmp[0] = ft_format(&str[i + 1],&env_len);
+				i += ++env_len;
 			}
 			else
 				tmp[0] = ft_substr(str, i,1);
@@ -37,14 +38,17 @@ char* ft_double_quote(const char *str,int *end_index)
 	char *tmp;
 
 	i = 0;
+	env_len = 0;
 	n_str = ft_calloc(sizeof(char),1);
 	while(str[i] && str[i] != '"')
 	{
 		if(str[i] == '$')
 		{
 			tmp = ft_format(&str[i + 1],&env_len);
-			n_str = ft_envjoin(n_str,tmp);
 			i += ++env_len;
+			if(tmp == NULL)
+				continue;
+			n_str = ft_envjoin(n_str,tmp);
 		}
 		else
 		{

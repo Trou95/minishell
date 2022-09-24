@@ -3,10 +3,10 @@ SRC =  utils/*c \
 	parser/utils/*c \
 	parser/utils/strutils/*c \
 	interpreter/*c \
-	./*c
+	./*.c
 
 
-OBJS = $(SRC:.c=.o)
+OBJS = $(SRC:%.c=%.o)
 
 LIBFT = ./libft/libft.a
 
@@ -28,7 +28,6 @@ clean :
 	@rm -rf	./parser/utils/strutils/*o
 	@rm -rf	./interpreter/*o
 	@rm -rf	./*o
-
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@

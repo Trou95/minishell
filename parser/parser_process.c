@@ -27,10 +27,11 @@ char	**parser_process(char *str)
 		return (ft_double_free(tmp, parser_array_getsize(tmp)));
 	ft_double_free(tmp, parser_array_getsize(tmp));
 	tmp = interpreter_array_format(ret);
-	ret = tmp;
+	if(tmp == NULL)
+		ft_double_free(ret, parser_array_getsize(ret));
+	ret = parser_array_clearquotes(tmp);
 
 	//ret = parser_redirect(ret);
-	//parser_array_clearquotes(ret);
 	//ft_double_free(tmp, parser_array_getsize(tmp));
 	return (ret);
 }

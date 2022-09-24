@@ -16,6 +16,6 @@ int	main(int ac, char** av, char **env)
 			continue ;
 		array_writer(arg);
 		ft_double_free(arg, parser_array_getsize(arg));
-		//system("leaks a.out");
+		//system("leaks minishell");
 	}
 }
