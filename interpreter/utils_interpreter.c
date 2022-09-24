@@ -7,7 +7,7 @@ int ft_is_valid_env(const char *str)
 	i = 0;
 	while(str[i] && str[i] != '"' && str[i] != '\'')
 	{
-		if(!ft_isalpha(str[i]) && !ft_isnum(str[i]) && str[i] != '_')
+		if(!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_')
 			return 0;
 		i++;
 	}

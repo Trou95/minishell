@@ -1,44 +1,32 @@
 #include "minishell.h"
 
-void ft_check_quote(const char *str)
+char* ft_check_quote(const char *str)
 {
 	int i;
 	int env_len;
-	char *n_str;
-	char *tmp;
+	char *tmp[2];
 
-	i = 0;
-	n_str = ft_calloc(sizeof(char),1);
-	while(str[i])
+	i = -1;
+	tmp[1] = ft_calloc(sizeof(char),1);
+	while(str[++i])
 	{
 		if(str[i] == '"')
-		{
-			tmp = ft_double_quote(&str[i + 1],&i);
-			n_str = ft_envjoin(n_str,tmp);
-		}
+			tmp[0] = ft_double_quote(&str[i + 1],&i);
 		else if(str[i] == '\'')
-		{
-			tmp = ft_quote(&str[i + 1],&i);
-			n_str = ft_envjoin(n_str,tmp);
-		}
+			tmp[0] = ft_quote(&str[i + 1],&i);
 		else
 		{
 			if(str[i] == '$')
 			{
-				tmp = ft_format(&str[i + 1],&env_len);
-				n_str = ft_envjoin(n_str,tmp);
+				tmp[0] = ft_format(&str[i + 1],&env_len);;
 				i += env_len;
 			}
 			else
-			{
-				tmp = ft_substr(str, i,1);
-				n_str = ft_envjoin(n_str,tmp);
-			}
+				tmp[0] = ft_substr(str, i,1);
 		}
-		i++;
+		tmp[1] = ft_envjoin(tmp[1],tmp[0]);
 	}
-	printf("%s\n",n_str);
-	free(n_str);
+	return (tmp[1]);
 }
 
 char* ft_double_quote(const char *str,int *end_index)

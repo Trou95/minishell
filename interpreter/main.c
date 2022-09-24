@@ -31,6 +31,6 @@ int main(int ac, char **av, char **env)
 	while(1)
 	{
 		char *str = readline("> ");
-		ft_check_quate(str);
+		char *tmp = ft_check_quote(str);
 	}
 }
