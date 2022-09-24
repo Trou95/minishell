@@ -7,7 +7,7 @@ void	array_cleaner(char **arr)
 	i = 0;
 	if (!arr)
 		return ;
-	while(arr[i])
+	while (arr[i])
 	{
 		free(arr[i]);
 		i++;
@@ -17,8 +17,10 @@ void	array_cleaner(char **arr)
 
 void	array_writer(char **arr)
 {
-	int i = 0;
-	while(arr[i])
+	int	i;
+
+	i = 0;
+	while (arr[i])
 	{
 		printf("str[%d] => %s\n", i, arr[i]);
 		i++;

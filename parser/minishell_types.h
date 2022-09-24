@@ -1,21 +1,20 @@
-#ifndef _MINISHELL_TYPES_H_
-#define _MINISHELL_TYPES_H_
+#ifndef MINISHELL_TYPES_H
+# define MINISHELL_TYPES_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/wait.h>
-#include <errno.h>
-#include <signal.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
+# include <errno.h>
+# include <signal.h>
 
-#define ERR_RET 0
+# define ERR_RET 0
 
-#define ERR_MSG_SYNTAX "Error: Syntax Error "
+# define ERR_MSG_SYNTAX "Error: Syntax Error "
 
-#define RET_ERR(i) (void*)(uintptr_t)(i)
-
+# define RET_ERR(i) (void*)(uintptr_t)(i)
 
 typedef struct s_redirection
 {
@@ -51,44 +50,42 @@ typedef struct s_syntax_tree
 
 typedef struct s_vars
 {
-	char    **env;
-	char    **export;
-	char    *path;
-	char    *cmd_path;
-	int     ret_signal;
+	char	**env;
+	char	**export;
+	char	*path;
+	char	*cmd_path;
+	int		ret_signal;
 	int		*infiles;
 	int		*outfiles;
 	int		**heredoc;
 	int		ref_her;
-	int     fd[2];
+	int		fd[2];
 	int		fd2[2];
 	int		cmd;
 	int		cmd_count;
-	int 	count_in;
-	int 	count_out;
-	int 	count_her;
-	pid_t   *pids;
+	int		count_in;
+	int		count_out;
+	int		count_her;
+	pid_t	*pids;
 }	t_vars;
-
 
 typedef struct p_data
 {
-	t_command *command;
-	t_redirection *redir;
-} t_data;
+	t_command		*command;
+	t_redirection	*redir;
+}	t_data;
 
 typedef struct s_redir_var
 {
-	int idx;
-	int n_idx;
-	int k_idx;
-	int last_idx;
-	int arr_idx;
-	int len;
-	int arg_len;
-	char *cmd;
-	char *arg;
-} t_redir_var;
-
+	int		idx;
+	int		n_idx;
+	int		k_idx;
+	int		last_idx;
+	int		arr_idx;
+	int		len;
+	int		arg_len;
+	char	*cmd;
+	char	*arg;
+}	t_redir_var;
 
 #endif

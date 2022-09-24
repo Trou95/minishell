@@ -1,70 +1,55 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: saksoy <saksoy@student.42istanbul.com.t    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 13:12:59 by saksoy            #+#    #+#             */
-/*   Updated: 2022/09/12 13:47:03 by saksoy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-int	wordcounter(const char *s, char c)
+size_t	wordlen(char const *s, char c)
 {
-	int	i;
+	size_t	r;
 
-	i = 0;
-	while (*s)
-	{
-		while (*s == c && *s)
-			s++;
-		if (*s == '\0')
-			return (i);
-		while (*s != c && *s)
-			s++;
-		i++;
-	}
-	return (i);
+	r = 0;
+	while (s[r] != '\0' && s[r] != c)
+		r++;
+	return (r);
 }
 
-int	charcounter(const char *s, char c)
+size_t	wordcounter(char const *s, char c)
 {
-	int	i;
+	size_t	r;
 
-	i = 0;
-	while (*s && (*s != c))
+	r = 0;
+	while (*s != '\0')
 	{
-		i++;
+		if (*s != c && (s[1] == '\0' || s[1] == c))
+			r++;
 		s++;
 	}
-	return (i);
+	return (r);
 }
-
 
 char	**ft_split(char const *s, char c)
 {
-	char	**ret;
-	int		retindex;
+	char	**arr;
+	size_t	i;
+	size_t	len;
+	size_t	index;
 
 	if (!s)
-		return (0);
-	retindex = 0;
-	ret = malloc(sizeof(char *) * wordcounter(s, c) + 1);
-	if (!ret)
-		return (0);
-	while (*s)
+		return (NULL);
+	len = wordcounter(s, c);
+	arr = (char **)malloc(sizeof(char *) * len + 1);
+	if (arr == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
-		while (*s == c && *s)
+		while (*s == c && *s != '\0')
 			s++;
-		if (*s == '\0')
-			break ;
-		ret[retindex] = ft_substr(s, 0, charcounter(s, c));
-		retindex++;
-		s = s + charcounter(s, c);
+		arr[i] = (char *)malloc(sizeof(char) * wordlen(s, c) + 1);
+		index = 0;
+		while (*s != c && *s != '\0')
+			arr[i][index++] = *s++;
+		arr[i][index] = '\0';
+		i++;
 	}
-	ret[retindex] = NULL;
-	return (ret);
+	arr[i] = NULL;
+	return (arr);
 }

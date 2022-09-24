@@ -1,31 +1,30 @@
 #include "../parser_utils.h"
 
-char *ft_str_clearquotes(const char *str, char *ptr)
+char	*ft_str_clearquotes(const char *str, char *ptr)
 {
-	int i;
-	int n;
-	char c;
+	t_redir_var	v;
+	char		c;
 
-	i = 0;
-	n = 0;
-	while(str[i])
+	ft_memset(&v, 0, sizeof(t_redir_var));
+	while (str[v.idx])
 	{
-		if(str[i] == '"' || str[i] == '\'' && (i == 0 || (i > 0 && str[i - 1] != '\\')))
+		if (str[v.idx] == '"' || str[v.idx] == '\'' && \
+			(v.idx == 0 || (v.idx > 0 && str[v.idx - 1] != '\\')))
 		{
-			c = str[i];
-			while(str[++i] && str[i] != c)
+			c = str[v.idx];
+			while (str[++v.idx] && str[v.idx] != c)
 			{
-				if(str[i] == '\\')
-					i++;
-				ptr[n++] = str[i];
+				if (str[v.idx] == '\\')
+					v.idx++;
+				ptr[v.n_idx++] = str[v.idx];
 			}
 		}
 		else
 		{
-			if(str[i] == '\\')
-				i++;
-			ptr[n++] = str[i++];
+			if (str[v.idx] == '\\')
+				v.idx++;
+			ptr[v.n_idx++] = str[v.idx++];
 		}
 	}
-	return ptr;
+	return (ptr);
 }

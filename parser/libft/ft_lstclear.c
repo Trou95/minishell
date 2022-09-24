@@ -1,25 +1,16 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: saksoy <saksoy@student.42istanbul.com.t    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 13:49:59 by saksoy            #+#    #+#             */
-/*   Updated: 2022/01/09 14:08:04 by saksoy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list	*array;
+	t_list	*position;
 
-	while ((*lst))
+	if (!lst)
+		return ;
+	while (*lst != NULL)
 	{
-		array = (*lst)->next;
+		position = (*lst)->next;
 		ft_lstdelone(*lst, del);
-		(*lst) = array;
+		*lst = position;
 	}
 }

@@ -1,6 +1,6 @@
 #include "parser_utils.h"
 
-int		parser_word_cnt(char *str, char **arr)
+int	parser_word_cnt(char *str, char **arr)
 {
 	int	i;
 	int	j;
@@ -51,45 +51,33 @@ int	parse_non_redir_word_count(char **str, char **arr)
 	return (size);
 }
 
-char	**parser_cmd_split(char* str, char c)
+char	**parser_cmd_split(char *str, char c)
 {
-	int i;
-	int n;
-	char **commands;
-	unsigned int last_idx;
+	t_redir_var	v;
+	char		**commands;
+	char		*tmp;
 
-	if(str == NULL)
-		return NULL;
 	if (str[0] == c || str[ft_strlen(str) - 1] == c)
-		return RET_ERR(ft_error(ERR_MSG_SYNTAX,"|",ERR_RET));
-	commands = malloc(sizeof(char*) * wordcounter(str, c) + 2);
-	if(commands == NULL)
-		return NULL;
-	i = -1;
-	n = -1;
-	last_idx = 0;
-	while(str[++i])
+		return (RET_ERR(ft_error(ERR_MSG_SYNTAX, "|", ERR_RET)));
+	commands = malloc(sizeof(char *) * wordcounter(str, c) + 2);
+	ft_memset(&v, -1, sizeof(t_redir_var));
+	v.last_idx = 0;
+	while (str[++v.idx])
 	{
-		char ch = str[i];
-		if(str[i] == '"')
-			i += parser_quote_endidx(&str[i] + 1,str[i]) + 1;
-		if(str[i] == c || str[i + 1] == '\0')
+		if (str[v.idx] == '"')
+			v.idx += parser_quote_endidx(&str[v.idx] + 1, str[v.idx]) + 1;
+		if (str[v.idx] == c || str[v.idx + 1] == '\0')
 		{
-			if(str[i + 1] == '\0')
-			{
-				char *tmp = ft_substr(str, last_idx, i + 1);
-				commands[++n] = tmp;
-			}
+			if (str[v.idx + 1] == '\0')
+				tmp = ft_substr(str, v.last_idx, v.idx + 1);
 			else
-			{
-				char *tmp = ft_substr(str, last_idx, i - last_idx);
-				commands[++n] = tmp;
-			}
-			last_idx = i + 1;
+				tmp = ft_substr(str, v.last_idx, v.idx - v.last_idx);
+			commands[++v.n_idx] = tmp;
+			v.last_idx = v.idx + 1;
 		}
 	}
-	commands[n + 1] = NULL;
-	return commands;
+	commands[v.n_idx + 1] = NULL;
+	return (commands);
 }
 
 /*

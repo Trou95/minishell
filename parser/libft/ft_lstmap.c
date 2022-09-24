@@ -1,35 +1,22 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: saksoy <saksoy@student.42istanbul.com.t    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/09 14:38:32 by saksoy            #+#    #+#             */
-/*   Updated: 2022/01/13 12:43:00 by saksoy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "libft.h"
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*result;
-	t_list	*node;
+	t_list	*nlst;
+	t_list	*new;
 
-	if (!lst || !f)
-		return (NULL);
-	result = 0;
+	nlst = NULL;
 	while (lst)
 	{
-		node = ft_lstnew(f(lst->content));
-		if (!node)
+		new = ft_lstnew (f(lst->content));
+		if (!new)
 		{
-			ft_lstclear(&result, del);
+			ft_lstclear(&lst, del);
 			return (0);
 		}
-		ft_lstadd_back(&result, node);
+		ft_lstadd_back(&nlst, new);
 		lst = lst->next;
 	}
-	return (result);
+	return (nlst);
 }

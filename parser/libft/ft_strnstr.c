@@ -1,34 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: saksoy <saksoy@student.42istanbul.com.t    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/03 20:20:56 by saksoy            #+#    #+#             */
-/*   Updated: 2022/01/13 11:46:17 by saksoy           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *str1, const char *to_find, size_t n)
 {
-	size_t	hayint;
-	size_t	needint;
+	size_t		position;
 
-	hayint = 0;
-	if (*needle == 0)
-		return ((char *)haystack);
-	while (haystack[hayint] != 0 && hayint < len)
+	if (*to_find == '\0')
+		return ((char *)str1);
+	position = ft_strlen((char *)to_find);
+	while (*str1 != '\0' && n-- >= position)
 	{
-		needint = 0;
-		while (haystack[hayint + needint] == needle[needint]
-			&& needle[needint] != 0 && needint + hayint < len)
-			needint++;
-		if (!needle[needint])
-			return ((char *)&haystack[hayint]);
-		hayint++;
+		if (*str1 == *to_find && ft_memcmp(str1, to_find, position) == 0)
+			return ((char *)str1);
+		str1++;
 	}
 	return (NULL);
 }

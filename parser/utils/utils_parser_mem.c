@@ -1,25 +1,25 @@
 #include "parser_utils.h"
 
-char *ft_free(char *ptr)
+char	*ft_free(char *ptr)
 {
-	if(ptr)
+	if (ptr)
 		free(ptr);
-	return NULL;
+	return (NULL);
 }
 
-char **ft_double_free(char **ptr, size_t size)
+char	**ft_double_free(char **ptr, size_t size)
 {
-	size_t i;
+	size_t	i;
 
-	if(ptr == NULL)
-		return NULL;
+	if (ptr == NULL)
+		return (NULL);
 	i = 0;
-	while(i < size)
+	while (i < size)
 	{
-		if(ptr[i])
+		if (ptr[i])
 			free(ptr[i]);
 		i++;
 	}
 	free(ptr);
-	return NULL;
+	return (NULL);
 }
