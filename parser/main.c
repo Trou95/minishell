@@ -15,6 +15,6 @@ int	main(void)
 			continue ;
 		//array_writer(arg);
 		ft_double_free(arg, parser_array_getsize(arg));
-		system("leaks a.out");
+		//system("leaks a.out");
 	}
 }

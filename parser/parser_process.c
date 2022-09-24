@@ -1,21 +1,6 @@
 #include "minishell.h"
 
-char **parser_redirect(char **str)
-{
-	 int i;
-	 t_data *data;
-	char *arr[5] = {">>", "<<", ">", "<", 0};
 
-	 i = 0;
-	 while(str[i])
-	 {
-		 data = parser_redirect_split(str[i],arr);
-		 i++;
-	 }
-
-	return 0;
-
-}
 
 char **parser_process(char *str)
 {
@@ -42,6 +27,7 @@ char **parser_process(char *str)
 		return ft_double_free(tmp, parser_array_getsize(tmp));
 	ft_double_free(tmp, parser_array_getsize(tmp));
 	ret = parser_redirect(ret);
+	//parser_array_clearquotes(ret);
 	//ft_double_free(tmp, parser_array_getsize(tmp));
 	return (ret);
 }

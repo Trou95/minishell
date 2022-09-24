@@ -12,7 +12,7 @@
 
 #define ERR_RET 0
 
-#define MSG_ERR_SYNTAX "Error: Syntax Error "
+#define ERR_MSG_SYNTAX "Error: Syntax Error "
 
 #define RET_ERR(i) (void*)(uintptr_t)(i)
 

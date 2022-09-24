@@ -12,33 +12,18 @@ int parser_redirect_check(char *str, char **arr)
 	return parser_array_cmp(&str[i],arr);
 }
 
-int parser_redirect_add_cmdarg(t_redir_var *v, char *str, char **arr)
-{
-	v->len = ft_wordlen(&str[v->idx],arr);
-	if(v->idx + v->len <= v->arg_len)
-		v->cmd = ft_free_strjoin(v->cmd," ");
-	v->cmd = parser_redirect_cmdjoin(v->cmd,ft_get_next_word(&str[v->idx],arr));
-	v->idx += ft_wordlen(&str[v->idx],arr);
-	if(str[v->idx] == ' ')
-		v->idx++;
-	v->last_idx = v->idx;
+char **parser_redirect(char **str) {
+	int i;
+	t_data *data;
+	char *arr[5] = {">>", "<<", ">", "<", 0};
+
+	i = 0;
+	while (str[i]) {
+		data = parser_redirect_split(str[i], arr);
+		i++;
+	}
+
 	return 0;
-}
-
-char *parser_redirect_cmdjoin(char *n_cmd, char* cmd)
-{
-	n_cmd = ft_free_strjoin(n_cmd, cmd);
-	free(cmd);
-	return n_cmd;
-}
-
-
-int parser_redirect_init_vars(char *str, t_redir_var *v)
-{
-	ft_memset(v,0,sizeof(t_redir_var));
-	v->arg_len = ft_strlen(str);
-	v->cmd = ft_calloc(1,sizeof(char));
-	return 1;
 }
 
 
@@ -55,7 +40,7 @@ t_data *parser_redirect_split(char *str, char **arr)
 		{
 
 			if(parser_redirect_check(&str[v.idx + ft_strlen(arr[v.arr_idx])],arr) > -1)
-				return RET_ERR(ft_error(MSG_ERR_SYNTAX, arr[v.arr_idx],ERR_RET));
+				return RET_ERR(ft_error(ERR_MSG_SYNTAX, arr[v.arr_idx],ERR_RET));
 			v.cmd = parser_redirect_cmdjoin(v.cmd,ft_substr(str, v.last_idx,  v.idx - v.last_idx));
 			v.arg = ft_get_next_word(&str[v.idx + ft_strlen(arr[v.arr_idx])], arr);
 			v.len = ft_wordlen(&str[v.idx + ft_strlen(arr[v.arr_idx])],arr) + (str[v.idx] == ' ');
@@ -86,4 +71,17 @@ t_data *parser_redirect_add(char *command, char *redir, char *redir_arg)
 	printf("%s => redirect\n", data->redir->redir);
 	printf("%s => redirect arg\n", data->redir->args);
 	return data;
+}
+
+int parser_redirect_add_cmdarg(t_redir_var *v, char *str, char **arr)
+{
+	v->len = ft_wordlen(&str[v->idx],arr);
+	if(v->idx + v->len <= v->arg_len)
+		v->cmd = ft_free_strjoin(v->cmd," ");
+	v->cmd = parser_redirect_cmdjoin(v->cmd,ft_get_next_word(&str[v->idx],arr));
+	v->idx += ft_wordlen(&str[v->idx],arr);
+	if(str[v->idx] == ' ')
+		v->idx++;
+	v->last_idx = v->idx;
+	return 0;
 }

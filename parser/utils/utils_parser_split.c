@@ -61,10 +61,7 @@ char	**parser_cmd_split(char* str, char c)
 	if(str == NULL)
 		return NULL;
 	if (str[0] == c || str[ft_strlen(str) - 1] == c)
-	{
-		err_prnt("Syntax error", "|");
-		return(NULL);
-	}
+		return RET_ERR(ft_error(ERR_MSG_SYNTAX,"|",ERR_RET));
 	commands = malloc(sizeof(char*) * wordcounter(str, c) + 2);
 	if(commands == NULL)
 		return NULL;

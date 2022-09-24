@@ -69,7 +69,7 @@ int parser_check_valid_syntax(char **str, char **arr)
 		}
 		if(arr_idx > -1)
 			if(ft_strncmp((str[i] + ft_strlen(str[i])) - ft_strlen(arr[arr_idx]), arr[arr_idx],ft_strlen(arr[arr_idx])) == 0)
-				return err_prnt("Syntax error",arr[arr_idx]);
+				return ft_error(ERR_MSG_SYNTAX,arr[arr_idx],ERR_RET);
 		i++;
 	}
 	return 1;

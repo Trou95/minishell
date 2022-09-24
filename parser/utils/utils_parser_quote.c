@@ -78,3 +78,20 @@ int parser_check_quote(char *str, int *count_quote)
 	}
 	return ++i;
 }
+
+char **parser_array_clearquotes(char **arr)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	while(arr[i])
+	{
+		tmp = ft_calloc(ft_strlen(arr[i]) + 1, sizeof(char));
+		tmp = ft_str_clearquotes(arr[i],tmp);
+		free(arr[i]);
+		arr[i] = tmp;
+		i++;
+	}
+	return arr;
+}
