@@ -23,7 +23,7 @@ char	*ft_str_clearspace(const char *str)
 		if (str[i] == '"')
 		{
 			tmp = ft_substr(str, i, parser_quote_endidx(&str[i + 1], '"') + 2);
-			i += ft_strlen(tmp) + 2;
+			i += ft_strlen(tmp);
 			ret = ft_free_strjoin(ret, tmp);
 		}
 		else
