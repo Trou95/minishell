@@ -24,7 +24,7 @@ char	**parser_redirect(char **str)
 		data = parser_redirect_split(str[i], arr);
 		i++;
 	}
-	return (0);
+	return (str);
 }
 
 t_data	*parser_redirect_split(char *str, char **arr)

@@ -29,9 +29,9 @@ char	**parser_process(char *str)
 	tmp = interpreter_array_format(ret);
 	if(tmp == NULL)
 		ft_double_free(ret, parser_array_getsize(ret));
-	ret = parser_array_clearquotes(tmp);
-
-	//ret = parser_redirect(ret);
+	//ret = parser_array_clearquotes(tmp);
+	ret = tmp;
+	ret = parser_redirect(ret);
 	//ft_double_free(tmp, parser_array_getsize(tmp));
 	return (ret);
 }

@@ -45,9 +45,9 @@ char* ft_double_quote(const char *str,int *end_index)
 		if(str[i] == '$')
 		{
 			tmp = ft_format(&str[i + 1],&env_len);
-			i += ++env_len;
 			if(tmp == NULL)
-				continue;
+				tmp = ft_substr(str,i, ft_get_env_len(&str[i + 1]) + 1);
+			i += ft_get_env_len(&str[i + 1]) + 1;
 			n_str = ft_envjoin(n_str,tmp);
 		}
 		else

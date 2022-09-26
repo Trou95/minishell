@@ -7,10 +7,22 @@ int ft_is_valid_env(const char *str)
 	i = 0;
 	while(str[i] && str[i] != '"' && str[i] != '\'')
 	{
-		if(str[i] == '\\')
-			i++;
 		if(!ft_isalnum(str[i]) && str[i] != '_')
 			return 0;
+		i++;
+	}
+	return i;
+}
+
+int ft_get_env_len(const char *str)
+{
+	int i;
+
+	i = 0;
+	while(str[i] && str[i] != '"' && str[i] != '\'')
+	{
+		if(!ft_isalnum(str[i]) && str[i] != '_')
+			break;
 		i++;
 	}
 	return i;
