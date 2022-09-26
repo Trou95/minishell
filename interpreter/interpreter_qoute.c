@@ -12,7 +12,10 @@ char* ft_check_quote(const char *str)
 	while(str[++i])
 	{
 		if(str[i] == '"')
+		{
 			tmp[0] = ft_double_quote(&str[i + 1],&i);
+			tmp[0] = ft_strappend(tmp[0],'"');
+		}
 		else if(str[i] == '\'')
 			tmp[0] = ft_quote(&str[i + 1],&i);
 		else

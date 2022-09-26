@@ -42,6 +42,7 @@ char	**ft_double_free(char **ptr, size_t size);
 int		ft_str_clearspace_end(const char *str);
 char	*ft_str_clearspace(const char *str);
 char	*ft_free_strjoin(char *dst, const char *src);
+char 	*ft_strappend(char *dst, char c);
 int		ft_get_chrindex(const char *str, char c);
 size_t	ft_wordlen(char *str, char **arr);
 char	*ft_get_next_word(char *str, char **arr);

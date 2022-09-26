@@ -2,6 +2,7 @@
 #define _MINISHELL_INTERPRETER_H_
 
 #include <stdio.h>
+#include "../parser/utils/parser_utils.h"
 #include "../libft/libft.h"
 
 char **g_env;
