@@ -11,13 +11,8 @@ char* ft_check_quote(const char *str)
 	tmp[1] = ft_calloc(sizeof(char),1);
 	while(str[++i])
 	{
-		if(str[i] == '"')
-		{
-			tmp[0] = ft_double_quote(&str[i + 1],&i);
-			tmp[0] = ft_strappend(tmp[0],'"');
-		}
-		else if(str[i] == '\'')
-			tmp[0] = ft_quote(&str[i + 1],&i);
+		if(str[i] == '"' || str[i] == '\'')
+			tmp[0] = interpreter_qouete(&str[i],str[i],&i);
 		else
 		{
 			if(str[i] == '$')
@@ -106,4 +101,16 @@ char* ft_format(const char *str, int* env_len)
 	else
 		free(var);
 	return NULL;
+}
+
+char* interpreter_qouete(const char *str, char qouete, int* index)
+{
+	char *tmp;
+
+	if(qouete == '"')
+		tmp = ft_double_quote(str + 1, index);
+	else
+		tmp = ft_quote(str + 1,index);
+	tmp = ft_strappend(tmp,qouete);
+	return tmp;
 }

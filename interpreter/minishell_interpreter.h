@@ -13,6 +13,7 @@ char* ft_check_quote(const char *str);
 char* ft_double_quote(const char *str,int *end_index);
 char* ft_quote(const char *str,int *end_index);
 char* ft_format(const char *str, int* env_len);
+char* interpreter_qouete(const char *str, char qouete, int *index);
 
 char* ft_envjoin(char* dst, char* src);
 int ft_get_env_len(const char *str);
