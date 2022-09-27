@@ -1,16 +1,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "parser/utils/parser_utils.h"
-# include "interpreter/minishell_interpreter.h"
-#include "libft/libft.h"
-
-#define PIPE 1
-#define COMMAND 2
-#define EXEC 3
-#define REDIR 4
-#define LAST 10
-
+# include "Parser/parser/utils/parser_utils.h"
+# include "Parser/interpreter/minishell_interpreter.h"
+# include "Libft/libft.h"
+# include <fcntl.h>
 
 t_vars  g_data;
 
