@@ -22,7 +22,7 @@ all: $(NAME)
 $(NAME): $(LIB) $(LIBFT) $(SRCS)
 	@make -C ./Parser
 	@echo $(YELLOW) "Building... $(NAME)" $(END)
-	@$(CC) $(SRCS) $(LDFLAGS) -o $(NAME) $(LIBFT) $(PARSER)
+	@$(CC) $(SRCS) $(LDFLAGS) -o $(NAME) $(LIBFT) $(PARSER) -ggdb
 	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
 $(LIBFT):
 	@echo $(YELLOW) "Compiling..." Libft $(END)

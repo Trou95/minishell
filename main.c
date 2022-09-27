@@ -43,16 +43,11 @@ int main(int ac, char **av, char **envp)
 		add_history(str);
         if (!str)
             ctrl_d();
-        printf("1\n");
 		arg = parser_process(str, g_data.env);
-        printf("2\n");
 		free(str);
-        printf("3\n");
         tree = new_tree(arg);
-        printf("ahmet\n");
 		if (arg == NULL)
 			continue ;
-        printf("oha exec aşamasına geldi\n");
         if (tree->type == EXEC || tree->type == PIPE)
             executer(tree);
         else
@@ -61,3 +56,8 @@ int main(int ac, char **av, char **envp)
 		//ft_double_free(arg, parser_array_getsize(arg));
     }
 }
+
+/*
+ * redirect çekilip tutuluyor sonra siliniyo argümanı sonradan sadece boşluk basılıyo
+ *
+ */

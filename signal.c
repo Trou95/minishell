@@ -16,5 +16,6 @@ void	sig_handler(int sig_num)
 		rl_redisplay();
 	}
 	if (sig_num == SIGQUIT)
-		return ;
+		exit(0);
+	return ;
 }

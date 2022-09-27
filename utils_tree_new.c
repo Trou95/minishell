@@ -15,6 +15,41 @@ int	is_redir(char *str)
 	return (0);
 }
 
+char	**ft_amazing_split(char	*str)
+{
+	char	**ret;
+	int		idx;
+	int		len;
+	int		line;
+	ret = malloc(sizeof(char *) * 100);
+	len = ft_strlen(str);
+	line = -1;
+	idx = 0;
+	while (idx < len)
+	{
+		if(str[idx] == '"')
+		{
+			ret[++line] = ft_substr(&str[idx], 0 ,ft_get_chrindex(&str[idx+1], '"') + 1);
+			idx += ft_get_chrindex(&str[idx+1], '"') + 1;
+		}
+		else
+		{
+			ret[++line] = ft_substr(&str[idx], 0, ft_get_chrindex(&str[idx + 1], ' ') + 1);
+			idx += ft_get_chrindex(&str[idx + 1], ' ') + 1;
+		}
+		while(str[idx] == ' ')
+			idx++;
+	}
+	ret[++line] = NULL;
+	line = -1;
+	printf("COMMAND_COMMAND\n");
+	while (ret[++line])
+	{
+		printf("%d:%s\n", line, ret[line]);
+	}
+	return (ret);
+}
+
 void	build_command(t_command	**command ,char **cmd)
 {
 	char	**new_cmd;
@@ -22,7 +57,7 @@ void	build_command(t_command	**command ,char **cmd)
 
 	quote_cleaned = ft_calloc(ft_strlen(*cmd) + 1, sizeof(char));
 	quote_cleaned = ft_str_clearquotes(*cmd, quote_cleaned);
-	new_cmd = amazing_split(quote_cleaned);//pro split tırnak ve boşluğa göre
+	new_cmd = ft_amazing_split(quote_cleaned);//pro split tırnak ve boşluğa göre
 	*command = new_s_command(new_cmd);
 	free(quote_cleaned);
 }
@@ -63,6 +98,7 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 			idx += ft_strlen(arg);
 			check_redir = 0;
 		}
+		printf("cmd :_%s_ type: _%s_ arg: _%s_\n", *cmd, type, arg);
 		if (type && arg)
 		{
 			if(!*redir)
@@ -80,7 +116,19 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 				arg = NULL;
 			}
 		}
-		printf("cmd :_%s_ type: _%s_ arg: _%s_\n", *cmd, type, arg);
+	}
+	if (!*redir)
+		*redir = NULL;
+	else
+	{
+		printf("REDIR_REDIR_REDIR\n");
+		tmp_redir = *redir;
+		while (tmp_redir)
+		{
+			printf("redir type: _%s_ arg: _%s_\n", tmp_redir->redir, tmp_redir->args);
+			tmp_redir = tmp_redir->next;
+		}
+
 	}
 }
 
@@ -91,6 +139,8 @@ t_syntax_tree	*build_exec(char	*arg_command)
 	t_command		*command;
 	t_redirection	*redir;
 
+	redir = NULL;
+	command = NULL;
 	tmp_cmd = ft_strdup(arg_command);
 	exec = new_s_syntax_tree(EXEC);
 	build_redirection(&redir, &tmp_cmd);
@@ -142,15 +192,12 @@ t_syntax_tree	*new_tree(t_arg *args)
 	t_syntax_tree	*tree;
 	int				pipe_count;
 	pipe_count = args->cmd_count -1;
-	printf("%d------\n", pipe_count);
 	if (!pipe_count)
 	{
-	printf("ahmettt\n");
 		tree = build_exec(args->arg_commands[0]);
 	}	
 	else
 	{
-	printf("ahmettt2\n");
 
 		tree = new_s_syntax_tree(PIPE);
 		build_tree_w_pipe(&tree, args->arg_commands, pipe_count);
