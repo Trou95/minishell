@@ -19,7 +19,6 @@ void	child_process(t_syntax_tree *left, t_syntax_tree *right)
 	cmd_path = get_cmd(left->s_command->command[0], path);
 	free(path);
 	if (!cmd_path)
-		perror("command not found");
 	if (g_data.cmd % 2 == 1 && g_data.cmd < g_data.cmd_count)
 		dup_files(g_data.fd);
 	else if (g_data.cmd % 2 == 0 && g_data.cmd < g_data.cmd_count)

@@ -45,15 +45,19 @@ int main(int ac, char **av, char **envp)
             ctrl_d();
 		arg = parser_process(str, g_data.env);
 		free(str);
-        tree = new_tree(arg);
-		if (arg == NULL)
+		if (arg == NULL) {
 			continue ;
-        if (tree->type == EXEC || tree->type == PIPE)
+		}
+		tree = new_tree(arg);
+		if (tree->type == EXEC || tree->type == PIPE)
             executer(tree);
         else
             redirection(tree);
-		//array_writer(arg);
-		//ft_double_free(arg, parser_array_getsize(arg));
+		if (arg){
+			ft_double_free(arg->arg_commands, parser_array_getsize(arg->arg_commands));
+			free(arg);
+			//del_list(tree);
+		}
     }
 }
 

@@ -29,8 +29,8 @@ char	**ft_amazing_split(char	*str)
 	{
 		if(str[idx] == '"')
 		{
-			ret[++line] = ft_substr(&str[idx], 0 ,ft_get_chrindex(&str[idx+1], '"') + 1);
-			idx += ft_get_chrindex(&str[idx+1], '"') + 1;
+			ret[++line] = ft_substr(&str[idx], 0 ,ft_get_chrindex(&str[idx+1], '"') + 2);
+			idx += ft_get_chrindex(&str[idx+1], '"') + 2;
 		}
 		else
 		{
@@ -42,24 +42,28 @@ char	**ft_amazing_split(char	*str)
 	}
 	ret[++line] = NULL;
 	line = -1;
-	printf("COMMAND_COMMAND\n");
-	while (ret[++line])
-	{
-		printf("%d:%s\n", line, ret[line]);
-	}
 	return (ret);
 }
 
-void	build_command(t_command	**command ,char **cmd)
-{
-	char	**new_cmd;
-	char	*quote_cleaned;
+void	build_command(t_command	**command ,char **cmd) {
+	char **quote_cleaned_cmd;
+	char **splited_cmd;
 
-	quote_cleaned = ft_calloc(ft_strlen(*cmd) + 1, sizeof(char));
-	quote_cleaned = ft_str_clearquotes(*cmd, quote_cleaned);
-	new_cmd = ft_amazing_split(quote_cleaned);//pro split tırnak ve boşluğa göre
-	*command = new_s_command(new_cmd);
-	free(quote_cleaned);
+	if (!*cmd)
+		*command = NULL;
+	else
+	{
+		splited_cmd = ft_amazing_split(*cmd);
+		quote_cleaned_cmd = parser_array_clearquotes(splited_cmd);
+		*command = new_s_command(quote_cleaned_cmd);
+		printf("COMMAND_COMMAND_cleaned\n");
+		int line = -1;
+		while (command[0]->command[++line])
+		{
+			printf("%d:%s\n", line, command[0]->command[line]);
+		}
+		ft_double_free(splited_cmd, parser_array_getsize(splited_cmd));
+	}
 }
 //type'ın tırkan içinde olma durumu
 void	build_redirection(t_redirection **redir, char	**cmd)
@@ -144,7 +148,6 @@ t_syntax_tree	*build_exec(char	*arg_command)
 	tmp_cmd = ft_strdup(arg_command);
 	exec = new_s_syntax_tree(EXEC);
 	build_redirection(&redir, &tmp_cmd);
-	printf("ahmettt\n");
 	build_command(&command ,&tmp_cmd);
 	if (redir)
 	{

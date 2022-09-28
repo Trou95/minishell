@@ -1,6 +1,6 @@
 #include "../parser_utils.h"
 
-char *ft_clearquotes(const char *str, char *ptr)
+char *ft_str_clearquotes(const char *str, char *ptr)
 {
 	int i;
 	int n;
