@@ -21,27 +21,27 @@ char	**ft_amazing_split(char	*str)
 	int		idx;
 	int		len;
 	int		line;
-	ret = malloc(sizeof(char *) * 100);
-	len = ft_strlen(str);
+#define WORD_LEN 251
+	ret = ft_calloc(WORD_LEN,sizeof(char*));
+	len = ft_strlen(str) - 1;
 	line = -1;
 	idx = 0;
 	while (idx < len)
 	{
-		if(str[idx] == '"')
-		{
-			ret[++line] = ft_substr(&str[idx], 0 ,ft_get_chrindex(&str[idx+1], '"') + 2);
-			idx += ft_get_chrindex(&str[idx+1], '"') + 2;
-		}
-		else
-		{
-			ret[++line] = ft_substr(&str[idx], 0, ft_get_chrindex(&str[idx + 1], ' ') + 1);
-			idx += ft_get_chrindex(&str[idx + 1], ' ') + 1;
-		}
 		while(str[idx] == ' ')
 			idx++;
+		if(str[idx] == '"' || str[idx] == '\'')
+		{
+			ret[++line] = ft_substr(&str[idx], 0 ,ft_get_chrindex(&str[idx+1], str[idx]) + 2);
+			idx += ft_get_chrindex(&str[idx+1], str[idx]) + 2;
+		}
+		else if(idx < len)
+		{
+			char *tmp = ft_substr(&str[idx], 0, ft_get_chrindex(&str[idx + 1], ' ') + 1);
+			ret[++line] = tmp;
+			idx += ft_get_chrindex(&str[idx + 1], ' ') + 1;
+		}
 	}
-	ret[++line] = NULL;
-	line = -1;
 	return (ret);
 }
 
@@ -54,14 +54,15 @@ void	build_command(t_command	**command ,char **cmd) {
 	else
 	{
 		splited_cmd = ft_amazing_split(*cmd);
-		quote_cleaned_cmd = parser_array_clearquotes(splited_cmd);
+		int line = -1;
+		while (splited_cmd[++line])
+		{
+			printf("%d:%s\n", line, splited_cmd[line]);
+		}
+		quote_cleaned_cmd = ft_strdup_multi(splited_cmd);
+		parser_array_clearquotes(quote_cleaned_cmd);
 		*command = new_s_command(quote_cleaned_cmd);
 		printf("COMMAND_COMMAND_cleaned\n");
-		int line = -1;
-		while (command[0]->command[++line])
-		{
-			printf("%d:%s\n", line, command[0]->command[line]);
-		}
 		ft_double_free(splited_cmd, parser_array_getsize(splited_cmd));
 	}
 }
@@ -73,6 +74,7 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 	char	*arg;
 	int		idx;
 	t_redirection *tmp_redir;
+	t_redir_var v;
 
 	idx = -1;
 	check_redir = 0;
@@ -95,7 +97,7 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 		if (check_redir && cmd[0][idx] != ' ' && !is_redir(&cmd[0][idx]))
 		{
 			if (cmd[0][idx] == '"' || cmd[0][idx] == '\'')
-				arg = ft_substr(cmd[0], idx, ft_strchr(&cmd[0][idx + 1], cmd[0][idx]) - &cmd[0][idx]);
+				arg = ft_substr(cmd[0], idx, ft_strchr(&cmd[0][idx + 1], cmd[0][idx]) - &cmd[0][idx] + 1);
 			else
 				arg = ft_substr(cmd[0], idx, ft_get_chrindex(&cmd[0][idx + 1], ' ') + 1); //boşluk ya da null olmalı
 			ft_memset(&cmd[0][idx], ' ', ft_strlen(arg));
@@ -104,9 +106,11 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 		}
 		printf("cmd :_%s_ type: _%s_ arg: _%s_\n", *cmd, type, arg);
 		if (type && arg)
-		{
+		{ //tırnaklarından arındır ve kaydet
+			v.cmd = ft_str_clearquotes(arg, ft_calloc(sizeof(char) * ft_strlen(arg) + 1,sizeof(char)));
 			if(!*redir)
 			{
+
 				*redir = new_s_redirection(type, arg);
 				tmp_redir = *redir;
 				type = NULL;
@@ -149,6 +153,7 @@ t_syntax_tree	*build_exec(char	*arg_command)
 	exec = new_s_syntax_tree(EXEC);
 	build_redirection(&redir, &tmp_cmd);
 	build_command(&command ,&tmp_cmd);
+	
 	if (redir)
 	{
 		exec->right = new_s_syntax_tree(REDIR);
@@ -195,6 +200,7 @@ t_syntax_tree	*new_tree(t_arg *args)
 	t_syntax_tree	*tree;
 	int				pipe_count;
 	pipe_count = args->cmd_count -1;
+	printf("pipe_count = %d\n", pipe_count);
 	if (!pipe_count)
 	{
 		tree = build_exec(args->arg_commands[0]);

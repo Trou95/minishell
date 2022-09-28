@@ -19,10 +19,13 @@ void	child_process(t_syntax_tree *left, t_syntax_tree *right)
 	cmd_path = get_cmd(left->s_command->command[0], path);
 	free(path);
 	if (!cmd_path)
-	if (g_data.cmd % 2 == 1 && g_data.cmd < g_data.cmd_count)
-		dup_files(g_data.fd);
-	else if (g_data.cmd % 2 == 0 && g_data.cmd < g_data.cmd_count)
-		dup_files(g_data.fd2);
+	if (g_data.cmd < g_data.cmd_count)
+	{
+		if (g_data.cmd % 2 == 1)
+			dup_files(g_data.fd);
+		else 
+			dup_files(g_data.fd2);
+	}
 	if (right)
 		redirection(right);
 	if (execve(cmd_path, left->s_command->command, g_data.env) == -1)

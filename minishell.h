@@ -21,6 +21,8 @@ void    all_heredocs(t_syntax_tree *tree);
 void	isheredoc(t_syntax_tree *tree);
 void    all_redirs(t_syntax_tree *tree);
 
+int 	ft_space_cntrl(const char *str);
+
 
 char    *get_path(char **env);
 char	*get_cmd(char *cmd, char *path);

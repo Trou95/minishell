@@ -33,11 +33,9 @@ t_arg	*parser_process(char *str, char **env)
 		ft_double_free(ret, parser_array_getsize(ret));
 	//ret = parser_array_clearquotes(tmp);
 	ret = tmp;
-	printf("adada\n");
 	//ret = parser_redirect(ret);
 	//ft_double_free(tmp, parser_array_getsize(tmp));
 	arg->arg_commands = ret;
 	arg->cmd_count = parser_array_getsize(ret);
-	printf("asdada\n");
 	return (arg);
 }

@@ -58,3 +58,19 @@ int	ft_strcmp(char *str1, char *str2)
 	}
 	return (0);
 }
+
+int ft_space_cntrl(const char *str)
+{
+	int	i;
+
+	if (!*str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}

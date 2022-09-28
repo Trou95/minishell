@@ -1,35 +1,35 @@
 #include "minishell.h"
 
-void	del_list_left_side(t_syntax_tree *list_iter)
+void	del_list_left_side(t_syntax_tree *del)
 {
 	t_syntax_tree	*temp;
 
-	temp = list_iter;
+	temp = del;
 	while (temp->left)
 		temp = temp->left;
-	while (temp != list_iter)
+	while (temp != del)
 	{
 		temp = temp->prev;
 		del_s_syntax_tree(temp->left);
-		if (temp->right && temp != list_iter)
+		if (temp->right && temp != del)
 			del_s_syntax_tree(temp->right);
 	}
 }
 
-void	del_list_right_side(t_syntax_tree *list_iter)
+void	del_list_right_side(t_syntax_tree *del)
 {
 	t_syntax_tree	*temp;
 
-	while (list_iter->right)
+	while (del->right)
 	{
-		list_iter = list_iter->right;
-		if (list_iter->left)
-			del_list_left_side(list_iter);
+		del = del->right;
+		if (del->left)
+			del_list_left_side(del);
 	}
-	while (list_iter->prev)
+	while (del->prev)
 	{
-		temp = list_iter;
-		list_iter = list_iter->prev;
+		temp = del;
+		del = del->prev;
 		del_s_syntax_tree(temp);
 	}
 }

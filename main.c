@@ -40,9 +40,12 @@ int main(int ac, char **av, char **envp)
     while (1)
     {
         str = readline("$ >_ ");
+		if(!*str || ft_space_cntrl(str))
+		{
+			free(str);
+			continue;
+		}
 		add_history(str);
-        if (!str)
-            ctrl_d();
 		arg = parser_process(str, g_data.env);
 		free(str);
 		if (arg == NULL) {
@@ -50,7 +53,7 @@ int main(int ac, char **av, char **envp)
 		}
 		tree = new_tree(arg);
 		if (tree->type == EXEC || tree->type == PIPE)
-            executer(tree);
+            executer(tree); // exec error bad address
         else
             redirection(tree);
 		if (arg){
@@ -60,8 +63,3 @@ int main(int ac, char **av, char **envp)
 		}
     }
 }
-
-/*
- * redirect çekilip tutuluyor sonra siliniyo argümanı sonradan sadece boşluk basılıyo
- *
- */

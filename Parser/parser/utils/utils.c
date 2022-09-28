@@ -20,20 +20,6 @@ int	err_prnt(char *err_desc, char *err_code)
 	return (-1);
 }
 
-void	*ft_space_cntrl(const char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-			return ((void *)1);
-		i++;
-	}
-	return (NULL);
-}
-
 char	**amazing_split(char	*str)
 {
 	char	**ret;
