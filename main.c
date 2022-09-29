@@ -43,23 +43,25 @@ int main(int ac, char **av, char **envp)
 		if(!*str || ft_space_cntrl(str))
 		{
 			free(str);
-			continue;
+			str = readline("kolpashell(imza)>");
 		}
 		add_history(str);
 		arg = parser_process(str, g_data.env);
+		system("leaks minishell");
 		free(str);
 		if (arg == NULL) {
 			continue ;
 		}
 		tree = new_tree(arg);
-		if (tree->type == EXEC || tree->type == PIPE)
-            executer(tree); // exec error bad address
-        else
-            redirection(tree);
+		//if (tree->type == EXEC || tree->type == PIPE)
+        //    executer(tree); // exec error bad address
+        //else
+        //    redirection(tree);
 		if (arg){
+			del_list(&tree);
 			ft_double_free(arg->arg_commands, parser_array_getsize(arg->arg_commands));
 			free(arg);
-			//del_list(tree);
 		}
+		system("leaks minishell");
     }
 }

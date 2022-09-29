@@ -1,42 +1,49 @@
 #include "minishell.h"
 
-void	del_list_left_side(t_syntax_tree *del)
+void	del_list_left_side(t_syntax_tree **del)
 {
 	t_syntax_tree	*temp;
 
-	temp = del;
+	temp = del[0];
 	while (temp->left)
 		temp = temp->left;
-	while (temp != del)
-	{
+	while (temp != del[0]) {
 		temp = temp->prev;
 		del_s_syntax_tree(temp->left);
-		if (temp->right && temp != del)
+		temp->left = NULL;
+		if (temp->right && temp != del[0])
+		{
 			del_s_syntax_tree(temp->right);
+			temp->right = NULL;
+		}
 	}
 }
 
-void	del_list_right_side(t_syntax_tree *del)
+void	del_list_right_side(t_syntax_tree **del)
 {
 	t_syntax_tree	*temp;
 
-	while (del->right)
-	{
-		del = del->right;
-		if (del->left)
+	while (del[0]->right) {
+		del[0] = del[0]->right;
+		if (del[0]->left)
+		{
 			del_list_left_side(del);
+			del[0]->left = NULL;
+		}
 	}
-	while (del->prev)
+	while (del[0]->prev)
 	{
-		temp = del;
-		del = del->prev;
-		del_s_syntax_tree(temp);
+		del[0] = del[0]->prev;
+		del_s_syntax_tree(del[0]->right);
+		del[0]->right = NULL;
 	}
 }
 
-void	del_list(t_syntax_tree *list)
+void	del_list(t_syntax_tree **list)
 {
 	del_list_left_side(list);
 	del_list_right_side(list);
-	del_s_syntax_tree(list);
+	del_s_syntax_tree(*list);
 }
+// echo -n "asdads asdadas"
+// exec'ten s_redir çıkıyor (nasıl oluyor aq) new tree muhtemelen

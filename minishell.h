@@ -12,7 +12,7 @@ void    executer(t_syntax_tree *command_line);
 void	sig_handler(int sig_num);
 void	redirection(t_syntax_tree *tree);
 void	ctrl_d();
-void	del_list(t_syntax_tree *list);
+void	del_list(t_syntax_tree **list);
 void	del_s_syntax_tree(t_syntax_tree *del);
 void	del_s_command(t_command *del);
 void	del_s_redirection(t_redirection *del);

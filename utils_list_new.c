@@ -8,6 +8,7 @@ t_syntax_tree	*new_s_syntax_tree(int type)
 	if (!new)
 		perror("Malloc Error");
 	new->s_command = NULL;
+	new->s_redir = NULL;
 	new->left = NULL;
 	new->right = NULL;
 	new->prev = NULL;
