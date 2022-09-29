@@ -94,11 +94,11 @@ void	executer(t_syntax_tree *tree)
 		else
 		{
 			before_execute(tree->left);
-		if (tree->right->type == PIPE)
-			executer(tree->right);
-		else
-			before_execute(tree->right);
+			if (tree->right->type == PIPE)
+				executer(tree->right);
+			else
+				before_execute(tree->right);
 		}
 		return ;
-	}	
+	}
 }

@@ -1,5 +1,4 @@
-# Colors
-BLACK			=	"\033[0;30m"
+# ca adssda  =	"\033[0;30m"
 RED				=	"\033[0;31m"
 GREEN			=	"\033[0;32m"
 YELLOW			=	"\033[0;33m"
@@ -36,7 +35,7 @@ clean:
 fclean: clean
 	@make -C lib fclean
 	@make -C libft fclean
-re: fclean all
+re: clean all
 norm :
 	@make norm -C libft
 	@norminette $(SRCS)
