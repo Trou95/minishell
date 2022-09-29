@@ -40,18 +40,13 @@ int main(int ac, char **av, char **envp)
     while (1)
     {
         str = readline("$ >_ ");
-		if(!*str || ft_space_cntrl(str))
-		{
-			free(str);
-			str = readline("kolpashell(imza)>");
-		}
-		add_history(str);
 		arg = parser_process(str, g_data.env);
 		//system("leaks minishell");
-		free(str);
-		if (arg == NULL) {
+		if (!*str || arg == NULL) {
+			free(str);
 			continue ;
 		}
+		add_history(str);
 		tree = new_tree(arg);
 		assign_defaults(tree, *arg);
 		if (tree->type == EXEC || tree->type == PIPE)

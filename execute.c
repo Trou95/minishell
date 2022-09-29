@@ -85,8 +85,10 @@ void	before_execute(t_syntax_tree *tree)
 
 void	executer(t_syntax_tree *tree)
 {
-	int pid;
+	pid_t pid;
 	pid = fork();
+	if(pid > 0)
+		wait(NULL);
 	if (pid == 0)
 	{
 		if (tree->type == EXEC)
@@ -99,6 +101,6 @@ void	executer(t_syntax_tree *tree)
 			else
 				before_execute(tree->right);
 		}
-		return ;
+		exit(0);
 	}
 }

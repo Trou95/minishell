@@ -6,7 +6,7 @@ t_arg	*parser_process(char *str, char **env)
 	char	**ret;
 	char	**tmp;
 
-	if (!ft_strlen(str))
+	if (!ft_strlen(str) || ft_space_cntrl(str))
 		return (NULL);
 	if(parser_check_quotes(str) == 0)
 		return RET_ERR(ft_error("qoute error",NULL,ERR_RET));

@@ -35,7 +35,7 @@ char	**ft_amazing_split(char	*str)
 			ret[++line] = ft_substr(&str[idx], 0 ,ft_get_chrindex(&str[idx+1], str[idx]) + 2);
 			idx += ft_get_chrindex(&str[idx+1], str[idx]) + 2;
 		}
-		else if(idx < len)
+		else if(idx <= len)
 		{
 			char *tmp = ft_substr(&str[idx], 0, ft_get_chrindex(&str[idx + 1], ' ') + 1);
 			ret[++line] = tmp;
@@ -81,12 +81,12 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 	type = arg = NULL;
 	while (cmd[0][++idx])
 	{
-		if (check_redir == 0 && cmd[0][idx] == '"')
+		if (check_redir == 0 && cmd[0][idx] == '"') // tek tırnağı da atlamalı
 			idx += ft_strchr(&(cmd[0][idx + 1]), '"') - &(cmd[0][idx]);
 		if(is_redir(&(cmd[0][idx])))
 		{
 			
-			if (check_redir)
+			if (check_redir == 1)
 				printf("SYNTAX ERROR redir çift redir falan\n");
 			type = ft_substr(cmd[0], idx, is_redir(&(cmd[0][idx])));
 			ft_memset(&cmd[0][idx], ' ', ft_strlen(type));
@@ -94,7 +94,7 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 			check_redir = 1;
 			
 		}
-		if (check_redir && cmd[0][idx] != ' ' && !is_redir(&cmd[0][idx]))
+		if (check_redir == 1 && cmd[0][idx] != ' ' && !is_redir(&cmd[0][idx]))
 		{
 			if (cmd[0][idx] == '"' || cmd[0][idx] == '\'')
 				arg = ft_substr(cmd[0], idx, ft_strchr(&cmd[0][idx + 1], cmd[0][idx]) - &cmd[0][idx] + 1);
@@ -102,11 +102,11 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 				arg = ft_substr(cmd[0], idx, ft_get_chrindex(&cmd[0][idx + 1], ' ') + 1); //boşluk ya da null olmalı
 			ft_memset(&cmd[0][idx], ' ', ft_strlen(arg));
 			idx += ft_strlen(arg);
-			check_redir = 0;
+			check_redir = 2;
 		}
 		printf("cmd :_%s_ type: _%s_ arg: _%s_\n", *cmd, type, arg);
-		if (type && arg)
-		{ //tırnaklarından arındır ve kaydet
+		if (check_redir == 2)
+		{
 			v.cmd = ft_str_clearquotes(arg, ft_calloc(sizeof(char) * ft_strlen(arg) + 1,sizeof(char)));
 			if(!*redir)
 			{
@@ -123,6 +123,7 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 				type = NULL;
 				arg = NULL;
 			}
+			check_redir = 0;
 		}
 	}
 	if (!*redir)
