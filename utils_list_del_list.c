@@ -42,7 +42,8 @@ void	del_list_right_side(t_syntax_tree **del)
 void	del_list(t_syntax_tree **list)
 {
 	del_list_left_side(list);
-	del_list_right_side(list);
+
+    del_list_right_side(list);
 	del_s_syntax_tree(*list);
 }
 // echo -n "asdads asdadas"

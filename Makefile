@@ -8,7 +8,7 @@ WHITE			=	"\033[0;37m"
 END				=	"\033[0;0m"
 # Files
 NAME	=	minishell
-CC		=	gcc
+CC		=	gcc -ggdb
 SRCS	=	main.c allocate_files.c cmd_utils.c errors.c execute.c heredoc.c redirection.c signal.c utils_list_del_list.c utils_list_del_structs.c utils_list_new.c utils_tree_new.c utils.c
 CFLAGS	=	-Wall -Wextra -Werror -I./lib/readline/include
 LDFLAGS	= 	-L./lib/readline/lib -lreadline

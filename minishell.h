@@ -39,6 +39,8 @@ t_command		*new_s_command(char **command);
 t_redirection	*new_s_redirection(char *redir, char *args);
 t_syntax_tree	*new_tree(t_arg *args);
 
+void	ft_lstadd_back_redir(t_redirection **redir, t_redirection *new);
+
 
 
 

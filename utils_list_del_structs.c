@@ -31,9 +31,9 @@ void	del_s_redirection(t_redirection *del)
 		ft_bzero(iter->args, ft_strlen(iter->args));
 		free(iter->redir);
 		free(iter->args);
-		free(del);
+		free(iter);
 	}
-	free(iter);
+	free(del);
 }
 
 void	del_s_syntax_tree(t_syntax_tree *del)

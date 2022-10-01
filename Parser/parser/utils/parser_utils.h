@@ -11,17 +11,13 @@ char	**amazing_split(char	*str);
 t_arg	*parser_process(char *str, char **env);
 
 //Parser_split
+char *parser_qoute_spawn(char *str, int *index, char c);
+int parser_word_count(char *str);
 char	**parser_cmd_split(char *str, char c);
+char **parser_split(char *str);
 //char **parser_redirect_split(char **str, char ***ret, char **arr);
 //int		parser_word_cnt(char *str, char **arr);
 //int	parse_non_redir_word_count(char **str, char **arr);
-
-//Parser _redirect
-//int		parser_redirect_check(char *str, char **arr);
-//int		parser_redirect_init_vars(char *str, t_redir_var *v);
-//char	*parser_redirect_cmdjoin(char *n_cmd, char *cmd);
-//char	**parser_redirect(char **str);
-//int		parser_redirect_add_cmdarg(t_redir_var *v, char *str, char **arr);
 
 //Parser_qoute
 int		parser_quote_endidx(const char *str, char c);
