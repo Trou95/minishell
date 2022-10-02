@@ -84,7 +84,6 @@ char	**parser_array_clearquotes(char **arr)
 	i = 0;
 	while (arr[i])
 	{
-
 		tmp = ft_calloc(ft_strlen(arr[i]) + 1, sizeof(char));
 		tmp = ft_str_clearquotes(arr[i], tmp);
 		free(arr[i]);

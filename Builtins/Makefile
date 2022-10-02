@@ -2,7 +2,7 @@ SOURCES			=	command_env.c command_export.c command_unset.c command_exit.c
 SOURCES			+=	command_cd.c command_echo.c command_pwd.c
 SOURCES			+=	utils_export_unset.c utils.c ft_sort_params.c
 
-LIBFT	=	../libft/libft.a
+LIBFT	=	../Libft/libft.a
 
 OBJECTS			= $(SOURCES:.c=.o)
 
@@ -12,18 +12,21 @@ AR			= ar rcs
 CFLAGS			= -Wall -Wextra -Werror -I. -g
 NAME			= minishell_builtins.a
 
-all: $(NAME) 
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(LIBFT) $(OBJECTS)
+$(LIBFT) :
+	make -C ../Libft
+
+$(NAME): $(OBJECTS)
 	@$(AR) $(NAME) $(OBJECTS)
 .c.o:
-	gcc $(LIBFT)  -c $< -o $@ 
+	gcc -c $< -o $@
 clean:
-	$(RM) $(OBJECTS) $(OBJECTS_BONUS)
+	$(RM) $(OBJECTS)
 
 fclean: clean
 	$(RM) $(NAME)
 
-re:	fclean $(NAME)
+re:	fclean all
 
 .PHONY: all clean fclean re

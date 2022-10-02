@@ -10,33 +10,48 @@ END				=	"\033[0;0m"
 NAME	=	minishell
 CC		=	gcc -ggdb
 SRCS	=	main.c allocate_files.c cmd_utils.c errors.c execute.c heredoc.c redirection.c signal.c utils_list_del_list.c utils_list_del_structs.c utils_list_new.c utils_tree_new.c utils.c
-CFLAGS	=	-Wall -Wextra -Werror -I./lib/readline/include
-LDFLAGS	= 	-L./lib/readline/lib -lreadline
+CFLAGS	=	-Wall -Wextra -Werror
+READLINEFLAGS	= 	-L./lib/readline/lib -lreadline
 LIBFT	=	libft/libft.a
-LIB		= 	lib/.minishell
+READLINE		= 	Readline/.minishell
 PARSER  = Parser/minishell_parser.a
+BUITLTINS = Builtins/minishell_builtins.a
 
 all: $(NAME)
 
-$(NAME): $(LIB) $(LIBFT) $(SRCS)
-	@make -C ./Parser
-	@echo $(YELLOW) "Building... $(NAME)" $(END)
-	@$(CC) $(SRCS) $(LDFLAGS) -o $(NAME) $(LIBFT) $(PARSER) -ggdb
-	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
+$(READLINE):
+	@make -C ./Readline
+
 $(LIBFT):
 	@echo $(YELLOW) "Compiling..." Libft $(END)
 	@make -C libft
-$(LIB):
-	@make -C ./lib
+
+$(PARSER):
+	make -C ./Parser
+
+$(BUILTINS):
+	make -C ./Builtins
+
+$(NAME): $(SRCS) $(READLINE) $(LIBFT) $(PARSER) $(BUILTINS)
+	@echo $(YELLOW) "Building... $(NAME)" $(END)
+	@$(CC) $(SRCS) $(READLINEFLAGS) $(CFLAGS) -o $(NAME) $(LIBFT) $(BUILTINS) $(PARSER) -ggdb
+	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
+
 clean:
 	@echo $(YELLOW) "Removing object files...$(NAME)" $(END)
 	@make -C libft fclean
 	@echo $(RED) "All files deleted successfully!\n" $(END)
+
 fclean: clean
-	@make -C lib fclean
-	@make -C libft fclean
+	@make -C Readline fclean
+	@make -C Libft fclean
+	@make -C ./Builtins fclean
+	@make -C ./Parser fclean
+
 re: clean all
+
 norm :
 	@make norm -C libft
 	@norminette $(SRCS)
+
 .PHONY: all, clean, fclean, re

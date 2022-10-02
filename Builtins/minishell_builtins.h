@@ -21,6 +21,7 @@ void	command_cd(char *dir, char ***exp, char ***env);
 void	command_echo(char **str);
 void	command_exit(char **arg);
 void	command_pwd(void);
+void	command_env(char **env);
 
 int		check_unset_export_var(char *unset, char sep);
 

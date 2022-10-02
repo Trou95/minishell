@@ -8,7 +8,7 @@ t_arg	*parser_process(char *str, char **env)
 
 	if (!ft_strlen(str) || ft_space_cntrl(str))
 		return (NULL);
-	if(parser_check_quotes(str) == 0)
+	if (parser_check_quotes(str) == 0)
 		return RET_ERR(ft_error("qoute error",NULL,ERR_RET));
 	tmp = malloc(sizeof(char **));
 	ret = malloc(sizeof(char **));
@@ -29,7 +29,7 @@ t_arg	*parser_process(char *str, char **env)
 		return (RET_ERR(ft_double_free(tmp, parser_array_getsize(tmp))));
 	ft_double_free(tmp, parser_array_getsize(tmp));
 	tmp = interpreter_array_format(ret, env);
-	if(tmp == NULL)
+	if (tmp == NULL)
 		ft_double_free(ret, parser_array_getsize(ret));
 	//ret = parser_array_clearquotes(tmp);
 	ret = tmp;

@@ -1,37 +1,38 @@
 #include "parser_utils.h"
 
-int parser_word_count(char *str)
+int	parser_word_count(char *str)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if(str[i] == '"' || str[i] == '\'')
+		if (str[i] == '"' || str[i] == '\'')
 		{
-			i += ft_get_chrindex(&str[i + 1],str[i]);
+			i += ft_get_chrindex(&str[i + 1], str[i]);
 			count++;
 		}
-		else if(str[i] == ' ')
+		else if (str[i] == ' ')
 		{
 			count++;
-			while(str[i] == ' ')
+			while (str[i] == ' ')
 				i++;
 		}
 		i++;
 	}
-	return count;
+	return (count);
 }
 
-char *parser_qoute_span(char *str, int *index, char c)
+char	*parser_qoute_span(char *str, int *index, char c)
 {
-	char *tmp;
+	char	*tmp;
 
-	tmp = ft_substr(&str[*index], 0 ,ft_get_chrindex(&str[*index + 1], c) + (1 + (c != ' ')));
-	*index += ft_get_chrindex(&str[*index+1], c) + (1 + (c != ' '));
-	return tmp;
+	tmp = ft_substr(&str[*index], 0, \
+	ft_get_chrindex(&str[*index + 1], c) + (1 + (c != ' ')));
+	*index += ft_get_chrindex(&str[*index + 1], c) + (1 + (c != ' '));
+	return (tmp);
 }
 
 char	**parser_cmd_split(char *str, char c)
@@ -62,7 +63,3 @@ char	**parser_cmd_split(char *str, char c)
 	commands[v.n_idx + 1] = NULL;
 	return (commands);
 }
-
-
-
-

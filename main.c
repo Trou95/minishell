@@ -75,11 +75,13 @@ int main(int ac, char **av, char **envp)
 //cat < Makefile > md.txt | < md.txt grep = > kerim.txt
 // cat < Makefile 3-5. seferde leak: "/etc/inputrc"
 
+// ft_double_qoute memcpy, else
+
 /*              AÇIKLAMA:
  * new_tree ile del_listte leaks oluşmuyor.
  * new_tree func henüz tamamen doğru olmayabilir test edin ve hata durumlarını not edelim.
  *
  * tek redirection girince hatalı. CMD count 1 geldiği içim
  * Builtinler bağlanmadı
- * Amazing split && buildredirection geliştirilip normlanacak
-*/
+ * $?
+ */
