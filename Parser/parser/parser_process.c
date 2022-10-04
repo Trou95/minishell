@@ -25,10 +25,12 @@ t_arg	*parser_process(char *str, char **env)
 		return (RET_ERR(ft_double_free(ret, 1)));
 	ft_double_free(ret, 1);
 	ret = parser_array_trim(tmp);
+    array_writer(ret);
 	if (ret == NULL)
 		return (RET_ERR(ft_double_free(tmp, parser_array_getsize(tmp))));
 	ft_double_free(tmp, parser_array_getsize(tmp));
 	tmp = interpreter_array_format(ret, env);
+    printf("asdadaadsa\n");
 	if (tmp == NULL)
 		ft_double_free(ret, parser_array_getsize(ret));
 	//ret = parser_array_clearquotes(tmp);

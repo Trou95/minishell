@@ -1,6 +1,6 @@
 #include "minishell_builtins.h"
 
-void	command_echo(char **str)
+int	command_echo(char **str)
 {
 	int	i;
 	int	check;
@@ -13,7 +13,8 @@ void	command_echo(char **str)
 		i = 1;
 	}
 	while (str[++i])
-		write(1, str[i], ft_strlen(str[i]));
+        printf("%s ", str[i]);
 	if (check)
-		write(1, "\n", 1);
+        printf("\n");
+    return  0;
 }

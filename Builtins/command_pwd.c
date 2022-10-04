@@ -1,9 +1,12 @@
 #include "minishell_builtins.h"
 
-void	command_pwd(void)
+int	command_pwd(void)
 {
+    int exit;
 	char	*str;
 
+    exit = 0;
 	str = getcwd(NULL, 0);
 	printf("%s\n", str);
+    return (exit);
 }

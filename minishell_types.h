@@ -55,6 +55,7 @@ typedef struct s_syntax_tree
 typedef struct s_vars
 {
     pid_t   dup_in;
+    pid_t   dup_out;
 	char    **env;
 	char    **export;
 	char    *path;
@@ -64,7 +65,7 @@ typedef struct s_vars
 	int		*outfiles;
 	int		**heredoc;
 	int		ref_her;
-	int     fd[5][2];
+	int     fd[2][2];
 	int		cmd;
 	int		pipe;
 	int		cmd_count;
@@ -72,6 +73,7 @@ typedef struct s_vars
 	int 	count_out;
 	int 	count_her;
 	pid_t   *pids;
+    int		exit_num;
 }	t_vars;
 
 

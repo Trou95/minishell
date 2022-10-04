@@ -44,8 +44,12 @@ int main(int ac, char **av, char **envp)
     while (1)
     {
         str = readline("$ >_ ");
+		if(!str)
+			ctrl_d();
         g_data.dup_in = dup(0);
+        g_data.dup_out = dup(1);
         arg = parser_process(str, g_data.env);
+        array_writer(arg->arg_commands);
 		//system("leaks minishell");
 		if (!*str || arg == NULL) {
 			free(str);
@@ -55,27 +59,23 @@ int main(int ac, char **av, char **envp)
 		tree = new_tree(arg);
 		assign_defaults(tree, *arg);
 		all_heredocs(tree);
-		printf("cmd_count : %d\n", g_data.cmd_count);
 		if (tree->type == EXEC || tree->type == PIPE)
-		{
             executer(tree); // exec error bad address
-		}
-        else
-            redirection(tree);
         dup2(g_data.dup_in, 0);
-        if (arg){
+        dup2(g_data.dup_out, 1);
+        if (arg)
+        {
 			del_list(&tree);
 			ft_double_free(arg->arg_commands, parser_array_getsize(arg->arg_commands));
 			free(arg);
             free(str);
+            //ft_freeall();
 		}
         //system("leaks minishell");
     }
 }
 //cat < Makefile > md.txt | < md.txt grep = > kerim.txt
 // cat < Makefile 3-5. seferde leak: "/etc/inputrc"
-
-// ft_double_qoute memcpy, else
 
 /*              AÇIKLAMA:
  * new_tree ile del_listte leaks oluşmuyor.
@@ -84,4 +84,12 @@ int main(int ac, char **av, char **envp)
  * tek redirection girince hatalı. CMD count 1 geldiği içim
  * Builtinler bağlanmadı
  * $?
- */
+ * builtinlerin return değerlerini g.data term değerine at
+ *
+ *
+ *
+ *
+ * export yyyyyy="ssss"
+zsh: segmentation fault  ./minishell
+
+*/

@@ -31,12 +31,12 @@ int	improved_chdir(char	*go_dir, char *incoming_dir)
 	if (chdir(go_dir) == -1)
 	{
 		printf("cd: %s: No such file or directory\n", incoming_dir);
-		return (-1);
+		return (1);
 	}
 	return (0);
 }
 
-int	command_cd_tilde(char *dir, char ***exp, char ***env)
+int	command_cd_tilde(char *dir, char ***env)
 {
 	int		home_index;
 	char	*home_data;
@@ -44,21 +44,21 @@ int	command_cd_tilde(char *dir, char ***exp, char ***env)
 
 	home_index = find_line_char_matrix(*env, "HOME=", ENV_LIST, 5);
 	if (home_index == -1)
-		return (-1);
+		return (1);
 	home_data = get_var_data(env[0][home_index]);
 	if (ft_strncmp(dir, "~", 2) == 0)
 	{
-		if (improved_chdir(home_data, dir) == -1)
+		if (improved_chdir(home_data, dir) == 1)
 		{
 			free(home_data);
-			return (-1);
+			return (1);
 		}
 	}
 	else if (ft_strncmp(dir, "~/", 2) == 0)
 	{
 		go_dir = ft_strjoin(home_data, dir + 1);
-		if (improved_chdir(go_dir, dir) == -1)
-			return (free_two_str(&home_data, &go_dir));
+		if (improved_chdir(go_dir, dir) == 1)
+			return (free_two_str(&home_data, &go_dir) * -1);
 	}
 	else
 		printf("cd: %s: No such file or directory\n", dir);
@@ -66,16 +66,24 @@ int	command_cd_tilde(char *dir, char ***exp, char ***env)
 	return (0);
 }
 
-void	command_cd(char *dir, char ***exp, char ***env)
+int	command_cd(char *dir, char ***exp, char ***env)
 {
-	if (!dir)
-		return ;
-	if (ft_strncmp(dir, "~", 1) == 0)
-	{
-		if (command_cd_tilde(dir, exp, env) == -1)
-			return ;
-	}
-	else if (improved_chdir(dir, NULL) == -1)
-		return ;
-	command_cd_change_pwd(exp, env);
+    int exit;
+
+	if (!dir) {
+        if (command_cd_tilde("~", env) == 1)
+        {
+            printf("cd: HOME not set\n");
+            exit = 1;
+        }
+        else
+            exit = 0;
+    }
+	else if (ft_strncmp(dir, "~", 1) == 0)
+		exit = command_cd_tilde(dir, env);
+	else
+        exit = improved_chdir(dir, NULL);
+    if (exit == 0)
+	    command_cd_change_pwd(exp, env);
+    return (exit);
 }

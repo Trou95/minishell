@@ -42,8 +42,25 @@ void	command_unset_env(char ***matrix, char *unset)
 int	command_unset(char ***env_list, char ***exp_list, char *unset)
 {
 	if (check_unset_export_var(unset, COM_UNS) == -1)
-		return (-1);
+		return (1);
 	command_unset_env(env_list, unset);
 	command_unset_exp(exp_list, unset);
 	return (0);
+}
+
+int    multiple_unset(char ***env_list, char ***exp_list, char **unset)
+{
+    int line;
+    int exit;
+
+    line = 0;
+    exit = 0;
+    while (unset[++line])
+    {
+        if (exit == 0)
+            exit = command_unset(env_list, exp_list , unset[line]);
+        else
+            command_unset(env_list, exp_list , unset[line]);
+    }
+    return (exit);
 }

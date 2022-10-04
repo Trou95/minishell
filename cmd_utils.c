@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	free_char_matrix(char ***matrix)
+/*void	free_char_matrix(char ***matrix)
 {
 	int	i;
 
@@ -11,7 +11,7 @@ void	free_char_matrix(char ***matrix)
 	while (matrix[0][++i])
 		free(matrix[0][i]);
 	free(matrix[0]);
-}
+}*/
 
 char	*get_path(char **env)
 {

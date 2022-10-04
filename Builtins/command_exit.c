@@ -7,17 +7,17 @@ void	command_exit(char **arg)
 	i = -1;
 	while (arg[++i])
 		;
-	if (i >= 1)
+	if (i > 1)
 	{
 		printf("exit\n");
-		if (!(atoi(arg[1])))
-		{
-			printf("exit: %s: numeric argument required\n", arg[1]);
-			exit(1);
-		}
-		if (atoi(arg[1]) && !arg[2])
-			exit(atoi(arg[1]));
+		if (!arg[2])
+			exit(ft_atoi(arg[1]));
 		else
 			printf("exit: too many arguments\n");
+	}
+	else
+	{
+		printf("exit\n");
+		exit(0);
 	}
 }

@@ -9,7 +9,7 @@ OBJECTS			= $(SOURCES:.c=.o)
 CC			= gcc
 RM			= rm -rf
 AR			= ar rcs
-CFLAGS			= -Wall -Wextra -Werror -I. -g
+CFLAGS			= -Wall -Wextra -Werror
 NAME			= minishell_builtins.a
 
 all: $(LIBFT) $(NAME)

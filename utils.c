@@ -25,7 +25,7 @@ int	ft_matrix_size(char **matrix)
 	return (i);
 }
 
-char	**ft_strdup_multi(char **s1)
+/*char	**ft_strdup_multi(char **s1)
 {
 	char	**dest;
 	int		lines;
@@ -39,7 +39,7 @@ char	**ft_strdup_multi(char **s1)
 	dest[i] = 0;
 	return (dest);
 }
-
+*/
 int	ft_strcmp(char *str1, char *str2)
 {
 	int	i;

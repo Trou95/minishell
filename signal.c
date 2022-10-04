@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void	ctrl_d(void)
+int	ctrl_d(void)
 {
-	printf("Exit\n");
+	printf("Exit");
 	exit(1);
 }
 

@@ -1,6 +1,10 @@
 #include "minishell_builtins.h"
 
-void	command_env(char **env)
+int	command_env(char **env)
 {
-	print_line(env);
+    int exit;
+
+    print_line(env);
+    exit = 0;
+    return (exit);
 }

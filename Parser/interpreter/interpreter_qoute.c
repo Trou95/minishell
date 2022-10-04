@@ -35,7 +35,7 @@ char	*ft_double_quote(const char *str, int *end_index, char **env)
 	char	*n_str;
 	char	*tmp;
 
-	ft_memcpy(&i, 0, sizeof(int) * 2);
+	i = 0;
 	n_str = ft_calloc(sizeof(char), 1);
 	while (str[i] && str[i] != '"')
 	{

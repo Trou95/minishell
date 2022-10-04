@@ -57,7 +57,7 @@ void	command_export_exp(char ***exp_list, char *var_name, char *var_data)
 	free(export);
 }
 
-void	command_export(char ***exp_list, char ***env_list, char *export)
+int	command_export(char ***exp_list, char ***env_list, char *export)
 {
 	char	*var_name;
 	char	*var_data;
@@ -77,5 +77,33 @@ void	command_export(char ***exp_list, char ***env_list, char *export)
 		command_export_exp(exp_list, var_name, var_data);
 		command_export_env(env_list, var_name, var_data);
 	}
+    else
+        return (1);
 	free_two_str(&var_data, &var_name);
+    return 0;
+}
+
+int    multiple_export(char ***exp_list, char ***env_list, char **export)
+{
+    int line;
+    int exit;
+
+    line = 0;
+    exit = 0;
+    if (!export[1])
+    {
+        add_declare_char_matrix(exp_list);
+        print_line(*exp_list);
+    }
+    else
+    {
+        while (export[++line])
+        {
+            if (exit == 0)
+                exit =  command_export(exp_list, env_list , export[line]);
+            else
+                command_export(exp_list, env_list , export[line]);
+        }
+    }
+    return (exit);
 }
