@@ -79,9 +79,7 @@ char	**parser_split(char	*str)
 	ret = ft_calloc(parser_word_count(str) + 2,sizeof(char*));
 	len = ft_strlen(str);
 	if(str[len - 1] != '"' && str[len - 1] != ' ')
-	{
 		str = ft_free_strjoin(str," ");
-	}
 	line = -1;
 	idx = 0;
 	while(str[idx] && str[idx] == ' ')
@@ -103,6 +101,8 @@ char	**parser_split(char	*str)
 		}
 		else
 		{
+			if(!*n_str)
+				break;
 			ret[++line] = ft_strdup(n_str);
 			ft_memset(n_str,'\0',ft_strlen(n_str));
 			idx++;
