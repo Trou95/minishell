@@ -19,6 +19,7 @@ char	*ft_check_quote(const char *str, t_vars *g_data)
 			{
 				tmp[0] = ft_format(&str[i + 1], &env_len, g_data);
 				i += ++env_len;
+				i -= (str[i] == '$');
 			}
 			else
 				tmp[0] = ft_substr(str, i, 1);
@@ -39,7 +40,7 @@ char	*ft_double_quote(const char *str, int *end_index, t_vars *g_data)
 	n_str = ft_calloc(sizeof(char), 1);
 	while (str[i] && str[i] != '"')
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1] != '"')
 		{
 			tmp = ft_format(&str[i + 1], &env_len, g_data);
 			if (tmp == NULL)
@@ -47,7 +48,9 @@ char	*ft_double_quote(const char *str, int *end_index, t_vars *g_data)
 			else if(str[i + 1] == '?')
 				i += 2;
 			else
+			{
 				i += ft_get_env_len(&str[i + 1]) + 1;
+			}
 			//n_str = ft_envjoin(n_str, tmp);
 		}
 		else
@@ -85,11 +88,13 @@ char	*ft_format(const char *str, int *env_len, t_vars *g_data)
 	char	*tmp;
 	char	*var;
 
+	printf("1\n");
 	if (*str == '?')
 		return ft_itoa(g_data->exit_num);
 	i = ft_is_valid_env(str);
 	if (i == 0)
 		return (0);
+	printf("debug2\n");
 	tmp = ft_substr(str, 0, i);
 	var = ft_strjoin(tmp, "=");
 	free(tmp);

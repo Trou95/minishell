@@ -27,7 +27,7 @@ $(LIBFT):
 	make -C libft
 
 $(PARSER):
-	make -C ./Parser
+	make re -C ./Parser
 
 $(BUILTINS):
 	make -C ./Builtins
