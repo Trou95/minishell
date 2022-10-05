@@ -67,7 +67,7 @@ char *build_qoete(char *str, int *index)
 			n_str = ft_free_strjoin(n_str,tmp);
 			free(tmp);
 		}
-		else if(str[*index] != ' ')
+		else if(str[*index] != ' ' && !is_redir(&str[*index]))
 		{
 			n_str = ft_free_strjoin(n_str, ft_substr(str,*index,1));
 			(*index)++;
@@ -89,6 +89,7 @@ char *build_arger(char *str, int *index, int *check_redir)
 		//tmp = ft_substr(str, *index, ft_get_chrindex(&str[*index + 1], str[*index]) + 2);
 		tmp = build_qoete(str,index);
 		ft_memset(&str[start_index], ' ', *index - start_index);
+		(*index)--;
 	}
 	else
 	{
