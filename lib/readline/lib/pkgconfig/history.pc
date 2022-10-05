@@ -1,4 +1,4 @@
-prefix=/Users/gdemirta/Desktop/silence_of_the_ocean/lib/readline
+prefix=/Users/gdemirta/Desktop/minishell/lib/readline
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

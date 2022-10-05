@@ -73,16 +73,20 @@ char	**parser_split(char	*str)
 	int		idx;
 	int		len;
 	int		line;
-
 	char *n_str;
 
 	n_str = ft_calloc(1, sizeof(char));
 	ret = ft_calloc(parser_word_count(str) + 2,sizeof(char*));
-	str = ft_strappend(str,' ');
 	len = ft_strlen(str);
+	if(str[len - 1] != '"' && str[len - 1] != ' ')
+	{
+		str = ft_free_strjoin(str," ");
+	}
 	line = -1;
-	idx = 1;
-	while (idx < len)
+	idx = 0;
+	while(str[idx] && str[idx] == ' ')
+		idx++;
+	while (idx <= len)
 	{
 		if(str[idx] == '"' || str[idx] == '\'')
 		{
@@ -90,7 +94,7 @@ char	**parser_split(char	*str)
 			n_str = ft_free_strjoin(n_str,tmp);
 			free(tmp);
 		}
-		else if(str[idx] != ' ')
+		else if(str[idx] > 0 && str[idx] != ' ')
 		{
 			char *tmp = ft_substr(str,idx,1);
 			n_str = ft_free_strjoin(n_str,tmp);

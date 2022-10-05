@@ -88,10 +88,18 @@ char *build_arger(char *str, int *index, int *check_redir)
 	{
 		//tmp = ft_substr(str, *index, ft_get_chrindex(&str[*index + 1], str[*index]) + 2);
 		tmp = build_qoete(str,index);
+		ft_memset(&str[start_index], ' ', *index - start_index);
 	}
 	else
-		tmp = ft_substr(str, *index, ft_get_chrindex(&str[*index + 1], ' ') + 1); //boşluk ya da null olmalı
-	ft_memset(&str[start_index], ' ', *index - start_index);
+	{
+		char ch = str[*index];
+		while(str[*index] && (str[*index] != ' ' && !is_redir(&str[*index])))
+			(*index)++;
+		ch = str[*index];
+		tmp = ft_substr(str, start_index, *index - start_index);
+		ft_memset(&str[start_index], ' ', ft_strlen(tmp));
+		(*index)--;
+	}
 	//*index += ft_strlen(tmp);
 	*check_redir = 2;
 	return tmp;
@@ -105,7 +113,7 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 	char	*arg;
 	char *clean_arg;
 	int		idx;
-	t_redirection *tmp_redir;
+	t_redirection *tmp_redir; //silinecek sadece ekrana basmak için kullanılıyor
 
 
 	idx = -1;

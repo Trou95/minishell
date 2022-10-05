@@ -6,7 +6,7 @@
 
 char	**amazing_split(char	*str);
 
-t_arg	*parser_process(char *str, char **env);
+t_arg	*parser_process(char *str, t_vars *g_data);
 
 char	*parser_qoute_spawn(char *str, int *index, char c);
 int		parser_word_count(char *str);

@@ -43,7 +43,12 @@ void	child_process(t_syntax_tree *left, t_syntax_tree *right)
         if (right)
             redir_val = redirection(right);
         if (redir_val)
-            g_data.exit_num = execve(cmd_path, left->s_command->command, g_data.env);
+        {
+            execve(cmd_path, left->s_command->command, g_data.env);
+            exit(0);
+        }
+		else
+			exit(g_data.exit_num);
     }
 }
 

@@ -1,6 +1,6 @@
 #include "minishell_interpreter.h"
 
-char	**interpreter_array_format(char **arr, char **env)
+char	**interpreter_array_format(char **arr, t_vars *g_data)
 {
 	int		i;
 	char	*tmp;
@@ -8,12 +8,12 @@ char	**interpreter_array_format(char **arr, char **env)
 	i = 0;
 	while (arr[i])
 	{
-		tmp = ft_check_quote(arr[i], env);
+		tmp = ft_check_quote(arr[i], g_data);
 		if (tmp != NULL)
 		{
 			free(tmp);
 			tmp = arr[i];
-			arr[i] = ft_check_quote(arr[i], env);
+			arr[i] = ft_check_quote(arr[i], g_data);
 			free(tmp);
 		}
 		i++;

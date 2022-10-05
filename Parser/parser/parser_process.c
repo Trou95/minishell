@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-t_arg	*parser_process(char *str, char **env)
+t_arg	*parser_process(char *str, t_vars *g_data)
 {
 	t_arg	*arg;
 	char	**ret;
@@ -29,7 +29,7 @@ t_arg	*parser_process(char *str, char **env)
 	if (ret == NULL)
 		return (RET_ERR(ft_double_free(tmp, parser_array_getsize(tmp))));
 	ft_double_free(tmp, parser_array_getsize(tmp));
-	tmp = interpreter_array_format(ret, env);
+	tmp = interpreter_array_format(ret, g_data);
     printf("asdadaadsa\n");
 	if (tmp == NULL)
 		ft_double_free(ret, parser_array_getsize(ret));
