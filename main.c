@@ -50,11 +50,12 @@ int main(int ac, char **av, char **envp)
         g_data.dup_out = dup(1);
         arg = parser_process(str, &g_data);
 		//system("leaks minishell");
-		if (!*str || arg == NULL) {
+		if (!*str || arg == NULL || !ft_strlen(arg->arg_commands[0])) {
 			free(str);
 			continue ;
 		}
         array_writer(arg->arg_commands);
+		printf("8\n");
 		add_history(str);
 		tree = new_tree(arg);
 		assign_defaults(tree, *arg);

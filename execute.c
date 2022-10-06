@@ -101,6 +101,7 @@ void	executer(t_syntax_tree *tree)
             redirection(tree->right);
         else
             before_execute(tree);
+
     }
     else
     {

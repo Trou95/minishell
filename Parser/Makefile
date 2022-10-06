@@ -12,7 +12,7 @@ LIBFT = ../Libft/libft.a
 
 NAME = minishell_parser.a
 
-CFLAGS = 
+CFLAGS =
 CC = gcc
 
 all: $(NAME)

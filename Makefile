@@ -12,7 +12,7 @@ CC		=	gcc -ggdb
 SRCS	=	main.c allocate_files.c cmd_utils.c errors.c execute.c heredoc.c redirection.c signal.c build_redirection.c utils_list_del_list.c utils_list_del_structs.c utils_list_new.c utils_tree_new.c utils_cleaning.c utils.c
 CFLAGS	=
 READLINEFLAGS	= 	-L./lib/readline/lib -lreadline
-LIBFT	=	Libft/libft.a
+LIBFT	=	libft/libft.a
 READLINE		= 	Readline/.minishell
 PARSER  = Parser/minishell_parser.a
 BUILTINS = Builtins/minishell_builtins.a
@@ -27,7 +27,7 @@ $(LIBFT):
 	make -C libft
 
 $(PARSER):
-	make re -C ./Parser
+	make -C ./Parser
 
 $(BUILTINS):
 	make -C ./Builtins

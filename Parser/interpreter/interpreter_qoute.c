@@ -5,11 +5,13 @@ char	*ft_check_quote(const char *str, t_vars *g_data)
 	int		i;
 	int		env_len;
 	char	*tmp[2];
+	int len;
 
 	i = -1;
 	env_len = 0;
 	tmp[1] = ft_calloc(sizeof(char), 1);
-	while (str[++i])
+	len = ft_strlen(str);
+	while (++i < len)
 	{
 		if (str[i] == '"' || str[i] == '\'')
 			tmp[0] = interpreter_qouete(&str[i], str[i], &i, g_data);
@@ -18,8 +20,9 @@ char	*ft_check_quote(const char *str, t_vars *g_data)
 			if (str[i] == '$')
 			{
 				tmp[0] = ft_format(&str[i + 1], &env_len, g_data);
-				i += ++env_len;
-				i -= (str[i] == '$');
+				if(tmp[0] == NULL)
+					tmp[0] = ft_strdup("");
+				i += env_len;
 			}
 			else
 				tmp[0] = ft_substr(str, i, 1);
@@ -37,30 +40,23 @@ char	*ft_double_quote(const char *str, int *end_index, t_vars *g_data)
 	char	*tmp;
 
 	i = 0;
+	env_len = 0;
 	n_str = ft_calloc(sizeof(char), 1);
 	while (str[i] && str[i] != '"')
 	{
-		if (str[i] == '$' && str[i + 1] != '"')
+		if (str[i] == '$')
 		{
 			tmp = ft_format(&str[i + 1], &env_len, g_data);
 			if (tmp == NULL)
-				tmp = ft_substr(str, i, ft_get_env_len(&str[i + 1]) + 1);
-			else if(str[i + 1] == '?')
-				i += 2;
-			else
-			{
-				i += ft_get_env_len(&str[i + 1]) + 1;
-			}
+				tmp = ft_strdup("");
+			i += ++env_len;
 			//n_str = ft_envjoin(n_str, tmp);
 		}
 		else
-		{
 			tmp = ft_substr(str, i++, 1);
-			//n_str = ft_envjoin(n_str, tmp);
-		}
 		n_str = ft_envjoin(n_str, tmp);
 	}
-	*end_index += ++i;
+	*end_index += i;
 	return (n_str);
 }
 
@@ -88,13 +84,17 @@ char	*ft_format(const char *str, int *env_len, t_vars *g_data)
 	char	*tmp;
 	char	*var;
 
-	printf("1\n");
 	if (*str == '?')
+	{
+		*env_len = 1;
 		return ft_itoa(g_data->exit_num);
+	}
 	i = ft_is_valid_env(str);
 	if (i == 0)
-		return (0);
-	printf("debug2\n");
+	{
+		*env_len = i;
+		return 0;
+	}
 	tmp = ft_substr(str, 0, i);
 	var = ft_strjoin(tmp, "=");
 	free(tmp);
@@ -107,8 +107,8 @@ char	*ft_format(const char *str, int *env_len, t_vars *g_data)
 		var = ft_strdup(g_data->env[index] + i);
 		return (var);
 	}
-	else
-		free(var);
+	*env_len = i;
+	free(var);
 	return (NULL);
 }
 
