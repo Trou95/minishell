@@ -1,113 +1,101 @@
 #include "minishell.h"
 
-int	ft_size(char **lst)
+void	dup_files(int *fd)
 {
-	int i;
-
-	i = -1;
-	while (lst[++i])
-		;
-	return (i);
+	if (dup2(fd[1], 1) == -1)
+		perror("Error on pipe dup2");
+	if (close(fd[1]) == -1)
+		perror("Error on closing file");
+	if (close(fd[0]) == -1)
+		perror("Error on closing file");
 }
 
-void	redirection(t_syntax_tree *tree)
+void	child_process(t_syntax_tree *left, t_syntax_tree *right)
 {
-	char			*temp;
-	char			*read_doc;
-	int				i;
-	int				fd;
-	t_redirection	*new;
+	char	*cmd_path;
 
-	temp = tree->s_redir->redir;
-	new = tree->s_redir;
-	i = -1;
-	g_data.files = malloc(ft_filesize(new) * sizeof(int));
-	while (new)
+	if (is_builtin(left->s_command->command[0]))
 	{
-		temp = new->redir;
-		if (!ft_strcmp(temp, "<")) // strcmp
+		before_execve(right);
+		exit(which_builtin(left->s_command->command));
+	}
+	else
+	{
+		if (ft_strrchr(left->s_command->command[0], '/'))
 		{
-			if (g_data.files[++i] = open(new->args, O_RDONLY) == -1)
-				perror("Opening file error");
-			if (dup2(g_data.files[i], 0) == -1)
-				perror("Error on dup2 infile");
+			if (!command_w_path(left->s_command->command))
+				exit(g_data.exit_num);
 		}
-		else if (!ft_strcmp(temp, "<<"))
+		path_operations(&cmd_path, left);
+		before_execve(right);
+		if (g_data.redir_val)
 		{
-			if (pipe(g_data.heredoc) == -1)
-				perror("Error on pipe");
-			if (dup2(g_data.heredoc[0], 0) == -1)
-				perror("Error on heredoc dup2");
-			if (dup2(g_data.heredoc[1], 1) == -1)
-				perror("Error on heredoc dup2");
-			read_doc = readline("heredoc> ");
-			while (ft_strcmp(new->args, read_doc))
-			{
-				write(1, read_doc, ft_strlen(read_doc));
-				write(1, "\n", 1);
-				read_doc = readline("heredoc> ");
-			}
+			execve(cmd_path, left->s_command->command, g_data.env);
+			exit(1);
 		}
 		else
-		{
-			if (!ft_strcmp(temp, ">")) // strcmp
-			{
-				if (g_data.files[++i] = open(new->args, O_CREAT | O_TRUNC | O_RDWR, 0000644) == -1)
-					perror("Opening file error");
-			}
-			else if (!ft_strcmp(temp, ">>"))
-			{
-				if (g_data.files[++i] = open(new->args, O_CREAT | O_RDWR) == -1)
-					perror("Opening file error");
-			}
-			if (dup2(g_data.files[i], 1) == -1)
-				perror("Dup2 errror");
-		}
-		new = new->next;
+			exit(g_data.exit_num);
 	}
+}
+
+void	main_process(int *fd)
+{
+	if (dup2(fd[0], 0) == -1)
+		perror("Error on dup2");
+	if (close(fd[0]) == -1)
+		perror("Error on closing file");
+	if (close(fd[1]) == -1)
+		perror("Error on closing file");
 }
 
 void	before_execute(t_syntax_tree *tree)
 {
 	t_syntax_tree	*left;
 	t_syntax_tree	*right;
-	pid_t			pid1;
 
-	if ((pid1 = fork()) == -1)
-		perror("Error on fork");
-	if (dup2(g_data.fd[0], 0) == -1) //if mistake happens Muhammed will handle it
-		perror("Error on closing file");
-	if (pid1 == 0)
+	g_data.cmd++;
+	left = tree->left;
+	right = tree->right;
+	if (g_data.pipe < g_data.cmd_count - 1)
+		pipe(g_data.fd[g_data.pipe]);
+	if (g_data.cmd_count == 1 && is_builtin(left->s_command->command[0]))
 	{
-		left = tree->left;
-		if (tree->right)
-			right = tree->right;
-		g_data.path = get_path(g_data.env);
-		g_data.cmd_path = get_cmd(left->s_command->command[0], &g_data);
-		if (!g_data.cmd_path)
-			perror("command not found");
 		if (right)
 			redirection(right);
-		if (execve(g_data.cmd_path, left->s_command->command, g_data.env) == -1)
-			perror("Execve error");
+		g_data.exit_num = which_builtin(left->s_command->command);
 	}
-	waitpid(pid1, NULL, 0);
-}
-
-void    executer(t_syntax_tree *tree)
-{
-	if (tree->type == EXEC)
-		before_execute(tree);
 	else
 	{
-		if (pipe(g_data.fd) == -1)
-			perror("Error on pipe");
-		if (dup2(g_data.fd[1], 1) == -1)
-			perror("Error on pipe dup2");
-		before_execute(tree->left);
-		if (tree->right->type = PIPE)
+		g_data.pids[g_data.cmd] = fork();
+		if (g_data.pids[g_data.cmd] == -1)
+			perror("Error on fork");
+		if (g_data.pids[g_data.cmd] == 0)
+			child_process(left, right);
+		if (g_data.pipe < g_data.cmd_count - 1)
+			main_process(g_data.fd[g_data.pipe]);
+	}
+}
+
+void	executer(t_syntax_tree *tree)
+{
+	int	i;
+
+	i = 0;
+	if (tree->type == EXEC)
+		voyage_on_tree(tree);
+	else
+	{
+		voyage_on_tree(tree->left);
+		if (tree->right->type == PIPE)
 			executer(tree->right);
 		else
-			before_execute(tree->right);
+			voyage_on_tree(tree->right);
+	}
+	while (g_data.cmd_count - i >= 0)
+	{
+		waitpid(g_data.pids[g_data.cmd_count - i], &g_data.exit_num, 0);
+		if (WIFEXITED(g_data.exit_num))
+			g_data.exit_num /= 256;
+		i++;
 	}
 }

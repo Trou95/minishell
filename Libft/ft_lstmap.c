@@ -1,36 +1,22 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mgordag <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 14:57:27 by mgordag           #+#    #+#             */
-/*   Updated: 2022/01/27 14:57:28 by mgordag          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void(*del)(void *))
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*newlst;
-	t_list	*newel;
+	t_list	*nlst;
+	t_list	*new;
 
-	if (!lst)
-		return (NULL);
-	newlst = NULL;
+	nlst = NULL;
 	while (lst)
 	{
-		newel = ft_lstnew(f(lst->content));
-		if (!newel)
+		new = ft_lstnew (f(lst->content));
+		if (!new)
 		{
-			ft_lstclear(&newlst, del);
-			return (NULL);
+			ft_lstclear(&lst, del);
+			return (0);
 		}
-		else
-			ft_lstadd_back(&newlst, newel);
+		ft_lstadd_back(&nlst, new);
 		lst = lst->next;
 	}
-	return (newlst);
+	return (nlst);
 }

@@ -1,90 +1,55 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mgordag  <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 15:07:30 by mgordag           #+#    #+#             */
-/*   Updated: 2022/03/08 17:40:43 by mgordag          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft.h" 
+#include"libft.h"
 
-int	ft_strmylen(const char *str, char c)
+size_t	wordlen(char const *s, char c)
 {
-	int	i;
+	size_t	r;
 
-	i = -1;
-	while (str[++i])
-		if (str[i] == c)
-			return (i + 1);
-	return (i + 1);
+	r = 0;
+	while (s[r] != '\0' && s[r] != c)
+		r++;
+	return (r);
 }
 
-int	ft_totalstrlen(const char *str, char c)
+size_t	wordcounter(char const *s, char c)
 {
-	int	i;
-	int	k;
+	size_t	r;
 
-	k = 0;
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] == c && str[i])
-		i++;
-	while (str[i])
+	r = 0;
+	while (*s != '\0')
 	{
-		if (str[i] == c && str[i + 1] != '\0' && str[i + 1] != c)
-			k++;
-		i++;
+		if (*s != c && (s[1] == '\0' || s[1] == c))
+			r++;
+		s++;
 	}
-	return (k + 2);
+	return (r);
 }
 
-void	createlist(int k, char **list, char *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	int	j;
-	int	i;
-
-	i = 0;
-	while (i < ft_totalstrlen(s, c) - 1 && s[k])
-	{
-		while (s[k] == c && s[k])
-			k++;
-		list[i] = (char *)malloc(sizeof(char) * ft_strmylen(&s[k], c));
-		j = 0;
-		while (s[k] != c && s[k])
-		{
-			list[i][j] = s[k];
-			j++;
-			k++;
-		}
-		if (j == 0)
-			list[i] = 0;
-		else
-			list[i][j] = '\0';
-		i++;
-	}
-	list[i] = 0;
-}
-
-char	**ft_split(const char *s, char c)
-{
-	int		k;
-	char	**list;
+	char	**arr;
+	size_t	i;
+	size_t	len;
+	size_t	index;
 
 	if (!s)
 		return (NULL);
-	list = (char **) malloc(sizeof (char *) * ft_totalstrlen(s, c));
-	if (!list)
-		return (0);
-	k = 0;
-	while (s[k] == c && s[k])
-		k++;
-	createlist(k, list, (char *)s, c);
-	return (list);
+	len = wordcounter(s, c);
+	arr = (char **)malloc(sizeof(char *) * len + 1);
+	if (arr == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		while (*s == c && *s != '\0')
+			s++;
+		arr[i] = (char *)malloc(sizeof(char) * wordlen(s, c) + 1);
+		index = 0;
+		while (*s != c && *s != '\0')
+			arr[i][index++] = *s++;
+		arr[i][index] = '\0';
+		i++;
+	}
+	arr[i] = NULL;
+	return (arr);
 }
