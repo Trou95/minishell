@@ -5,7 +5,7 @@ char	*ft_check_quote(const char *str, t_vars *g_data)
 	int		i;
 	int		env_len;
 	char	*tmp[2];
-	int len;
+	int		len;
 
 	i = -1;
 	env_len = 0;
@@ -20,7 +20,7 @@ char	*ft_check_quote(const char *str, t_vars *g_data)
 			if (str[i] == '$')
 			{
 				tmp[0] = ft_format(&str[i + 1], &env_len, g_data);
-				if(tmp[0] == NULL)
+				if (tmp[0] == NULL)
 					tmp[0] = ft_strdup("");
 				i += env_len;
 			}
@@ -112,14 +112,17 @@ char	*ft_format(const char *str, int *env_len, t_vars *g_data)
 	return (NULL);
 }
 
-char	*interpreter_qouete(const char *str, char qouete, int *idx, t_vars *g_data)
+char	*interpreter_qouete(const char *str, char qt, int *idx, t_vars *g_data)
 {
 	char	*tmp;
 
-	if (qouete == '"')
+	if (qt == '"')
+	{
 		tmp = ft_double_quote(str + 1, idx, g_data);
+		(*idx)++; //echo "-n" asd yaması
+	}
 	else
 		tmp = ft_quote(str + 1, idx);
-	tmp = ft_strappend(tmp, qouete);
+	tmp = ft_strappend(tmp, qt);
 	return (tmp);
 }

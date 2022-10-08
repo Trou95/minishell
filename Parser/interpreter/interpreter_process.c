@@ -20,8 +20,8 @@ char	**interpreter_array_format(char **arr, t_vars *g_data)
 		}
 		i++;
 	}
+	printf("array-writer 1\n");
 	array_writer(arr);
-	printf("size: %d\n", parser_array_getsize(arr));
-	printf("7\n");
+	printf("asdadsadad\n");
 	return (arr);
 }

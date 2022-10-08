@@ -9,8 +9,8 @@ OBJECTS			= $(SOURCES:.c=.o)
 CC			= gcc
 RM			= rm -rf
 AR			= ar rcs
-CFLAGS			= -Wall -Wextra -Werror
-NAME			= minishell_builtins.a
+CFLAGS		= -g
+NAME		= minishell_builtins.a
 
 all: $(LIBFT) $(NAME)
 
@@ -18,9 +18,10 @@ $(LIBFT) :
 	make -C ../Libft
 
 $(NAME): $(OBJECTS)
+	#gcc $(CFLAGS) main.c $(SOURCES) $(LIBFT) -o debug
 	@$(AR) $(NAME) $(OBJECTS)
 .c.o:
-	gcc -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 clean:
 	$(RM) $(OBJECTS)
 

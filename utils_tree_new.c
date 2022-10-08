@@ -15,14 +15,14 @@ int	is_redir(char *str)
 	return (0);
 }
 
-char *parser_qoute_span(char *str, int *index, char c);
+char	*parser_qoute_span(char *str, int *index, char c);
 
-char *parser_qoute_join(char *dst, const char* src, int *index, char c)
+char	*parser_qoute_join(char *dst, const char *src, int *index, char c)
 {
-	int len;
-	char *tmp;
+	int		len;
+	char	*tmp;
 
-	len = ft_get_chrindex(&src[*index + 1],c) + (1 + (c != ' '));
+	len = ft_get_chrindex(&src[*index + 1], c) + (1 + (c != ' '));
 	tmp = ft_substr(&src[*index], 0, len);
 	dst = ft_free_strjoin(dst,ft_substr(&src[*index], 0, len));
 	*index += len;
@@ -62,55 +62,55 @@ char	**parser_split(char	*str)
 	return (ret);
 }
 */
-
-
-
 //word count
 //space gec
+
 char	**parser_split(char	*str)
 {
 	char	**ret;
 	int		idx;
 	int		len;
 	int		line;
-	char *n_str;
+	char	*n_str;
+	char	*tmp;
 
 	n_str = ft_calloc(1, sizeof(char));
 	ret = ft_calloc(parser_word_count(str) + 2,sizeof(char*));
 	len = ft_strlen(str);
-	if(str[len - 1] != '"' && str[len - 1] != ' ')
-		str = ft_free_strjoin(str," ");
+	if (str[len - 1] != '"' && str[len - 1] != ' ')
+		str = ft_free_strjoin(str, " ");
 	line = -1;
 	idx = 0;
-	while(str[idx] && str[idx] == ' ')
+	while (str[idx] && str[idx] == ' ')
 		idx++;
 	while (idx <= len)
 	{
-		if(str[idx] == '"' || str[idx] == '\'')
+		if (str[idx] == '"' || str[idx] == '\'')
 		{
-			char *tmp = build_qoete(str,&idx);
-			n_str = ft_free_strjoin(n_str,tmp);
+			printf("asdasdasd str: %s\n",str);
+			tmp = build_qoete(str, &idx);
+			n_str = ft_free_strjoin(n_str, tmp);
+			printf("adadas tmp: %s\n",tmp);
 			free(tmp);
 		}
-		else if(str[idx] > 0 && str[idx] != ' ')
+		else if (str[idx] > 0 && str[idx] != ' ')
 		{
-			char *tmp = ft_substr(str,idx,1);
-			n_str = ft_free_strjoin(n_str,tmp);
+			tmp = ft_substr(str, idx, 1);
+			n_str = ft_free_strjoin(n_str, tmp);
 			free(tmp);
 			idx++;
 		}
 		else
 		{
 			if(!*n_str)
-				break;
+				break ;
 			ret[++line] = ft_strdup(n_str);
-			ft_memset(n_str,'\0',ft_strlen(n_str));
+			ft_memset(n_str, '\0', ft_strlen(n_str));
 			idx++;
 		}
 	}
 	return (ret);
 }
-
 
 char	*ft_str_clearspace2(const char *str)
 {
@@ -118,7 +118,7 @@ char	*ft_str_clearspace2(const char *str)
 	char	*ret;
 	char	*tmp;
 
-	ret = ft_calloc(1,sizeof(char));
+	ret = ft_calloc(1, sizeof(char));
 	i = 0;
 	while (str[i])
 	{
@@ -139,19 +139,20 @@ char	*ft_str_clearspace2(const char *str)
 	return (ret);
 }
 
-
-void	build_command(t_command	**command ,char **cmd)
+void	build_command(t_command	**command, char **cmd)
 {
-	char **quote_cleaned_cmd;
-	char **splited_cmd;
+	char	**quote_cleaned_cmd;
+	char	**splited_cmd;
+	char	*tmp;
+	int		line;
 
 	if (!*cmd || ft_space_cntrl(*cmd))
 		*command = NULL;
 	else
 	{
-		char *tmp = ft_str_clearspace2(*cmd);
+		tmp = ft_str_clearspace2(*cmd);
 		splited_cmd = parser_split(tmp);
-		int line = -1;
+		line = -1;
 		printf("Splitted cmd::::\n");
 		while (splited_cmd[++line])
 		{
@@ -168,7 +169,7 @@ void	build_command(t_command	**command ,char **cmd)
 			printf("%d:%s\n", line, command[0]->command[line]);
 		}
 	}
-    printf("--------%p\n", *command);
+	printf("--------%p\n", *command);
 }
 
 int	use_is_redir(char **cmd, int *idx, char **type, int *check_redir)
@@ -179,7 +180,7 @@ int	use_is_redir(char **cmd, int *idx, char **type, int *check_redir)
 	ft_memset(&cmd[0][*idx], ' ', ft_strlen(*type));
 	*idx += ft_strlen(*type);
 	*check_redir = 1;
-	return 0;
+	return (0);
 }
 
 void	use_is_arg(char **cmd, int *idx, char **arg, int *check_redir)
@@ -192,13 +193,12 @@ void	use_is_arg(char **cmd, int *idx, char **arg, int *check_redir)
 	else
 	{
 		*arg = ft_substr(cmd[0], *idx, \
-						ft_get_chrindex(&cmd[0][*idx + 1], ' ') + 1); //boşluk ya da null olmalı
+						ft_get_chrindex(&cmd[0][*idx + 1], ' ') + 1);
 	}
 	ft_memset(&cmd[0][*idx], ' ', ft_strlen(*arg));
 	*idx += ft_strlen(*arg);
 	*check_redir = 2;
 }
-
 
 t_syntax_tree	*build_exec(char	*arg_command)
 {
@@ -211,8 +211,9 @@ t_syntax_tree	*build_exec(char	*arg_command)
 	command = NULL;
 	tmp_command = ft_strdup(arg_command);
 	exec = new_s_syntax_tree(EXEC);
+
 	build_redirection(&redir, &tmp_command);
-	build_command(&command ,&tmp_command);
+	build_command(&command, &tmp_command);
 	if (redir)
 	{
 		exec->right = new_s_syntax_tree(REDIR);
@@ -229,18 +230,18 @@ t_syntax_tree	*build_exec(char	*arg_command)
 	return (exec);
 }
 
-void	build_tree_w_pipe(t_syntax_tree *tree, char **arg_commands, int pipe_count)
+void	build_tree_w_pipe(t_syntax_tree *tree, char **arg_commands, int pipe)
 {
 	int	i;
 
 	i = 0;
-	while (pipe_count)
+	while (pipe)
 	{
 		tree->left = build_exec(arg_commands[i]);
 		tree->left->prev = tree;
 		i++;
-		pipe_count--;
-		if (pipe_count)
+		pipe--;
+		if (pipe)
 		{
 			tree->right = new_s_syntax_tree(PIPE);
 			tree->right->prev = tree;
@@ -258,15 +259,13 @@ t_syntax_tree	*new_tree(t_arg *args)
 {
 	t_syntax_tree	*tree;
 	int				pipe_count;
+
 	pipe_count = args->cmd_count -1;
 	printf("pipe_count = %d\n", pipe_count);
 	if (!pipe_count)
-	{
 		tree = build_exec(args->arg_commands[0]);
-	}	
 	else
 	{
-
 		tree = new_s_syntax_tree(PIPE);
 		build_tree_w_pipe(tree, args->arg_commands, pipe_count);
 	}

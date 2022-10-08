@@ -2,11 +2,11 @@
 
 int	command_pwd(void)
 {
-    int exit;
+	int		exit;
 	char	*str;
 
-    exit = 0;
+	exit = 0;
 	str = getcwd(NULL, 0);
 	printf("%s\n", str);
-    return (exit);
+	return (exit);
 }

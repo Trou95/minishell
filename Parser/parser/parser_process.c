@@ -26,11 +26,11 @@ t_arg	*parser_process(char *str, t_vars *g_data)
 	ft_double_free(ret, 1);
 	ret = parser_array_trim(tmp);
     array_writer(ret);
+	printf("qweqweqewwqe2\n");
 	if (ret == NULL)
 		return (RET_ERR(ft_double_free(tmp, parser_array_getsize(tmp))));
 	ft_double_free(tmp, parser_array_getsize(tmp));
 	tmp = interpreter_array_format(ret, g_data);
-    printf("asdadaadsa\n");
 	if (tmp == NULL)
 		ft_double_free(ret, parser_array_getsize(ret));
 	//ret = parser_array_clearquotes(tmp);
@@ -39,5 +39,8 @@ t_arg	*parser_process(char *str, t_vars *g_data)
 	//ft_double_free(tmp, parser_array_getsize(tmp));
 	arg->arg_commands = ret;
 	arg->cmd_count = parser_array_getsize(ret);
+	printf("------ commands\n");
+	array_writer(ret);
+	printf("--------\n");
 	return (arg);
 }
