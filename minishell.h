@@ -11,7 +11,7 @@ t_vars  g_data;
 
 void    executer(t_syntax_tree *command_line);
 void	sig_handler(int sig_num);
-int		ctrl_d();
+void	sig_handler_heredoc(int sig_num);
 void	del_list(t_syntax_tree **list);
 void	del_s_syntax_tree(t_syntax_tree *del);
 void	del_s_command(t_command *del);
@@ -20,7 +20,14 @@ void	ft_heredoc(char *arg);
 void    all_heredocs(t_syntax_tree *tree);
 void	isheredoc(t_syntax_tree *tree);
 void    all_redirs(t_syntax_tree *tree);
+void	before_execve(t_syntax_tree *right);
+void	dup_files(int *fd);
+void	path_operations(char **cmd_path, t_syntax_tree *left);
+void	voyage_on_tree(t_syntax_tree *tree);
+void	before_execute(t_syntax_tree *tree);
 
+int		command_w_path(char **command);
+int		ctrl_d();
 int		redirection(t_syntax_tree *tree);
 int 	ft_space_cntrl(const char *str);
 

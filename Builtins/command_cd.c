@@ -68,22 +68,23 @@ int	command_cd_tilde(char *dir, char ***env)
 
 int	command_cd(char *dir, char ***exp, char ***env)
 {
-    int exit;
+	int	exit;
 
-	if (!dir) {
-        if (command_cd_tilde("~", env) == 1)
-        {
-            printf("cd: HOME not set\n");
-            exit = 1;
-        }
-        else
-            exit = 0;
-    }
+	if (!dir)
+	{
+		if (command_cd_tilde("~", env) == 1)
+		{
+			printf ("cd: HOME not set\n");
+			exit = 1;
+		}
+		else
+			exit = 0;
+	}
 	else if (ft_strncmp(dir, "~", 1) == 0)
 		exit = command_cd_tilde(dir, env);
 	else
-        exit = improved_chdir(dir, NULL);
-    if (exit == 0)
-	    command_cd_change_pwd(exp, env);
-    return (exit);
+		exit = improved_chdir(dir, NULL);
+	if (exit == 0)
+		command_cd_change_pwd(exp, env);
+	return (exit);
 }

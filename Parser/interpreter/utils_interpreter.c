@@ -5,7 +5,8 @@ int	ft_is_valid_env(const char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != '"' && str[i] != '\'' && str[i] != ' ' && str[i] != '$')
+	while (str[i] && str[i] != '"' && str[i] != '\'' && \
+		str[i] != ' ' && str[i] != '$')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
