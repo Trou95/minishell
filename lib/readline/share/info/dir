@@ -1,20 +1,15 @@
-This is the file .../info/dir, which contains the
-topmost node of the Info hierarchy, called (dir)Top.
-The first time you invoke Info you start off looking at this node.
-
-File: dir,	Node: Top	This is the top of the INFO tree
+Bu, .../info/dir dosyası olup, (dir)Üst adı verilen, Info
+hiyerarşisinin en üst düğümünü içerir.
+Info'yu ilk çalıştırdığınızda bu düğüme bakarak başlıyor olursunuz.
 
-  This (the Directory node) gives a menu of major topics.
-  Typing "q" exits, "?" lists all Info commands, "d" returns here,
-  "h" gives a primer for first-timers,
-  "mEmacs<Return>" visits the Emacs manual, etc.
+File: dir,	Node: Top	Bu, INFO ağacının tepesidir
 
-  In Emacs, you can click mouse button 2 on a menu item or cross reference
-  to select it.
+  Bu (Dizin düğümü), temel konuların bir menüsünü verir.
+  "q" tuşuyla çıkar, "?" ile tüm Info komutlarını listeler, "d" ile buraya döner,
+  "h" ile yeni başlayanlar için bir klavuz alabilir,
+  "mEmacs<Return>" ile Emacs klavuzunu ziyaret edebilirsiniz, vs.
+
+  Emacs'ta, bir menü öğesi ya da çapraz başvuru üzerinde sağ fare tuşunu
+  tıklayarak seçim yapabilirsiniz.
 
 * Menu:
-
-Libraries
-* History: (history).       The GNU history library API.
-* RLuserman: (rluserman).       The GNU readline library User's Manual.
-* Readline: (readline).       The GNU readline library API.

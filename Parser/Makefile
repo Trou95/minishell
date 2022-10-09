@@ -1,9 +1,23 @@
-SRC =  $(wildcard utils/*c) \
-		$(wildcard parser/*c) \
-		$(wildcard parser/utils/*c) \
-		$(wildcard parser/utils/strutils/*c) \
-		$(wildcard interpreter/*c ) \
-	
+SRC =  	./interpreter/interpreter_process.c \
+		./interpreter/interpreter_qoute.c \
+		./interpreter/interpreter_return_value.c \
+		./interpreter/interpreter_init.c \
+		./interpreter/utils_interpreter.c \
+		./parser/utils/strutils/ft_clearquotes.c \
+		./parser/utils/strutils/ft_clearspace.c \
+		./parser/utils/strutils/ft_free_strjoin.c \
+		./parser/utils/strutils/ft_get_chrindex.c \
+		./parser/utils/strutils/ft_get_next_word.c \
+		./parser/utils/strutils/ft_get_qouteend.c \
+		./parser/utils/strutils/ft_str_append.c \
+		./parser/utils/utils.c \
+		./parser/utils/utils_parser_array.c \
+		./parser/utils/utils_parser_mem.c \
+		./parser/utils/utils_parser_quote.c \
+		./parser/utils/utils_parser_split.c \
+		./parser/parser_process.c \
+		./utils/debug.c
+
 
 
 OBJS = $(SRC:.c=.o)

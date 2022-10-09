@@ -42,8 +42,10 @@ void    assign_defaults(t_syntax_tree *tree, t_arg args)
 void	ctrl_c(int sig)
 {
 	(void)sig;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	write(1, "\033[A", 3);
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 int main(int ac, char **av, char **envp)

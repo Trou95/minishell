@@ -6,17 +6,13 @@ int	ctrl_d(void)
 	exit(1);
 }
 
-
-
 void	sig_handler(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-				printf("\n");
+		printf("\n");
 		rl_on_new_line();
-		//rl_replace_line("", 0);
-		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		//write(1, "\033[A", 3);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	return ;

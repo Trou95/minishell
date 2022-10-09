@@ -1,4 +1,3 @@
-# ca adssda  =	"\033[0;30m"
 RED				=	"\033[0;31m"
 GREEN			=	"\033[0;32m"
 YELLOW			=	"\033[0;33m"
@@ -9,10 +8,25 @@ END				=	"\033[0;0m"
 # Files
 NAME	=	minishell
 CC		=	gcc -ggdb
-SRCS	=	main.c allocate_files.c cmd_utils.c execute_utils.c execute.c heredoc.c redirection.c signal.c build_redirection.c utils_list_del_list.c utils_list_del_structs.c utils_list_new.c utils_tree_new.c utils_cleaning.c utils.c  
+SRCS	=	allocate_files.c \
+build_redirection.c \
+cmd_utils.c \
+execute.c \
+execute_utils.c \
+heredoc.c \
+main.c \
+redirection.c \
+signal.c \
+utils.c \
+utils_cleaning.c \
+utils_list_del_list.c \
+utils_list_del_structs.c \
+utils_list_new.c \
+utils_tree_new.c
 
+OBJS = $(SRCS:.c=.o)
 CFLAGS	= -Wall -Wextra -Werror
-READLINEFLAGS	= 	-L./lib/readline/lib -lreadline
+READLINEFLAGS	= -I./Readline/lib/readline/include	-L./Readline/lib/readline/lib  -lreadline
 LIBFT	=	libft/libft.a
 READLINE		= 	Readline/.minishell
 PARSER  = Parser/minishell_parser.a
@@ -33,21 +47,24 @@ $(PARSER):
 $(BUILTINS):
 	make -C ./Builtins
 
-$(NAME): $(SRCS) $(BUILTINS) $(READLINE) $(LIBFT) $(PARSER)
+.c.o:
+	$(CC) -c $(CFLAGS) -I./Readline/lib/readline/include $<
+
+
+$(NAME): $(BUILTINS) $(READLINE) $(LIBFT) $(PARSER) $(OBJS)
 	@echo $(YELLOW) "Building... $(NAME)" $(END)
-	@$(CC) $(SRCS) $(READLINEFLAGS) $(CFLAGS) -o $(NAME) $(LIBFT) $(BUILTINS) $(PARSER) -ggdb
+	$(CC) $(OBJS) $(READLINEFLAGS) $(CFLAGS) -o $(NAME) $(LIBFT) $(BUILTINS) $(PARSER) -ggdb
 	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
 
 clean:
-	@echo $(YELLOW) "Removing object files...$(NAME)" $(END)
-	@make -C libft fclean
-	@echo $(RED) "All files deleted successfully!\n" $(END)
-
-fclean: clean
-	@make -C ./Readline fclean
 	@make -C ./Libft fclean
 	@make -C ./Builtins fclean
 	@make -C ./Parser fclean
+	rm -rf $(OBJS)
+
+fclean: clean
+	@make -C ./Readline fclean
+	rm ./minishell
 
 re: clean all
 
