@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:39:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:40:26 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 10:14:09 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	**ft_double_free(char **ptr, size_t size);
 int		ft_str_clearspace_end(const char *str);
 char	*ft_str_clearspace(const char *str);
 char	*ft_free_strjoin(char *dst, const char *src);
+char	*ft_free_src_strjoin(char *dst, char *src);
 char	*ft_strappend(char *dst, char c);
 int		ft_get_chrindex(const char *str, char c);
 size_t	ft_wordlen(char *str, char **arr);

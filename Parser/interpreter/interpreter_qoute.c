@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:42:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:44:02 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 10:50:50 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,26 @@
 
 char	*ft_check_quote(const char *str, t_vars *g_data)
 {
-	int		i;
-	int		env_len;
-	char	*tmp[2];
-	int		len;
+	char				*tmp[2];
+	t_interpreter_quote	v;
 
-	i = -1;
-	env_len = 0;
+	interpreter_qouete_init(str, &v);
 	tmp[1] = ft_calloc(sizeof(char), 1);
-	len = ft_strlen(str);
-	while (++i < len)
+	while (++v.i < v.len)
 	{
-		if (str[i] == '"' || str[i] == '\'')
-			tmp[0] = interpreter_qouete(&str[i], str[i], &i, g_data);
+		if (str[v.i] == '"' || str[v.i] == '\'')
+			tmp[0] = interpreter_qouete(&str[v.i], str[v.i], &v.i, g_data);
 		else
 		{
-			if (str[i] == '$')
+			if (str[v.i] == '$')
 			{
-				tmp[0] = ft_format(&str[i + 1], &env_len, g_data);
+				tmp[0] = ft_format(&str[v.i + 1], &v.env_len, g_data);
 				if (tmp[0] == NULL)
 					tmp[0] = ft_strdup("");
-				i += env_len;
+				v.i += v.env_len;
 			}
 			else
-				tmp[0] = ft_substr(str, i, 1);
+				tmp[0] = ft_substr(str, v.i, 1);
 		}
 		tmp[1] = ft_envjoin(tmp[1], tmp[0]);
 	}
@@ -90,36 +86,30 @@ char	*ft_quote(const char *str, int *end_index)
 
 char	*ft_format(const char *str, int *env_len, t_vars *g_data)
 {
-	int		i;
-	int		index;
-	char	*tmp;
-	char	*var;
+	t_format_data	v;
 
 	if (*str == '?')
 	{
 		*env_len = 1;
 		return (ft_itoa(g_data->exit_num));
 	}
-	i = ft_is_valid_env(str);
-	if (i == 0)
+	v.i = ft_is_valid_env(str);
+	if (v.i == 0)
+		return ((void *)(uintptr_t)ft_set_envlen(env_len, 0));
+	v.tmp = ft_substr(str, 0, v.i);
+	v.var = ft_strjoin(v.tmp, "=");
+	free(v.tmp);
+	v.index = ft_get_env(v.var, g_data->env);
+	if (v.index > -1)
 	{
-		*env_len = i;
-		return (0);
+		*env_len = v.i;
+		v.i = ft_strlen(v.var);
+		free(v.var);
+		v.var = ft_strdup(g_data->env[v.index] + v.i);
+		return (v.var);
 	}
-	tmp = ft_substr(str, 0, i);
-	var = ft_strjoin(tmp, "=");
-	free(tmp);
-	index = ft_get_env(var, g_data->env);
-	if (index > -1)
-	{
-		*env_len = i;
-		i = ft_strlen(var);
-		free(var);
-		var = ft_strdup(g_data->env[index] + i);
-		return (var);
-	}
-	*env_len = i;
-	free(var);
+	*env_len = v.i;
+	free(v.var);
 	return (NULL);
 }
 
@@ -129,7 +119,6 @@ char	*interpreter_qouete(const char *str, char qt, int *idx, t_vars *g_data)
 
 	if (qt == '"')
 	{
-
 		tmp = ft_double_quote(str + 1, idx, g_data);
 		(*idx)++;
 	}
