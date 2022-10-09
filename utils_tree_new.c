@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:53:26 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 17:20:51 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:23:34 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_syntax_tree	*new_tree(t_arg *args)
 	int				pipe_count;
 
 	pipe_count = args->cmd_count -1;
-	printf("pipe_count = %d\n", pipe_count);
 	if (!pipe_count)
 		tree = build_exec(args->arg_commands[0]);
 	else

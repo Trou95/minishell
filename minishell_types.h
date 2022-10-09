@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_types.h                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 17:24:46 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 17:26:32 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_TYPES_H
 # define MINISHELL_TYPES_H
 
@@ -15,11 +27,11 @@
 # define ERR_MSG_SYNTAX "Error: Syntax Error "
 # define RET_ERR(i) (void*)(uintptr_t)(i)
 
-#define PIPE 1
-#define COMMAND 2
-#define EXEC 3
-#define REDIR 4
-#define LAST 10
+# define PIPE 1
+# define COMMAND 2
+# define EXEC 3
+# define REDIR 4
+# define LAST 10
 
 typedef struct s_redirection
 {
@@ -54,28 +66,28 @@ typedef struct s_syntax_tree
 
 typedef struct s_vars
 {
-    pid_t   dup_in;
-    pid_t   dup_out;
-	char    **env;
-	char    **export;
-	char    *path;
-	char    *cmd_path;
-	int     ret_signal;
+	pid_t	dup_in;
+	pid_t	dup_out;
+	char	**env;
+	char	**export;
+	char	*path;
+	char	*cmd_path;
+	int		ret_signal;
 	int		interrupt;
 	int		redir_val;
 	int		*infiles;
 	int		*outfiles;
 	int		**heredoc;
 	int		ref_her;
-	int     fd[2][2];
+	int		fd[2][2];
 	int		cmd;
 	int		pipe;
 	int		cmd_count;
-	int 	count_in;
-	int 	count_out;
-	int 	count_her;
-	pid_t   *pids;
-    int		exit_num;
+	int		count_in;
+	int		count_out;
+	int		count_her;
+	pid_t	*pids;
+	int		exit_num;
 }	t_vars;
 
 

@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:35:37 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 12:50:45 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:24:32 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*build_typer(char *str, int *index, int *check_redir)
 	return (tmp);
 }
 
-//tmp = ft_substr(str, *index, ft_get_chrindex(&str[*index + 1], str[*index]) + 2);
+//tmp = ft_substr(str, *index, 
+//ft_get_chrindex(&str[*index + 1], str[*index]) + 2);
 char	*build_arger(char *str, int *index, int *check_redir)
 {
 	int		start_index;

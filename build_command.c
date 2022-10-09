@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_command.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 17:23:12 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 17:23:16 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	build_command(t_command	**command, char **cmd)
@@ -30,7 +42,6 @@ t_syntax_tree	*build_exec(char	*arg_command)
 	command = NULL;
 	tmp_command = ft_strdup(arg_command);
 	exec = new_s_syntax_tree(EXEC);
-
 	build_redirection(&redir, &tmp_command);
 	build_command(&command, &tmp_command);
 	if (redir)
