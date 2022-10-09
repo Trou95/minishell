@@ -6,13 +6,13 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 22:03:27 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:57:30 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:40:13 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_utils.h"
 
-t_vars g_data;
+t_vars	g_data;
 
 int	ft_space_cntrl(const char *str);
 int	ft_quote_cntrl(const char *str, char c);
@@ -33,7 +33,7 @@ void	*parser_check_error(char *str)
 	return ((void *)1);
 }
 
-int		parser_check_qoute_error(char *str)
+int	parser_check_qoute_error(char *str)
 {
 	if (ft_quote_cntrl(str, '\'') || ft_quote_cntrl(str, '"'))
 	{
@@ -44,7 +44,7 @@ int		parser_check_qoute_error(char *str)
 	return (1);
 }
 
-int		parser_check_perr(char *str)
+int	parser_check_perr(char *str)
 {
 	if (ft_strlen(str) == 3 && str[0] == 39 && str[2] == 39 && str[1] == 124)
 	{
@@ -54,4 +54,3 @@ int		parser_check_perr(char *str)
 	}
 	return (1);
 }
-

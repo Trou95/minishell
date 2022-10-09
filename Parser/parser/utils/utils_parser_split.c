@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:28:24 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:40:46 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:38:33 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**parser_split_process(char	*str)
 	t_split_data	v;
 
 	v.n_str = ft_calloc(1, sizeof(char));
-	v.ret = ft_calloc(parser_word_count(str) + 2, sizeof(char*));
+	v.ret = ft_calloc(parser_word_count(str) + 2, sizeof(char *));
 	v.len = ft_strlen(str);
 	if (str[v.len - 1] != '"' && str[v.len - 1] != ' ')
 		str = ft_free_strjoin(str, " ");

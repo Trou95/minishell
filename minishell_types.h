@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:24:46 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:40:51 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:29:20 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,13 @@ typedef struct s_redir_var
 	char	*cmd;
 	char	*arg;
 }	t_redir_var;
+
+typedef struct s_redirection_var
+{
+	int		c_redir;
+	char	*type;
+	char	*arg;
+	int		idx;
+}	t_redirection_var;
 
 #endif

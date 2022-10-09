@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:33:22 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 12:50:53 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:37:17 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,13 @@ char	*build_quote_join(char *str, int *index)
 	return (n_str);
 }
 
-//leak
 char	*build_quote(char *str, int *index)
 {
 	char	*tmp;
 	char	*n_str;
 	char	quote;
 
-	n_str = ft_calloc(1,sizeof(char));
+	n_str = ft_calloc(1, sizeof(char));
 	while (str[*index])
 	{
 		if (str[*index] == '"' || str[*index] == '\'')

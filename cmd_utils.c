@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 02:25:54 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/10 02:26:14 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	command_w_path(char **command)
@@ -16,7 +28,7 @@ int	command_w_path(char **command)
 		return (0);
 	}
 	start_idx = ft_strrchr(command_path, '/') - command_path;
-	command[0] = ft_substr(command_path, start_idx + 1,
+	command[0] = ft_substr(command_path, start_idx + 1, \
 		ft_strlen(command_path) - start_idx);
 	return (1);
 }

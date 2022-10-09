@@ -6,19 +6,19 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:35:37 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:20:25 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:36:51 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	build_add_redirection(char *arg, char *type, t_redirection **redir,\
+void	build_add_redirection(char *arg, char *type, t_redirection **redir, \
 	int *check_redir)
 {
 	char	*ptr;
 	char	*tmp;
 
-	ptr = ft_calloc(sizeof(char) * (ft_strlen(arg) + 1),sizeof(char));
+	ptr = ft_calloc(sizeof(char) * (ft_strlen(arg) + 1), sizeof(char));
 	tmp = ft_str_clearquotes(arg, ptr);
 	ft_lstadd_back_redir(redir, new_s_redirection(type, tmp));
 	free(arg);
@@ -36,8 +36,6 @@ char	*build_typer(char *str, int *index, int *check_redir)
 	return (tmp);
 }
 
-//tmp = ft_substr(str, *index, 
-//ft_get_chrindex(&str[*index + 1], str[*index]) + 2);
 char	*build_arger(char *str, int *index, int *check_redir)
 {
 	int		start_index;
@@ -59,58 +57,45 @@ char	*build_arger(char *str, int *index, int *check_redir)
 		(*index)--;
 	}
 	if (*tmp == '\0')
-		return NULL;
+		return (NULL);
 	else
 		*check_redir = 2;
 	return (tmp);
 }
 
-//type'ın tırkan içinde olma durumu
-//type = NULL;
-//arg = NULL;
-
-int 	check_arger(char **cmd, int idx)
+void	build_redirection_sub(t_redirection **redir, t_redirection_var *v)
 {
-	if (is_redir(&cmd[0][idx]))
-	{
-		g_data.syntax_err = 1;
-		return 0;
-	}
-	else if (cmd[0][idx] != ' ')
-		return 1;
-	return  0;
-}
-
-void	build_redirection(t_redirection **redir, char	**cmd)
-{
-	int		check_redir;
-	char	*type;
-	char	*arg;
-	int		idx;
-
-	idx = -1;
-	check_redir = 0;
-	g_data.syntax_err = 0;
-	while (++idx < (int)ft_strlen(cmd[0]))
-	{
-		if (check_redir == 0 && (cmd[0][idx] == '"' || cmd[0][idx] == '\''))
-			idx += ft_strchr(&(cmd[0][idx + 1]), cmd[0][idx]) - &(cmd[0][idx]);
-		if (is_redir(&(cmd[0][idx])))
-			type = build_typer(cmd[0], &idx, &check_redir);
-		if (check_redir == 1 && check_arger(cmd, idx))
-			arg = build_arger(cmd[0], &idx, &check_redir);
-		if (check_redir == 2)
-		{
-			build_add_redirection(arg, type, redir, &check_redir);
-			type = NULL;
-			arg = NULL;
-		}
-	}
-	if (check_redir == 1)
+	if (v->c_redir == 1)
 	{
 		g_data.syntax_err = 1;
 		printf("syntax error\n");
 	}
 	if (!*redir)
 		*redir = NULL;
+}
+
+void	build_redirection(t_redirection **redir, char	**cmd)
+{
+	t_redirection_var	v;
+
+	v.idx = -1;
+	v.c_redir = 0;
+	g_data.syntax_err = 0;
+	while (++v.idx < (int)ft_strlen(cmd[0]))
+	{
+		if (v.c_redir == 0 && (cmd[0][v.idx] == '"' || cmd[0][v.idx] == '\''))
+			v.idx += ft_strchr(&(cmd[0][v.idx + 1]), \
+				cmd[0][v.idx]) - &(cmd[0][v.idx]);
+		if (is_redir(&(cmd[0][v.idx])))
+			v.type = build_typer(cmd[0], &v.idx, &v.c_redir);
+		if (v.c_redir == 1 && check_arger(cmd, v.idx))
+			v.arg = build_arger(cmd[0], &v.idx, &v.c_redir);
+		if (v.c_redir == 2)
+		{
+			build_add_redirection(v.arg, v.type, redir, &v.c_redir);
+			v.type = NULL;
+			v.arg = NULL;
+		}
+	}
+	build_redirection_sub(redir, &v);
 }

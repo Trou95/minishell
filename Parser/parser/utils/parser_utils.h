@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:39:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 16:56:19 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:42:59 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_UTILS_H
 
 # include "../../../minishell_types.h"
+# include "../../../minishell.h"
 # include "../../../Libft/libft.h"
 
 typedef struct s_split_data
@@ -23,10 +24,19 @@ typedef struct s_split_data
 	int		line;
 	char	*n_str;
 	char	*tmp;
-	char 	**ret;
+	char	**ret;
 }	t_split_data;
 
-char 	*build_quote(char *str, int *index);
+typedef struct s_parser
+{
+	t_arg	*arg;
+	char	**ret;
+	char	**tmp;
+}	t_parser;
+
+
+
+char	*build_quote(char *str, int *index);
 
 t_arg	*parser_process(char *str, t_vars *g_data);
 
@@ -65,10 +75,9 @@ char	*ft_str_clearquotes(const char *str, char *ptr);
 
 int		ft_error(char *err_msg, char *err_arg, int err_type);
 
-void 	*parser_check_error(char *str);
-int 	parser_check_qoute_error(char *str);
+void	*parser_check_error(char *str);
+int		parser_check_qoute_error(char *str);
 int		parser_check_perr(char *str);
-
 
 void	array_writer(char **arr);
 void	array_cleaner(char **arr);

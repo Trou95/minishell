@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_qouteend.c                                  :+:      :+:    :+:   */
+/*   build_redirection2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 09:35:42 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 02:38:18 by gdemirta         ###   ########.fr       */
+/*   Created: 2022/10/10 02:35:43 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/10 02:36:11 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser_utils.h"
+#include "minishell.h"
 
-int	ft_get_qoueteend(char *str, char c)
+int	check_arger(char **cmd, int idx)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	if (is_redir(&cmd[0][idx]))
 	{
-		if (str[i] == c)
-			i += parser_quote_endidx(&str[i + 1], c);
-		else if (str[i] == ' ')
-			break ;
-		else if (str[i])
-			i++;
+		g_data.syntax_err = 1;
+		return (0);
 	}
-	return (i);
+	else if (cmd[0][idx] != ' ')
+		return (1);
+	return (0);
 }

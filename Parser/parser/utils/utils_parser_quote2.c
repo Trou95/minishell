@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parser_quote2.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 02:38:36 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/10 02:38:44 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser_utils.h"
 
 char	*parser_qoute_span(char *str, int *index, char c)
@@ -19,5 +31,5 @@ char	*parser_qoute_join(char *dst, const char *src, int *index, char c)
 	tmp = ft_substr(&src[*index], 0, len);
 	dst = ft_free_strjoin(dst, ft_substr(&src[*index], 0, len));
 	*index += len;
-	return dst;
+	return (dst);
 }

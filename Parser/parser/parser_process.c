@@ -6,43 +6,48 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:19:21 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:40:30 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:53:51 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	*parser_process_init(char *str, t_parser *p)
+{
+	if (parser_check_error(str) == 0)
+		return (NULL);
+	p->tmp = malloc(sizeof(char **));
+	p->ret = malloc(sizeof(char **));
+	p->arg = malloc(sizeof(t_arg));
+	p->tmp[0] = ft_strtrim(str, " ");
+	return ((void *)1);
+}
+
 t_arg	*parser_process(char *str, t_vars *g_data)
 {
-	t_arg	*arg;
-	char	**ret;
-	char	**tmp;
+	t_parser	p;
 
-	if(parser_check_error(str) == 0)
-		return NULL;
-	tmp = malloc(sizeof(char **));
-	ret = malloc(sizeof(char **));
-	arg = malloc(sizeof(t_arg));
-	*tmp = ft_strtrim(str, " ");
-	if (*tmp == NULL)
-		return ((void *)(uintptr_t)ft_double_free(tmp, 1));
-	*ret = ft_str_clearspace(*tmp);
-	if (*ret == NULL)
-		return ((void *)(uintptr_t)ft_double_free(tmp, 1));
-	ft_double_free(tmp, 1);
-	tmp = parser_cmd_split(*ret, '|');
-	if (tmp == NULL)
-		return ((void *)(uintptr_t)ft_double_free(ret, 1));
-	ft_double_free(ret, 1);
-	ret = parser_array_trim(tmp);
-	if (ret == NULL)
-		return ((void *)(uintptr_t)ft_double_free(tmp, parser_array_getsize(tmp)));
-	ft_double_free(tmp, parser_array_getsize(tmp));
-	tmp = interpreter_array_format(ret, g_data);
-	if (tmp == NULL)
-		ft_double_free(ret, parser_array_getsize(ret));
-	ret = tmp;
-	arg->arg_commands = ret;
-	arg->cmd_count = parser_array_getsize(ret);
-	return (arg);
+	if (parser_process_init(str, &p) == 0)
+		return (NULL);
+	if (p.tmp[0] == NULL)
+		return ((void *)(uintptr_t)ft_double_free(p.tmp, 1));
+	p.ret[0] = ft_str_clearspace(p.tmp[0]);
+	if (p.ret[0] == NULL)
+		return ((void *)(uintptr_t)ft_double_free(p.tmp, 1));
+	ft_double_free(p.tmp, 1);
+	p.tmp = parser_cmd_split(p.ret[0], '|');
+	if (p.tmp == NULL)
+		return ((void *)(uintptr_t)ft_double_free(p.ret, 1));
+	ft_double_free(p.ret, 1);
+	p.ret = parser_array_trim(p.tmp);
+	if (p.ret == NULL)
+		return ((void *)(uintptr_t) \
+			ft_double_free(p.tmp, parser_array_getsize(p.tmp)));
+	ft_double_free(p.tmp, parser_array_getsize(p.tmp));
+	p.tmp = interpreter_array_format(p.ret, g_data);
+	if (p.tmp == NULL)
+		ft_double_free(p.ret, parser_array_getsize(p.ret));
+	p.arg->arg_commands = p.tmp;
+	p.arg->cmd_count = parser_array_getsize(p.ret);
+	return (p.arg);
 }

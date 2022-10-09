@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:44:18 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 02:24:52 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:55:02 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,6 @@ void			dup_outfile(int fd_out);
 void			dup_infile(int fd_in);
 void			main_process(int *fd);
 void			catch_childs_exit(void);
+int				check_arger(char **cmd, int idx);
 
 #endif
