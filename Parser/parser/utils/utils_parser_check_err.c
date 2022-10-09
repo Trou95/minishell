@@ -1,22 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parser_check_err.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 22:03:27 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 22:04:15 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser_utils.h"
 
 extern t_vars g_data;
 
-int 	ft_space_cntrl(const char *str);
-int 	ft_quote_cntrl(const char *str, char c);
+int	ft_space_cntrl(const char *str);
+int	ft_quote_cntrl(const char *str, char c);
 
-void 	*parser_check_error(char *str)
+void	*parser_check_error(char *str)
 {
 	if (!ft_strlen(str) || ft_space_cntrl(str))
 		return (NULL);
 	if (parser_check_quotes(str) == 0)
 	{
-		ft_error("qoute error",NULL,ERR_RET);
-		return NULL;
+		ft_error("qoute error", NULL, ERR_RET);
+		return (NULL);
 	}
-	if(parser_check_qoute_error(str) == 0)
-		return NULL;
-	return (void*)1;
+	if (parser_check_qoute_error(str) == 0)
+		return (NULL);
+	return ((void *)1);
 }
 
 int		parser_check_qoute_error(char *str)
@@ -25,7 +37,7 @@ int		parser_check_qoute_error(char *str)
 	{
 		printf("Command Not Found\n");
 		g_data.exit_num = 127;
-		return 0;
+		return (0);
 	}
-	return 1;
+	return (1);
 }
