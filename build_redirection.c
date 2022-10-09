@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:35:37 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 17:24:32 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:22:06 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	build_add_redirection(char *arg, char *type, t_redirection **redir,\
 	char	*ptr;
 	char	*tmp;
 
-	ptr = ft_calloc(sizeof(char) * ft_strlen(arg) + 1,sizeof(char));
+	ptr = ft_calloc(sizeof(char) * (ft_strlen(arg) + 1),sizeof(char));
 	tmp = ft_str_clearquotes(arg, ptr);
 	ft_lstadd_back_redir(redir, new_s_redirection(type, tmp));
 	free(arg);

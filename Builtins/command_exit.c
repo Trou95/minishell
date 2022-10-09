@@ -21,7 +21,7 @@ int	command_exit(char **arg)
 		;
 	if (i > 1)
 	{
-		if(is_full_digit(arg[1]) == 0)
+		if (is_full_digit(arg[1]) == 0)
 		{
 			printf("exit: %s: numeric argument required", arg[1]);
 			exit(255);

@@ -1,5 +1,5 @@
 SOURCES			=	command_env.c command_export.c command_unset.c command_exit.c
-SOURCES			+=	command_cd.c command_echo.c command_pwd.c
+SOURCES			+=	command_cd.c command_echo.c command_pwd.c utils_free.c
 SOURCES			+=	utils_export_unset.c utils.c ft_sort_params.c
 
 LIBFT	=	../Libft/libft.a

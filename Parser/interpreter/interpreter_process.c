@@ -25,9 +25,7 @@ char	**interpreter_array_format(char **arr, t_vars *g_data)
 		{
 			free(tmp);
 			tmp = arr[i];
-			printf("5\n");
 			arr[i] = ft_check_quote(arr[i], g_data);
-			printf("6\n");
 			free(tmp);
 		}
 		i++;

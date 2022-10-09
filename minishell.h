@@ -3,8 +3,8 @@
 
 # include "Parser/parser/utils/parser_utils.h"
 # include "Parser/interpreter/minishell_interpreter.h"
-# include "Libft/libft.h"
 # include "Builtins/minishell_builtins.h"
+# include "Libft/libft.h"
 # include <fcntl.h>
 
 t_vars  g_data;
@@ -40,7 +40,7 @@ int		ft_strcmp(char *str1, char *str2);
 int		ft_filesize(t_redirection *lst);
 int		ft_errors(int err_num);
 int		ft_matrix_size(char **matrix);
-int    	ft_freeall();
+int    	ft_freeall(void *arg);
 
 int	is_redir(char *str);
 

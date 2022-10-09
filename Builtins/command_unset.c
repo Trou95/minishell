@@ -7,10 +7,10 @@ void	command_unset_exp(char ***matrix, char *unset)
 	int		find_line;
 	char	*var_name;
 
-    if (ft_strchr(unset, '='))
-        var_name = ft_substr(unset, 0, ft_strchr(unset, '=') - unset);
-    else
-	    var_name = ft_strjoin(unset, "=");
+	if (ft_strchr(unset, '='))
+		var_name = ft_substr(unset, 0, ft_strchr(unset, '=') - unset);
+	else
+		var_name = ft_strjoin(unset, "=");
 	len = ft_strlen(var_name);
 	find_line = find_line_char_matrix(*matrix, var_name, EXP_LIST, len);
 	if (find_line != -1)
@@ -50,19 +50,19 @@ int	command_unset(char ***env_list, char ***exp_list, char *unset)
 	return (0);
 }
 
-int    multiple_unset(char ***env_list, char ***exp_list, char **unset)
+int	multiple_unset(char ***env_list, char ***exp_list, char **unset)
 {
-    int line;
-    int exit;
+	int	line;
+	int	exit;
 
-    line = 0;
-    exit = 0;
-    while (unset[++line])
-    {
-        if (exit == 0)
-            exit = command_unset(env_list, exp_list , unset[line]);
-        else
-            command_unset(env_list, exp_list , unset[line]);
-    }
-    return (exit);
+	line = 0;
+	exit = 0;
+	while (unset[++line])
+	{
+		if (exit == 0)
+			exit = command_unset(env_list, exp_list, unset[line]);
+		else
+			command_unset(env_list, exp_list, unset[line]);
+	}
+	return (exit);
 }

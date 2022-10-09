@@ -80,7 +80,7 @@ char	**parser_split_process(char	*str)
 	while (str[v.idx] && str[v.idx] == ' ')
 		v.idx++;
 	parser_split(str, &v);
-	//v.ret heap? 
+	free(str);
 	return (v.ret);
 }
 
@@ -110,4 +110,5 @@ void	parser_split(char *str, t_split_data *v)
 			v->idx++;
 		}
 	}
+	free(v->n_str);
 }
