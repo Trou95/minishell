@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 22:03:27 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 22:19:48 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 22:27:33 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		parser_check_qoute_error(char *str)
 {
 	if (ft_quote_cntrl(str, '\'') || ft_quote_cntrl(str, '"'))
 	{
-		printf("Command Not Found\n");
+		printf("command not found\n");
 		g_data.exit_num = 127;
 		return (0);
 	}
@@ -48,7 +48,7 @@ int		parser_check_perr(char *str)
 {
 	if (ft_strlen(str) == 3 && str[0] == 39 && str[2] == 39 && str[1] == 124)
 	{
-		printf("Command Not Found\n");
+		printf("|: command not found\n");
 		g_data.exit_num = 127;
 		return (0);
 	}
