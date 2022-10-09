@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:39:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 13:04:18 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:44:54 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 
 # include "../../../minishell_types.h"
 # include "../../../Libft/libft.h"
+
+typedef struct s_split_data
+{
+	int		idx;
+	int		len;
+	int		line;
+	char	*n_str;
+	char	*tmp;
+	char 	**ret;
+}	t_split_data;
 
 char 	*build_quote(char *str, int *index);
 

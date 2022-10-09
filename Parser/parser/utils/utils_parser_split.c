@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:28:24 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 13:04:20 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:47:22 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*parser_qoute_join(char *dst, const char *src, int *index, char c)
 
 	len = ft_get_chrindex(&src[*index + 1], c) + (1 + (c != ' '));
 	tmp = ft_substr(&src[*index], 0, len);
-	dst = ft_free_strjoin(dst,ft_substr(&src[*index], 0, len));
+	dst = ft_free_strjoin(dst, ft_substr(&src[*index], 0, len));
 	*index += len;
 	return dst;
 }
@@ -90,47 +90,41 @@ char	**parser_cmd_split(char *str, char c)
 
 char	**parser_split(char	*str)
 {
-	char	**ret;
-	int		idx;
-	int		len;
-	int		line;
-	char	*n_str;
-	char	*tmp;
+	t_split_data	v;
 
-	n_str = ft_calloc(1, sizeof(char));
-	ret = ft_calloc(parser_word_count(str) + 2,sizeof(char*));
-	len = ft_strlen(str);
-	if (str[len - 1] != '"' && str[len - 1] != ' ')
+	v.n_str = ft_calloc(1, sizeof(char));
+	v.ret = ft_calloc(parser_word_count(str) + 2, sizeof(char*));
+	v.len = ft_strlen(str);
+	if (str[v.len - 1] != '"' && str[v.len - 1] != ' ')
 		str = ft_free_strjoin(str, " ");
-	line = -1;
-	idx = 0;
-	while (str[idx] && str[idx] == ' ')
-		idx++;
-	while (idx <= len)
+	v.line = -1;
+	v.idx = 0;
+	while (str[v.idx] && str[v.idx] == ' ')
+		v.idx++;
+	while (v.idx <= v.len)
 	{
-		if (str[idx] == '"' || str[idx] == '\'')
+		if (str[v.idx] == '"' || str[v.idx] == '\'')
 		{
-			printf("asdasdasd str: %s\n",str);
-			tmp = build_quote(str, &idx);
-			n_str = ft_free_strjoin(n_str, tmp);
-			printf("adadas tmp: %s\n",tmp);
-			free(tmp);
+			v.tmp = build_quote(str, &v.idx);
+			v.n_str = ft_free_strjoin(v.n_str, v.tmp);
+			free(v.tmp);
 		}
-		else if (str[idx] > 0 && str[idx] != ' ')
+		else if (str[v.idx] > 0 && str[v.idx] != ' ')
 		{
-			tmp = ft_substr(str, idx, 1);
-			n_str = ft_free_strjoin(n_str, tmp);
-			free(tmp);
-			idx++;
+			v.tmp = ft_substr(str, v.idx, 1);
+			v.n_str = ft_free_strjoin(v.n_str, v.tmp);
+			free(v.tmp);
+			v.idx++;
 		}
 		else
 		{
-			if (!*n_str)
+			if (!*v.n_str)
 				break ;
-			ret[++line] = ft_strdup(n_str);
-			ft_memset(n_str, '\0', ft_strlen(n_str));
-			idx++;
+			v.ret[++v.line] = ft_strdup(v.n_str);
+			ft_memset(v.n_str, '\0', ft_strlen(v.n_str));
+			v.idx++;
 		}
 	}
-	return (ret);
+	//v.ret heap? 
+	return (v.ret);
 }
