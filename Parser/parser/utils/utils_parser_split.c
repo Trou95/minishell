@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:28:24 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 16:58:49 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:40:46 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**parser_cmd_split(char *str, char c)
 	char		*tmp;
 
 	if (str[0] == c || str[ft_strlen(str) - 1] == c)
-		return (RET_ERR(ft_error(ERR_MSG_SYNTAX, "|", ERR_RET)));
+		return ((void *)(uintptr_t)ft_error(ERR_MSG_SYNTAX, "|", ERR_RET));
 	commands = malloc(sizeof(char *) * wordcounter(str, c) + 2);
 	ft_memset(&v, -1, sizeof(t_redir_var));
 	v.last_idx = 0;

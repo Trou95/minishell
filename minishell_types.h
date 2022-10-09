@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:24:46 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 17:26:32 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:40:51 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define ERR_RET 0
 
 # define ERR_MSG_SYNTAX "Error: Syntax Error "
-# define RET_ERR(i) (void*)(uintptr_t)(i)
 
 # define PIPE 1
 # define COMMAND 2
@@ -88,9 +87,8 @@ typedef struct s_vars
 	int		count_her;
 	pid_t	*pids;
 	int		exit_num;
-	int 	syntax_err;
+	int		syntax_err;
 }	t_vars;
-
 
 typedef struct s_redir_var
 {
