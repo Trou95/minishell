@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:35:37 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 18:22:06 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:20:25 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ char	*build_typer(char *str, int *index, int *check_redir)
 {
 	char	*tmp;
 
-	if (*check_redir == 1)
-		printf("SYNTAX ERROR redir çift redir falan\n");
 	tmp = ft_substr(str, *index, is_redir(&(str[*index])));
 	ft_memset(&str[*index], ' ', ft_strlen(tmp));
 	*index += ft_strlen(tmp);
@@ -111,7 +109,7 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 	if (check_redir == 1)
 	{
 		g_data.syntax_err = 1;
-		printf("------------\nsyntaxerror\n--------\n");
+		printf("syntax error\n");
 	}
 	if (!*redir)
 		*redir = NULL;

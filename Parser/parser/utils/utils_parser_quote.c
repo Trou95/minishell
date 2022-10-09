@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parser_quote.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdemirta <42istanbul.com.tr>               +#+  +:+       +#+        */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:28:48 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:28:49 by gdemirta         ###   ########.tr       */
+/*   Updated: 2022/10/10 01:18:14 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "parser_utils.h"
 
 int	parser_quote_endidx(const char *str, char c)
@@ -96,7 +97,6 @@ char	**parser_array_clearquotes(char **arr)
 	while (arr[i])
 	{
 		tmp = ft_calloc(ft_strlen(arr[i]) + 1, sizeof(char));
-		printf("before: %s - %s\n",arr[i],tmp);
 		tmp = ft_str_clearquotes(arr[i], tmp);
 		free(arr[i]);
 		arr[i] = tmp;

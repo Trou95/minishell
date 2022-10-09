@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:32:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:32:34 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:15:56 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	*ft_str_clearquotes(const char *str, char *ptr)
 
 	i = 0;
 	n = 0;
-	printf("kol gibi str: _%s_\n",str);
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
