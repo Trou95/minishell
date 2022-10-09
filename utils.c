@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 01:26:38 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/10 01:27:23 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_filesize(t_redirection *lst)
@@ -25,21 +37,6 @@ int	ft_matrix_size(char **matrix)
 	return (i);
 }
 
-/*char	**ft_strdup_multi(char **s1)
-{
-	char	**dest;
-	int		lines;
-	int		i;
-
-	i = -1;
-	lines = ft_matrix_size(s1);
-	dest = malloc(lines * (sizeof(char *) + 1));
-	while (++i < lines)
-		dest[i] = ft_strdup(s1[i]);
-	dest[i] = 0;
-	return (dest);
-}
-*/
 int	ft_strcmp(char *str1, char *str2)
 {
 	int	i;
@@ -89,24 +86,4 @@ int	ft_quote_cntrl(const char *str, char c)
 		i++;
 	}
 	return (1);
-}
-
-t_redirection	*ft_lstlast_redir(t_redirection *redir)
-{
-	if (redir == NULL)
-		return (0);
-	while (redir->next != NULL)
-		redir = redir->next;
-	return (redir);
-}
-
-void	ft_lstadd_back_redir(t_redirection **redir, t_redirection *new)
-{
-	if (redir && new)
-	{
-		if (!*redir)
-			*redir = new;
-		else
-			ft_lstlast_redir(*redir)-> next = new;
-	}
 }

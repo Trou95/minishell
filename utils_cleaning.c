@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:08:29 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 18:16:53 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:26:32 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ void	ft_heredoc_free(void)
 	}
 }
 
-
 int	ft_freeall(void *arg)
 {
-	t_arg *tmp_arg;
+	t_arg	*tmp_arg;
 
 	tmp_arg = (t_arg *)arg;
 	if (g_data.infiles)

@@ -24,7 +24,8 @@ utils_cleaning.c \
 utils_list_del_list.c \
 utils_list_del_structs.c \
 utils_list_new.c \
-utils_tree_new.c
+utils_tree_new.c \
+utils2.c
 
 OBJS 			= $(SRCS:.c=.o)
 READLINE		= lib/readline

@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_env.c                                      :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 01:25:38 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:25:39 by gdemirta         ###   ########.fr       */
+/*   Created: 2022/10/10 01:27:04 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/10 01:27:26 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_builtins.h"
+#include "minishell.h"
 
-int	command_env(char **env)
+t_redirection	*ft_lstlast_redir(t_redirection *redir)
 {
-	int	exit;
+	if (redir == NULL)
+		return (0);
+	while (redir->next != NULL)
+		redir = redir->next;
+	return (redir);
+}
 
-	print_line(env);
-	exit = 0;
-	return (exit);
+void	ft_lstadd_back_redir(t_redirection **redir, t_redirection *new)
+{
+	if (redir && new)
+	{
+		if (!*redir)
+			*redir = new;
+		else
+			ft_lstlast_redir(*redir)-> next = new;
+	}
 }
