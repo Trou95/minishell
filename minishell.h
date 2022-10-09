@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:44:18 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:53:58 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:06:28 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void			before_execute(t_syntax_tree *tree);
 
 int				command_w_path(char **command);
 int				ctrl_d(void);
+void			ctrl_c(int sig);
 int				redirection(t_syntax_tree *tree);
 int				ft_space_cntrl(const char *str);
 int				ft_qouete_cntrl(const char *str, char c);

@@ -6,13 +6,13 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:29:12 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:56:27 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:09:24 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_vars	g_data;
+t_vars	g_data;
 
 void	all_mallocs(void)
 {
@@ -50,13 +50,37 @@ void	assign_defaults(t_syntax_tree *tree, t_arg args)
 	all_mallocs();
 }
 
-void	ctrl_c(int sig)
+void	ft_interrput(t_syntax_tree **tree, t_arg *arg, \
+	char *str, int ac)
 {
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	(void)ac;
+	assign_defaults(tree[0], *arg);
+	all_heredocs(tree[0]);
+	free(str);
+	if (g_data.interrupt)
+	{
+		if (tree[0]->type == EXEC || tree[0]->type == PIPE)
+			executer(tree[0]);
+		dup2(g_data.dup_in, 0);
+		dup2(g_data.dup_out, 1);
+		if (arg)
+		{
+			del_list(tree);
+			ft_double_free(arg->arg_commands, \
+			parser_array_getsize(arg->arg_commands));
+			ft_freeall(arg);
+		}
+	}
+}
+
+int	check_str(char *str, t_arg *arg)
+{
+	if (!*str || arg == NULL || !ft_strlen(arg->arg_commands[0]))
+	{
+		free(str);
+		return (0);
+	}
+	return (1);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -66,7 +90,6 @@ int	main(int ac, char **av, char **envp)
 	t_arg			*arg;
 
 	(void)av;
-	(void)ac;
 	g_data.env = ft_strdup_multi(envp);
 	g_data.export = ft_strdup_multi(envp);
 	while (1)
@@ -79,31 +102,12 @@ int	main(int ac, char **av, char **envp)
 		g_data.dup_in = dup(0);
 		g_data.dup_out = dup(1);
 		arg = parser_process(str, &g_data);
-		if (!*str || arg == NULL || !ft_strlen(arg->arg_commands[0]))
-		{
-			free(str);
+		if (check_str(str, arg) == 0)
 			continue ;
-		}
 		add_history(str);
 		tree = new_tree(arg);
 		if (g_data.syntax_err == 1)
 			continue ;
-		assign_defaults(tree, *arg);
-		all_heredocs(tree);
-		free(str);
-		if (g_data.interrupt)
-		{
-			if (tree->type == EXEC || tree->type == PIPE)
-				executer(tree);
-			dup2(g_data.dup_in, 0);
-			dup2(g_data.dup_out, 1);
-			if (arg)
-			{
-				del_list(&tree);
-				ft_double_free(arg->arg_commands, \
-					parser_array_getsize(arg->arg_commands));
-				ft_freeall(arg);
-			}
-		}
+		ft_interrput(&tree, arg, str, ac);
 	}
 }

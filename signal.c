@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:27:50 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:27:51 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:05:58 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@ int	ctrl_d(void)
 {
 	printf("Exit");
 	exit(1);
+}
+
+void	ctrl_c(int sig)
+{
+	(void)sig;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	sig_handler(int sig_num)
