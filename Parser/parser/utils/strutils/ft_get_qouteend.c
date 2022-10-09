@@ -1,18 +1,29 @@
-#include "../parser_utils.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_get_qouteend.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 09:35:42 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 09:37:09 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_get_qoueteend(char *str,char c)
+
+int	ft_get_qoueteend(char *str, char c)
 {
-    int i;
+	int	i;
 
     i = 0;
-    while(str[i])
-    {
-     if(str[i] == c)
-         i += parser_quote_endidx(&str[i + 1], c);
-     else if(str[i] == ' ')
-         break;
-     else if(str[i])
-         i++;
-    }
-    return i;
+	while (str[i])
+	{
+		if (str[i] == c)
+			i += parser_quote_endidx(&str[i + 1], c);
+		else if (str[i] == ' ')
+			break ;
+		else if (str[i])
+			i++;
+	}
+	return (i);
 }

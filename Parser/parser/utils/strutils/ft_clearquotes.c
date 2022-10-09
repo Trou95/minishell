@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_clearquotes.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 09:32:30 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 09:32:34 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../parser_utils.h"
 
 char	*ft_str_clearquotes(const char *str, char *ptr)
@@ -14,10 +26,6 @@ char	*ft_str_clearquotes(const char *str, char *ptr)
 		if (str[i] == '"' || str[i] == '\'')
 		{
 			c = str[i];
-			printf("c: %c\n",c);
-			// yama
-			
-			//
 			while (str[++i] && str[i] != c)
 				ptr[n++] = str[i];
 		}
