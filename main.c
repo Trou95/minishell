@@ -6,12 +6,11 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:29:12 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 18:14:15 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:56:27 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//env ile exp i oluştur exp'i declarele
 
 extern t_vars	g_data;
 
@@ -60,7 +59,7 @@ void	ctrl_c(int sig)
 	rl_redisplay();
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	char			*str;
 	t_syntax_tree	*tree;
@@ -73,7 +72,7 @@ int main(int ac, char **av, char **envp)
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, &ctrl_c);	
+		signal(SIGINT, &ctrl_c);
 		str = readline("$ >_ ");
 		if (!str)
 			ctrl_d();
@@ -88,17 +87,14 @@ int main(int ac, char **av, char **envp)
 		add_history(str);
 		tree = new_tree(arg);
 		if (g_data.syntax_err == 1)
-		{
-			//free arg
-			continue;
-		}
+			continue ;
 		assign_defaults(tree, *arg);
 		all_heredocs(tree);
 		free(str);
 		if (g_data.interrupt)
 		{
 			if (tree->type == EXEC || tree->type == PIPE)
-				executer(tree); // exec error bad address
+				executer(tree);
 			dup2(g_data.dup_in, 0);
 			dup2(g_data.dup_out, 1);
 			if (arg)
@@ -106,7 +102,6 @@ int main(int ac, char **av, char **envp)
 				del_list(&tree);
 				ft_double_free(arg->arg_commands, \
 					parser_array_getsize(arg->arg_commands));
-				//free(arg);
 				ft_freeall(arg);
 			}
 		}

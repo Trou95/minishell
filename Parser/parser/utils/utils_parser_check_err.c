@@ -6,13 +6,13 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 22:03:27 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 22:27:33 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:57:30 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_utils.h"
 
-extern t_vars g_data;
+t_vars g_data;
 
 int	ft_space_cntrl(const char *str);
 int	ft_quote_cntrl(const char *str, char c);
