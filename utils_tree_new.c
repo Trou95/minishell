@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:53:26 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 13:14:14 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:57:14 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	build_command(t_command	**command, char **cmd)
 	else
 	{
 		tmp = ft_str_clearspace2(*cmd);
-		splited_cmd = parser_split(tmp);
+		splited_cmd = parser_split_process(tmp);
 		line = -1;
 		printf("Splitted cmd::::\n");
 		while (splited_cmd[++line])

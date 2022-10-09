@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:28:24 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 16:47:22 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:58:49 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ int	parser_word_count(char *str)
 		i++;
 	}
 	return (count);
-}
-
-char	*parser_qoute_span(char *str, int *index, char c)
-{
-	char	*tmp;
-
-	tmp = ft_substr(&str[*index], 0, \
-	ft_get_chrindex(&str[*index + 1], c) + (1 + (c != ' ')));
-	*index += ft_get_chrindex(&str[*index + 1], c) + (1 + (c != ' '));
-	return (tmp);
-}
-
-char	*parser_qoute_join(char *dst, const char *src, int *index, char c)
-{
-	int		len;
-	char	*tmp;
-
-	len = ft_get_chrindex(&src[*index + 1], c) + (1 + (c != ' '));
-	tmp = ft_substr(&src[*index], 0, len);
-	dst = ft_free_strjoin(dst, ft_substr(&src[*index], 0, len));
-	*index += len;
-	return dst;
 }
 
 char	**parser_cmd_split(char *str, char c)
@@ -88,7 +66,7 @@ char	**parser_cmd_split(char *str, char c)
 	return (commands);
 }
 
-char	**parser_split(char	*str)
+char	**parser_split_process(char	*str)
 {
 	t_split_data	v;
 
@@ -101,30 +79,35 @@ char	**parser_split(char	*str)
 	v.idx = 0;
 	while (str[v.idx] && str[v.idx] == ' ')
 		v.idx++;
-	while (v.idx <= v.len)
+	parser_split(str, &v);
+	//v.ret heap? 
+	return (v.ret);
+}
+
+void	parser_split(char *str, t_split_data *v)
+{
+	while (v->idx <= v->len)
 	{
-		if (str[v.idx] == '"' || str[v.idx] == '\'')
+		if (str[v->idx] == '"' || str[v->idx] == '\'')
 		{
-			v.tmp = build_quote(str, &v.idx);
-			v.n_str = ft_free_strjoin(v.n_str, v.tmp);
-			free(v.tmp);
+			v->tmp = build_quote(str, &v->idx);
+			v->n_str = ft_free_strjoin(v->n_str, v->tmp);
+			free(v->tmp);
 		}
-		else if (str[v.idx] > 0 && str[v.idx] != ' ')
+		else if (str[v->idx] > 0 && str[v->idx] != ' ')
 		{
-			v.tmp = ft_substr(str, v.idx, 1);
-			v.n_str = ft_free_strjoin(v.n_str, v.tmp);
-			free(v.tmp);
-			v.idx++;
+			v->tmp = ft_substr(str, v->idx, 1);
+			v->n_str = ft_free_strjoin(v->n_str, v->tmp);
+			free(v->tmp);
+			v->idx++;
 		}
 		else
 		{
-			if (!*v.n_str)
+			if (!*v->n_str)
 				break ;
-			v.ret[++v.line] = ft_strdup(v.n_str);
-			ft_memset(v.n_str, '\0', ft_strlen(v.n_str));
-			v.idx++;
+			v->ret[++v->line] = ft_strdup(v->n_str);
+			ft_memset(v->n_str, '\0', ft_strlen(v->n_str));
+			v->idx++;
 		}
 	}
-	//v.ret heap? 
-	return (v.ret);
 }

@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:39:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 16:44:54 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:56:19 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ t_arg	*parser_process(char *str, t_vars *g_data);
 char	*parser_qoute_spawn(char *str, int *index, char c);
 int		parser_word_count(char *str);
 char	**parser_cmd_split(char *str, char c);
-char	**parser_split(char *str);
+char	**parser_split_process(char *str);
+void	parser_split(char *str, t_split_data *v);
+
+char	*parser_qoute_span(char *str, int *index, char c);
+char	*parser_qoute_join(char *dst, const char *src, int *index, char c);
 
 int		parser_quote_endidx(const char *str, char c);
 int		parser_check_quotes(char *str);
