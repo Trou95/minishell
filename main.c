@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:29:12 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 17:33:38 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:35:20 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ int main(int ac, char **av, char **envp)
 		g_data.dup_in = dup(0);
 		g_data.dup_out = dup(1);
 		arg = parser_process(str, &g_data);
-		if (!*str || arg == NULL) {
+		if (!*str || arg == NULL || !ft_strlen(arg->arg_commands[0]))
+		{
 			free(str);
 			continue ;
 		}
