@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 22:03:27 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 22:04:15 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 22:19:48 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	*parser_check_error(char *str)
 	}
 	if (parser_check_qoute_error(str) == 0)
 		return (NULL);
+	if (parser_check_perr(str) == 0)
+		return (NULL);
 	return ((void *)1);
 }
 
@@ -41,3 +43,15 @@ int		parser_check_qoute_error(char *str)
 	}
 	return (1);
 }
+
+int		parser_check_perr(char *str)
+{
+	if (ft_strlen(str) == 3 && str[0] == 39 && str[2] == 39 && str[1] == 124)
+	{
+		printf("Command Not Found\n");
+		g_data.exit_num = 127;
+		return (0);
+	}
+	return (1);
+}
+
