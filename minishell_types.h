@@ -88,6 +88,7 @@ typedef struct s_vars
 	int		count_her;
 	pid_t	*pids;
 	int		exit_num;
+	int 	syntax_err;
 }	t_vars;
 
 

@@ -87,6 +87,11 @@ int main(int ac, char **av, char **envp)
 		}
 		add_history(str);
 		tree = new_tree(arg);
+		if (g_data.syntax_err == 1)
+		{
+			//free arg
+			continue;
+		}
 		assign_defaults(tree, *arg);
 		all_heredocs(tree);
 		free(str);
@@ -102,7 +107,7 @@ int main(int ac, char **av, char **envp)
 				ft_double_free(arg->arg_commands, \
 					parser_array_getsize(arg->arg_commands));
 				//free(arg);
-				//ft_freeall(arg);
+				ft_freeall(arg);
 			}
 		}
 	}

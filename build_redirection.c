@@ -60,13 +60,29 @@ char	*build_arger(char *str, int *index, int *check_redir)
 		ft_memset(&str[start_index], ' ', ft_strlen(tmp));
 		(*index)--;
 	}
-	*check_redir = 2;
+	if (*tmp == '\0')
+		return NULL;
+	else
+		*check_redir = 2;
 	return (tmp);
 }
 
 //type'ın tırkan içinde olma durumu
 //type = NULL;
 //arg = NULL;
+
+int 	check_arger(char **cmd, int idx)
+{
+	if (is_redir(&cmd[0][idx]))
+	{
+		g_data.syntax_err = 1;
+		return 0;
+	}
+	else if (cmd[0][idx] != ' ')
+		return 1;
+	return  0;
+}
+
 void	build_redirection(t_redirection **redir, char	**cmd)
 {
 	int		check_redir;
@@ -76,13 +92,14 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 
 	idx = -1;
 	check_redir = 0;
+	g_data.syntax_err = 0;
 	while (++idx < (int)ft_strlen(cmd[0]))
 	{
 		if (check_redir == 0 && (cmd[0][idx] == '"' || cmd[0][idx] == '\''))
 			idx += ft_strchr(&(cmd[0][idx + 1]), cmd[0][idx]) - &(cmd[0][idx]);
 		if (is_redir(&(cmd[0][idx])))
 			type = build_typer(cmd[0], &idx, &check_redir);
-		if (check_redir == 1 && cmd[0][idx] != ' ' && !is_redir(&cmd[0][idx]))
+		if (check_redir == 1 && check_arger(cmd, idx))
 			arg = build_arger(cmd[0], &idx, &check_redir);
 		if (check_redir == 2)
 		{
@@ -90,6 +107,11 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 			type = NULL;
 			arg = NULL;
 		}
+	}
+	if (check_redir == 1)
+	{
+		g_data.syntax_err = 1;
+		printf("------------\nsyntaxerror\n--------\n");
 	}
 	if (!*redir)
 		*redir = NULL;
