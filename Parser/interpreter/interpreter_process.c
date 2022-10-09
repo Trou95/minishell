@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interpreter_process.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 09:42:17 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 09:42:21 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_interpreter.h"
 
 char	**interpreter_array_format(char **arr, t_vars *g_data)

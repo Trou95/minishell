@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interpreter_qoute.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 09:42:30 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 09:44:02 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_interpreter.h"
 
 char	*ft_check_quote(const char *str, t_vars *g_data)
@@ -5,7 +17,7 @@ char	*ft_check_quote(const char *str, t_vars *g_data)
 	int		i;
 	int		env_len;
 	char	*tmp[2];
-	int len;
+	int		len;
 
 	i = -1;
 	env_len = 0;
@@ -20,7 +32,7 @@ char	*ft_check_quote(const char *str, t_vars *g_data)
 			if (str[i] == '$')
 			{
 				tmp[0] = ft_format(&str[i + 1], &env_len, g_data);
-				if(tmp[0] == NULL)
+				if (tmp[0] == NULL)
 					tmp[0] = ft_strdup("");
 				i += env_len;
 			}
@@ -50,7 +62,6 @@ char	*ft_double_quote(const char *str, int *end_index, t_vars *g_data)
 			if (tmp == NULL)
 				tmp = ft_strdup("");
 			i += ++env_len;
-			//n_str = ft_envjoin(n_str, tmp);
 		}
 		else
 			tmp = ft_substr(str, i++, 1);
@@ -87,13 +98,13 @@ char	*ft_format(const char *str, int *env_len, t_vars *g_data)
 	if (*str == '?')
 	{
 		*env_len = 1;
-		return ft_itoa(g_data->exit_num);
+		return (ft_itoa(g_data->exit_num));
 	}
 	i = ft_is_valid_env(str);
 	if (i == 0)
 	{
 		*env_len = i;
-		return 0;
+		return (0);
 	}
 	tmp = ft_substr(str, 0, i);
 	var = ft_strjoin(tmp, "=");
@@ -112,20 +123,18 @@ char	*ft_format(const char *str, int *env_len, t_vars *g_data)
 	return (NULL);
 }
 
-char	*interpreter_qouete(const char *str, char qouete, int *idx, t_vars *g_data)
+char	*interpreter_qouete(const char *str, char qt, int *idx, t_vars *g_data)
 {
 	char	*tmp;
 
-	if (qouete == '"')
-    {
+	if (qt == '"')
+	{
 
-        tmp = ft_double_quote(str + 1, idx, g_data);
-		printf("1:%d: _%c_ _%s_\n", *idx, str[*idx], str);
-		(*idx)++; //echo "-n" asd yaması
-    }
+		tmp = ft_double_quote(str + 1, idx, g_data);
+		(*idx)++;
+	}
 	else
 		tmp = ft_quote(str + 1, idx);
-    tmp = ft_strappend(tmp, qouete);
-	printf("qouete tmp: %s %c\n",tmp,qouete);
+	tmp = ft_strappend(tmp, qt);
 	return (tmp);
 }
