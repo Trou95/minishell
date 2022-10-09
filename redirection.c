@@ -44,7 +44,7 @@ int	last_infile(t_redirection *new, char *redir)
 	return (1);
 }
 
-void	last_outfile(t_redirection *new, char *redir)
+int	last_outfile(t_redirection *new, char *redir)
 {
 	while (new)
 	{
@@ -54,7 +54,11 @@ void	last_outfile(t_redirection *new, char *redir)
 			g_data.outfiles[new->out_index] = open(new->args,
 					O_CREAT | O_TRUNC | O_RDWR, 0777);
 			if (g_data.outfiles[new->out_index] == -1)
+			{
 				perror("Opening file error");
+				g_data.exit_num = 258;
+				return (0);
+			}		
 			dup_outfile(new->out_index);
 		}
 		else if (!ft_strcmp(redir, ">>"))
@@ -62,21 +66,31 @@ void	last_outfile(t_redirection *new, char *redir)
 			g_data.outfiles[new->out_index] = open(new->args,
 					O_CREAT | O_RDWR | O_APPEND, 0777);
 			if (g_data.outfiles[new->out_index] == -1)
+			{
 				perror("Opening file error");
+				g_data.exit_num = 258;
+				return (0);
+			}
 			dup_outfile(new->out_index);
 		}
 		new = new->next;
 	}
+	return (1);
 }
 
 int	redirection(t_syntax_tree *tree)
 {
 	char			*redir;
 	t_redirection	*new;
+	int				out_error;
+	int				in_error;
 
 	new = tree->s_redir;
 	redir = NULL;
-	last_outfile(new, redir);
+	out_error = last_outfile(new, redir);
 	new = tree->s_redir;
-	return (last_infile(new, redir));
+	in_error = last_infile(new, redir);
+	if (!out_error || !in_error)
+		return (0);
+	return (1);
 }

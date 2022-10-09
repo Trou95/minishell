@@ -18,20 +18,19 @@ int	after_readline(char *str, char *arg)
 
 void	ft_heredoc(char *arg)
 {
-	char	*str;
 	pid_t	pid1;
 
-	str = NULL;
 	if (!g_data.exit_num)
 	{
 		pipe(g_data.heredoc[++g_data.ref_her]);
 		pid1 = fork();
 		if (pid1 == 0)
 		{
+			close(g_data.heredoc[g_data.ref_her][0]);
 			signal(SIGINT, &sig_handler_heredoc);
 			while (1)
 			{
-				if (!after_readline(str, arg))
+				if (!after_readline(NULL, arg))
 					break ;
 			}
 			exit(0);

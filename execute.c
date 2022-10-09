@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+void	catch_childs_exit(void)
+{
+	int	i;
+
+	i = 0;
+	while (g_data.cmd_count - i >= 0)
+	{
+		waitpid(g_data.pids[g_data.cmd_count - i], &g_data.exit_num, 0);
+		if (WIFEXITED(g_data.exit_num))
+			g_data.exit_num /= 256;
+		if (g_data.exit_num == 3 || g_data.exit_num == 2)
+			g_data.exit_num += 128 ;
+		i++;
+	}
+}
+
 void	dup_files(int *fd)
 {
 	if (dup2(fd[1], 1) == -1)
@@ -21,6 +37,8 @@ void	child_process(t_syntax_tree *left, t_syntax_tree *right)
 	}
 	else
 	{
+		if (!ft_strncmp(left->s_command->command[0], "./", 2))
+			execve(left->s_command->command[0], ft_split(ft_strchr(left->s_command->command[0], '/') + 1, ' '), g_data.env);
 		if (ft_strrchr(left->s_command->command[0], '/'))
 		{
 			if (!command_w_path(left->s_command->command))
@@ -56,8 +74,6 @@ void	before_execute(t_syntax_tree *tree)
 	g_data.cmd++;
 	left = tree->left;
 	right = tree->right;
-	if (g_data.pipe < g_data.cmd_count - 1)
-		pipe(g_data.fd[g_data.pipe]);
 	if (g_data.cmd_count == 1 && is_builtin(left->s_command->command[0]))
 	{
 		if (right)
@@ -66,11 +82,16 @@ void	before_execute(t_syntax_tree *tree)
 	}
 	else
 	{
+		if (g_data.pipe < g_data.cmd_count - 1)
+			pipe(g_data.fd[g_data.pipe]);
 		g_data.pids[g_data.cmd] = fork();
 		if (g_data.pids[g_data.cmd] == -1)
 			perror("Error on fork");
 		if (g_data.pids[g_data.cmd] == 0)
+		{
+			signal(SIGQUIT, &sig_handler);
 			child_process(left, right);
+		}
 		if (g_data.pipe < g_data.cmd_count - 1)
 			main_process(g_data.fd[g_data.pipe]);
 	}
@@ -78,9 +99,6 @@ void	before_execute(t_syntax_tree *tree)
 
 void	executer(t_syntax_tree *tree)
 {
-	int	i;
-
-	i = 0;
 	if (tree->type == EXEC)
 		voyage_on_tree(tree);
 	else
@@ -91,11 +109,5 @@ void	executer(t_syntax_tree *tree)
 		else
 			voyage_on_tree(tree->right);
 	}
-	while (g_data.cmd_count - i >= 0)
-	{
-		waitpid(g_data.pids[g_data.cmd_count - i], &g_data.exit_num, 0);
-		if (WIFEXITED(g_data.exit_num))
-			g_data.exit_num /= 256;
-		i++;
-	}
+	catch_childs_exit();
 }
