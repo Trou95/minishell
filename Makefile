@@ -64,7 +64,7 @@ clean:
 
 fclean: clean
 	@make -C ./Readline fclean
-	rm ./minishell
+	rm -rf ./minishell
 
 re: clean all
 
