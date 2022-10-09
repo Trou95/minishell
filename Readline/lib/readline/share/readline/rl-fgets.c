@@ -74,11 +74,11 @@ Best Regards,
 
       #!/bin/csh
       #### replace this with the libtermcap.so directory:
-      set dir1 = "/usr/Readline"
+      set dir1 = "/usr/lib"
       #### replace this with the libfgets.so directory:
       set dir2 = "/usr/fgets"
       #### replace this with the libreadline.so directory:
-      set dir3 = "/usr/local/Readline"
+      set dir3 = "/usr/local/lib"
       set lib1 = "${dir1}/libtermcap.so"
       set lib2 = "${dir2}/libfgets.so"
       set lib3 = "${dir3}/libreadline.so"
@@ -96,7 +96,7 @@ Best Regards,
       setenv FGETS_PROMPT       "foo> "
       exec "foo" $*
   
-  Copyright (C)ï¿½2003-2004 Harold Levy.
+  Copyright (C)©2003-2004 Harold Levy.
   
   This code links to the GNU readline library, and as such is bound by the
   terms of the GNU General Public License as published by the Free Software

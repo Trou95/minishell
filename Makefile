@@ -12,7 +12,7 @@ CC		=	gcc -ggdb
 SRCS	=	main.c allocate_files.c cmd_utils.c execute_utils.c execute.c heredoc.c redirection.c signal.c build_redirection.c utils_list_del_list.c utils_list_del_structs.c utils_list_new.c utils_tree_new.c utils_cleaning.c utils.c  
 
 CFLAGS	= -Wall -Wextra -Werror
-READLINEFLAGS	= 	-L./lib/readline/lib -lreadline
+READLINEFLAGS	= -I./Readline/lib/readline/include	-L./Readline/lib/readline/lib  -lreadline
 LIBFT	=	libft/libft.a
 READLINE		= 	Readline/.minishell
 PARSER  = Parser/minishell_parser.a
