@@ -1,23 +1,48 @@
 #include "minishell.h"
 
+int	after_readline(char *str, char *arg)
+{
+	str = readline("heredoc> ");
+	if (!str)
+		ctrl_d();
+	if (!ft_strcmp(str, arg))
+	{
+		free(str);
+		return (0);
+	}
+	write(g_data.heredoc[g_data.ref_her][1], str, ft_strlen(str));
+	write(g_data.heredoc[g_data.ref_her][1], "\n", 1);
+	free(str);
+	return (1);
+}
+
 void	ft_heredoc(char *arg)
 {
 	char	*str;
+	pid_t	pid1;
 
-	pipe(g_data.heredoc[++g_data.ref_her]);
-	while (1)
+	str = NULL;
+	if (!g_data.exit_num)
 	{
-		str = readline("heredoc> ");
-		if (!ft_strcmp(str, arg))
+		pipe(g_data.heredoc[++g_data.ref_her]);
+		pid1 = fork();
+		if (pid1 == 0)
 		{
-			free(str);
-			break ;
+			signal(SIGINT, &sig_handler_heredoc);
+			while (1)
+			{
+				if (!after_readline(str, arg))
+					break ;
+			}
+			exit(0);
 		}
-		write(g_data.heredoc[g_data.ref_her][1], str, ft_strlen(str));
-		write(g_data.heredoc[g_data.ref_her][1], "\n", 1);
-		free(str);
+		close(g_data.heredoc[g_data.ref_her][1]);
+		waitpid(pid1, &g_data.exit_num, 0);
+		if (WIFEXITED(g_data.exit_num))
+			g_data.exit_num /= 256;
 	}
-	close(g_data.heredoc[g_data.ref_her][1]);
+	else
+		g_data.interrupt = 0;
 }
 
 void	isheredoc(t_syntax_tree *tree)

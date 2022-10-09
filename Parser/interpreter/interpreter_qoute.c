@@ -117,9 +117,15 @@ char	*interpreter_qouete(const char *str, char qouete, int *idx, t_vars *g_data)
 	char	*tmp;
 
 	if (qouete == '"')
-		tmp = ft_double_quote(str + 1, idx, g_data);
+    {
+
+        tmp = ft_double_quote(str + 1, idx, g_data);
+		printf("1:%d: _%c_ _%s_\n", *idx, str[*idx], str);
+		(*idx)++; //echo "-n" asd yaması
+    }
 	else
 		tmp = ft_quote(str + 1, idx);
-	tmp = ft_strappend(tmp, qouete);
+    tmp = ft_strappend(tmp, qouete);
+	printf("qouete tmp: %s %c\n",tmp,qouete);
 	return (tmp);
 }

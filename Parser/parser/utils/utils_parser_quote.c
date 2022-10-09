@@ -85,6 +85,7 @@ char	**parser_array_clearquotes(char **arr)
 	while (arr[i])
 	{
 		tmp = ft_calloc(ft_strlen(arr[i]) + 1, sizeof(char));
+		printf("before: %s - %s\n",arr[i],tmp);
 		tmp = ft_str_clearquotes(arr[i], tmp);
 		free(arr[i]);
 		arr[i] = tmp;

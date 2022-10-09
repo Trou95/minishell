@@ -39,7 +39,7 @@ void	command_export_env(char ***env_list, char *var_name, char *var_data)
 
 void	command_export_exp(char ***exp_list, char *var_name, char *var_data)
 {
-	int		add_line;
+	//int		add_line;
 	char	*export;
 	char	*quote_data;
 
@@ -78,7 +78,10 @@ int	command_export(char ***exp_list, char ***env_list, char *export)
 		command_export_env(env_list, var_name, var_data);
 	}
     else
+	{
+		free_two_str(&var_data, &var_name);
         return (1);
+	}
 	free_two_str(&var_data, &var_name);
     return 0;
 }

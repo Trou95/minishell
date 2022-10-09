@@ -55,27 +55,32 @@ char *build_qouete_join(char *str,int *index)
 //leak
 char *build_qoete(char *str, int *index)
 {
-	char *tmp;
-	char *n_str;
-	;
+	char	*tmp;
+	char	*n_str;
+	char	quote;
+
 	n_str = ft_calloc(1,sizeof(char));
 	while(str[*index])
 	{
 		if(str[*index] == '"' || str[*index] == '\'')
 		{
+			quote = str[*index];
 			tmp = build_qouete_join(&str[*index],index);
 			n_str = ft_free_strjoin(n_str,tmp);
+			n_str = ft_strappend(n_str,quote);
 			free(tmp);
 		}
 		else if(str[*index] != ' ' && !is_redir(&str[*index]))
 		{
 			n_str = ft_free_strjoin(n_str, ft_substr(str,*index,1));
+			n_str = ft_strappend(n_str,'"');
 			(*index)++;
 		}
 		else
 			break;
 	}
-	return ft_strappend(n_str, '"');
+	return n_str;
+	//return ft_strappend(n_str, '"');
 }
 
 char *build_arger(char *str, int *index, int *check_redir)
@@ -112,7 +117,6 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 	int		check_redir;
 	char	*type;
 	char	*arg;
-	char *clean_arg;
 	int		idx;
 	t_redirection *tmp_redir; //silinecek sadece ekrana basmak için kullanılıyor
 
@@ -120,9 +124,11 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 	idx = -1;
 	check_redir = 0;
 	type = arg = NULL;
-	while (++idx < ft_strlen(cmd[0]))
+	printf("-------\n");
+	printf("%s\n",*cmd);
+	printf("-------\n");
+	while (++idx < (int)ft_strlen(cmd[0]))
 	{
-		char ch = cmd[0][idx];
 		if (check_redir == 0 && (cmd[0][idx] == '"' || cmd[0][idx] == '\''))
 		{
 			idx += ft_strchr(&(cmd[0][idx + 1]), cmd[0][idx]) - &(cmd[0][idx]);
@@ -142,17 +148,17 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 			arg = NULL;
 			//check_redir = 0;
 		}
-		printf("ASAMA REDİR:_%s_\n",cmd[0]);
+		//printf("ASAMA REDİR:_%s_\n",cmd[0]);
 	}
 	if (!*redir)
 		*redir = NULL;
 	else
 	{
-		printf("REDIR_REDIR_REDIR\n");
+		//printf("REDIR_REDIR_REDIR\n");
 		tmp_redir = *redir;
 		while (tmp_redir)
 		{
-			printf("redir type: _%s_ arg: _%s_\n", tmp_redir->redir, tmp_redir->args);
+			//printf("redir type: _%s_ arg: _%s_\n", tmp_redir->redir, tmp_redir->args);
 			tmp_redir = tmp_redir->next;
 		}
 

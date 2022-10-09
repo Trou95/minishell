@@ -13,10 +13,11 @@ int	main(int ac, char **av, char **e)
 	line = -1;
 	tot = count_line(env);
 	printf("");
-	command_export(&exp, &env, "PATHS = asdadasd");
-	command_unset(&env, &exp, "PAT");
+    command_export(&exp, &env, "TT");
+    command_export(&exp, &env, "TT=FTW");
+	//command_unset(&env, &exp, "PAT");
 
 	print_line(exp);
-	printf("-------------------------------\n");
-	print_line(env);
+	//printf("-------------------------------\n");
+	//print_line(env);
 }

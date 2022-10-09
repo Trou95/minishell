@@ -3,17 +3,11 @@
 
 extern t_vars  g_data;
 
-void    assign_defaults(t_syntax_tree *tree, t_arg args)
+void	all_mallocs(void)
 {
-	int i = -1;
-	g_data.count_in = 0;
-	g_data.count_out = 0;
-	g_data.count_her = 0;
-	g_data.ref_her = -1;
-	g_data.cmd = -1;
-	g_data.pipe = 0;
-	g_data.cmd_count = args.cmd_count;
-	all_redirs(tree);
+	int	i;
+
+	i = -1;
 	if (g_data.count_in)
 		g_data.infiles = malloc(g_data.count_in * sizeof(int));
 	if (g_data.count_out)
@@ -29,6 +23,29 @@ void    assign_defaults(t_syntax_tree *tree, t_arg args)
 		g_data.pids = malloc(sizeof(pid_t) * g_data.cmd_count);
 }
 
+void    assign_defaults(t_syntax_tree *tree, t_arg args)
+{
+	g_data.exit_num = 0;
+	g_data.count_in = 0;
+	g_data.count_out = 0;
+	g_data.count_her = 0;
+	g_data.ref_her = -1;
+	g_data.interrupt = 1;
+	g_data.redir_val = 1;
+	g_data.cmd = -1;
+	g_data.pipe = 0;
+	g_data.cmd_count = args.cmd_count;
+	all_redirs(tree);
+	all_mallocs();
+}
+
+void	ctrl_c(int sig)
+{
+	(void)sig;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	write(1, "\033[A", 3);
+}
+
 int main(int ac, char **av, char **envp)
 {
     char    *str;
@@ -39,10 +56,10 @@ int main(int ac, char **av, char **envp)
 
     g_data.env = ft_strdup_multi(envp);
     g_data.export = ft_strdup_multi(envp);
-    signal(SIGINT, sig_handler);
-    signal(SIGQUIT, sig_handler);
     while (1)
-    {
+    { //-Wall -wextra -werror ekle makefile'ye
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, &ctrl_c);	
         str = readline("$ >_ ");
 		if(!str)
 			ctrl_d();
@@ -50,27 +67,28 @@ int main(int ac, char **av, char **envp)
         g_data.dup_out = dup(1);
         arg = parser_process(str, &g_data);
 		//system("leaks minishell");
-		if (!*str || arg == NULL || !ft_strlen(arg->arg_commands[0])) {
+		if (!*str || arg == NULL) {
 			free(str);
 			continue ;
 		}
-        array_writer(arg->arg_commands);
-		printf("8\n");
 		add_history(str);
 		tree = new_tree(arg);
 		assign_defaults(tree, *arg);
 		all_heredocs(tree);
-		if (tree->type == EXEC || tree->type == PIPE)
-            executer(tree); // exec error bad address
-        dup2(g_data.dup_in, 0);
-        dup2(g_data.dup_out, 1);
-        if (arg)
-        {
-			del_list(&tree);
-			ft_double_free(arg->arg_commands, parser_array_getsize(arg->arg_commands));
-			free(arg);
-            free(str);
-            //ft_freeall();
+		if (g_data.interrupt)
+		{
+			if (tree->type == EXEC || tree->type == PIPE)
+				executer(tree); // exec error bad address
+			dup2(g_data.dup_in, 0);
+			dup2(g_data.dup_out, 1);
+			if (arg)
+			{
+				del_list(&tree);
+				ft_double_free(arg->arg_commands, parser_array_getsize(arg->arg_commands));
+				free(arg);
+				free(str);
+				//ft_freeall();
+			}
 		}
         //system("leaks minishell");
     }
@@ -92,5 +110,5 @@ int main(int ac, char **av, char **envp)
  *
  * export yyyyyy="ssss"
 zsh: segmentation fault  ./minishell
-
+tırnak girince her şeyi tırnağa alıyor xcd
 */

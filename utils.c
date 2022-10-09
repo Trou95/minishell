@@ -59,7 +59,7 @@ int	ft_strcmp(char *str1, char *str2)
 	return (0);
 }
 
-int ft_space_cntrl(const char *str)
+int	ft_space_cntrl(const char *str)
 {
 	int	i;
 
@@ -75,7 +75,7 @@ int ft_space_cntrl(const char *str)
 	return (1);
 }
 
-t_redirection 	*ft_lstlast_redir(t_redirection *redir)
+t_redirection	*ft_lstlast_redir(t_redirection *redir)
 {
 	if (redir == NULL)
 		return (0);

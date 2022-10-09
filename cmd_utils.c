@@ -1,17 +1,25 @@
 #include "minishell.h"
 
-/*void	free_char_matrix(char ***matrix)
+int	command_w_path(char **command)
 {
-	int	i;
+	char	*command_path;
+	int		start_idx;
 
-	i = -1;
-	while (matrix[0][++i])
-		ft_bzero(matrix[0][i], ft_strlen(matrix[0][i]));
-	i = -1;
-	while (matrix[0][++i])
-		free(matrix[0][i]);
-	free(matrix[0]);
-}*/
+	command_path = ft_strdup(command[0]);
+	free(command[0]);
+	if (access(command_path, X_OK) == -1)
+	{
+		g_data.exit_num = 127;
+		write(2, command_path, ft_strlen(command_path));
+		write(2, ": No such file or directory\n", 29);
+		free(command_path);
+		return (0);
+	}
+	start_idx = ft_strrchr(command_path, '/') - command_path;
+	command[0] = ft_substr(command_path, start_idx + 1,
+		ft_strlen(command_path) - start_idx);
+	return (1);
+}
 
 char	*get_path(char **env)
 {

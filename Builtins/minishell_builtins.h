@@ -19,7 +19,7 @@ int		free_two_str(char **s1, char **s2);
 
 int	command_cd(char *dir, char ***exp, char ***env);
 int	command_echo(char **str);
-void	command_exit(char **arg);
+int	command_exit(char **arg);
 int	command_pwd(void);
 int	command_env(char **env);
 

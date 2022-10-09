@@ -61,6 +61,8 @@ typedef struct s_vars
 	char    *path;
 	char    *cmd_path;
 	int     ret_signal;
+	int		interrupt;
+	int		redir_val;
 	int		*infiles;
 	int		*outfiles;
 	int		**heredoc;

@@ -8,11 +8,16 @@ char	*ft_str_clearquotes(const char *str, char *ptr)
 
 	i = 0;
 	n = 0;
+	printf("kol gibi str: _%s_\n",str);
 	while (str[i])
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
 			c = str[i];
+			printf("c: %c\n",c);
+			// yama
+			
+			//
 			while (str[++i] && str[i] != c)
 				ptr[n++] = str[i];
 		}
