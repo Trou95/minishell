@@ -10,7 +10,7 @@ void	build_command(t_command	**command, char **cmd)
 		*command = NULL;
 	else
 	{
-		tmp = ft_str_clearspace2(*cmd);
+		tmp = ft_str_clearspace(*cmd);
 		splited_cmd = parser_split_process(tmp);
 		quote_cleaned_cmd = ft_strdup_multi(splited_cmd);
 		parser_array_clearquotes(quote_cleaned_cmd);

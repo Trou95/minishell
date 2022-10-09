@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:32:39 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:32:41 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:20:56 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_str_clearspace(const char *str)
 	char	*ret;
 	char	*tmp;
 
-	ret = malloc(sizeof(char));
+	ret = ft_calloc(1, sizeof(char));
 	i = 0;
 	while (str[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:53:26 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 17:13:46 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:20:51 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,6 @@ int	is_redir(char *str)
 			return (ft_strlen(redir_types[i]));
 	}
 	return (0);
-}
-
-char	*ft_str_clearspace2(const char *str)
-{
-	int		i;
-	char	*ret;
-	char	*tmp;
-
-	ret = ft_calloc(1, sizeof(char));
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-		{
-			tmp = ft_substr(str, i, parser_quote_endidx(&str[i + 1], '"') + 2);
-			i += ft_strlen(tmp);
-			ret = ft_free_strjoin(ret, tmp);
-		}
-		else
-		{
-			tmp = ft_substr(str, i, 1);
-			ret = ft_free_strjoin(ret, tmp);
-			i += (str[i] != ' ') + ft_str_clearspace_end(&str[i]);
-		}
-		free(tmp);
-	}
-	return (ret);
 }
 
 int	use_is_redir(char **cmd, int *idx, char **type, int *check_redir)
