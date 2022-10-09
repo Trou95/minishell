@@ -6,10 +6,11 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:37:16 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:37:19 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 09:38:08 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../parser_utils.h"
 
 char	*ft_strappend(char *dst, char c)
 {
