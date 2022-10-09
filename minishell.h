@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:44:18 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 02:06:28 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:24:52 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ void			ft_lstadd_back_redir(t_redirection **redir, t_redirection *new);
 int				ft_quote_cntrl(const char *str, char c);
 void			dup_outfile(int fd_out);
 void			dup_infile(int fd_in);
+void			main_process(int *fd);
+void			catch_childs_exit(void);
 
 #endif

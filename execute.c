@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 02:12:36 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/10 02:24:28 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	catch_childs_exit(void)
@@ -16,14 +28,13 @@ void	catch_childs_exit(void)
 	}
 }
 
-void	dup_files(int *fd)
+void	ft_executable_file(t_syntax_tree *left, t_syntax_tree *right)
 {
-	if (dup2(fd[1], 1) == -1)
-		perror("Error on pipe dup2");
-	if (close(fd[1]) == -1)
-		perror("Error on closing file");
-	if (close(fd[0]) == -1)
-		perror("Error on closing file");
+	(void)right;
+	if (!ft_strncmp(left->s_command->command[0], "./", 2))
+		execve(left->s_command->command[0], \
+			ft_split(ft_strchr(left->s_command->command[0], '/') + \
+				1, ' '), g_data.env);
 }
 
 void	child_process(t_syntax_tree *left, t_syntax_tree *right)
@@ -37,8 +48,7 @@ void	child_process(t_syntax_tree *left, t_syntax_tree *right)
 	}
 	else
 	{
-		if (!ft_strncmp(left->s_command->command[0], "./", 2))
-			execve(left->s_command->command[0], ft_split(ft_strchr(left->s_command->command[0], '/') + 1, ' '), g_data.env);
+		ft_executable_file(left, right);
 		if (ft_strrchr(left->s_command->command[0], '/'))
 		{
 			if (!command_w_path(left->s_command->command))
@@ -56,14 +66,20 @@ void	child_process(t_syntax_tree *left, t_syntax_tree *right)
 	}
 }
 
-void	main_process(int *fd)
+void	before_execute_sub(t_syntax_tree *left, t_syntax_tree *right)
 {
-	if (dup2(fd[0], 0) == -1)
-		perror("Error on dup2");
-	if (close(fd[0]) == -1)
-		perror("Error on closing file");
-	if (close(fd[1]) == -1)
-		perror("Error on closing file");
+	if (g_data.pipe < g_data.cmd_count - 1)
+		pipe(g_data.fd[g_data.pipe]);
+	g_data.pids[g_data.cmd] = fork();
+	if (g_data.pids[g_data.cmd] == -1)
+		perror("Error on fork");
+	if (g_data.pids[g_data.cmd] == 0)
+	{
+		signal(SIGQUIT, &sig_handler);
+		child_process(left, right);
+	}
+	if (g_data.pipe < g_data.cmd_count - 1)
+		main_process(g_data.fd[g_data.pipe]);
 }
 
 void	before_execute(t_syntax_tree *tree)
@@ -82,32 +98,6 @@ void	before_execute(t_syntax_tree *tree)
 	}
 	else
 	{
-		if (g_data.pipe < g_data.cmd_count - 1)
-			pipe(g_data.fd[g_data.pipe]);
-		g_data.pids[g_data.cmd] = fork();
-		if (g_data.pids[g_data.cmd] == -1)
-			perror("Error on fork");
-		if (g_data.pids[g_data.cmd] == 0)
-		{
-			signal(SIGQUIT, &sig_handler);
-			child_process(left, right);
-		}
-		if (g_data.pipe < g_data.cmd_count - 1)
-			main_process(g_data.fd[g_data.pipe]);
+		before_execute_sub(left, right);
 	}
-}
-
-void	executer(t_syntax_tree *tree)
-{
-	if (tree->type == EXEC)
-		voyage_on_tree(tree);
-	else
-	{
-		voyage_on_tree(tree->left);
-		if (tree->right->type == PIPE)
-			executer(tree->right);
-		else
-			voyage_on_tree(tree->right);
-	}
-	catch_childs_exit();
 }

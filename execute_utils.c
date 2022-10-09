@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/10 02:12:30 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/10 02:12:31 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	before_execve(t_syntax_tree *right)
@@ -44,7 +56,7 @@ int	which_builtin(char **command)
 void	path_operations(char **cmd_path, t_syntax_tree *left)
 {
 	char	*path;
-	
+
 	path = get_path(g_data.env);
 	*cmd_path = get_cmd(left->s_command->command[0], path);
 	free(path);
