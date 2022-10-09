@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:33:22 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 12:36:44 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 12:50:53 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*build_quote_join(char *str, int *index)
 	int		i;
 	char	*tmp;
 	char	*n_str;
+	int		len;
 
 	i = 0;
 	n_str = malloc(sizeof(char));
@@ -25,9 +26,9 @@ char	*build_quote_join(char *str, int *index)
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
-			int len = parser_quote_endidx(&str[i + 1],str[i]);
+			len = parser_quote_endidx(&str[i + 1], str[i]);
 			tmp = ft_substr(&str[i + 1], 0, len);
-			n_str = ft_free_strjoin(n_str,tmp);
+			n_str = ft_free_strjoin(n_str, tmp);
 			i += len + 2;
 			free(tmp);
 		}
@@ -39,7 +40,7 @@ char	*build_quote_join(char *str, int *index)
 }
 
 //leak
-char *build_quote(char *str, int *index)
+char	*build_quote(char *str, int *index)
 {
 	char	*tmp;
 	char	*n_str;
@@ -56,7 +57,7 @@ char *build_quote(char *str, int *index)
 			n_str = ft_strappend(n_str, quote);
 			free(tmp);
 		}
-		else if(str[*index] != ' ' && !is_redir(&str[*index]))
+		else if (str[*index] != ' ' && !is_redir(&str[*index]))
 		{
 			n_str = ft_free_strjoin(n_str, ft_substr(str, *index, 1));
 			n_str = ft_strappend(n_str, '"');

@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:35:37 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 12:42:28 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 12:50:45 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*build_typer(char *str, int *index, int *check_redir)
 	return (tmp);
 }
 
+//tmp = ft_substr(str, *index, ft_get_chrindex(&str[*index + 1], str[*index]) + 2);
 char	*build_arger(char *str, int *index, int *check_redir)
 {
 	int		start_index;
@@ -46,7 +47,6 @@ char	*build_arger(char *str, int *index, int *check_redir)
 	start_index = *index;
 	if (str[*index] == '"' || str[*index] == '\'')
 	{
-		//tmp = ft_substr(str, *index, ft_get_chrindex(&str[*index + 1], str[*index]) + 2);
 		tmp = build_quote(str, index);
 		ft_memset(&str[start_index], ' ', *index - start_index);
 		(*index)--;
@@ -64,6 +64,8 @@ char	*build_arger(char *str, int *index, int *check_redir)
 }
 
 //type'ın tırkan içinde olma durumu
+//type = NULL;
+//arg = NULL;
 void	build_redirection(t_redirection **redir, char	**cmd)
 {
 	int		check_redir;
@@ -73,7 +75,6 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 
 	idx = -1;
 	check_redir = 0;
-	type = arg = NULL;
 	while (++idx < (int)ft_strlen(cmd[0]))
 	{
 		if (check_redir == 0 && (cmd[0][idx] == '"' || cmd[0][idx] == '\''))
@@ -84,15 +85,11 @@ void	build_redirection(t_redirection **redir, char	**cmd)
 			arg = build_arger(cmd[0], &idx, &check_redir);
 		if (check_redir == 2)
 		{
-			build_add_redirection(arg, type, redir,&check_redir);
+			build_add_redirection(arg, type, redir, &check_redir);
 			type = NULL;
-			//free(arg);
 			arg = NULL;
-			//check_redir = 0;
 		}
 	}
 	if (!*redir)
 		*redir = NULL;
 }
-
-//echo > "a"''"b"c "asdadad" adsadas2
