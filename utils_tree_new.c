@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_tree_new.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/09 12:53:26 by gdemirta          #+#    #+#             */
+/*   Updated: 2022/10/09 13:14:14 by gdemirta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 //parserda çift tırnak içinde boşluk varsa tırnak kaldırma
@@ -13,20 +25,6 @@ int	is_redir(char *str)
 			return (ft_strlen(redir_types[i]));
 	}
 	return (0);
-}
-
-char	*parser_qoute_span(char *str, int *index, char c);
-
-char	*parser_qoute_join(char *dst, const char *src, int *index, char c)
-{
-	int		len;
-	char	*tmp;
-
-	len = ft_get_chrindex(&src[*index + 1], c) + (1 + (c != ' '));
-	tmp = ft_substr(&src[*index], 0, len);
-	dst = ft_free_strjoin(dst,ft_substr(&src[*index], 0, len));
-	*index += len;
-	return dst;
 }
 
 /*
@@ -68,7 +66,7 @@ char	**parser_split(char	*str)
 //word count
 //space gec
 
-char	**parser_split(char	*str)
+/*char	**parser_split(char	*str)
 {
 	char	**ret;
 	int		idx;
@@ -113,7 +111,7 @@ char	**parser_split(char	*str)
 		}
 	}
 	return (ret);
-}
+}*/
 
 char	*ft_str_clearspace2(const char *str)
 {

@@ -25,22 +25,22 @@ utils_list_del_structs.c \
 utils_list_new.c \
 utils_tree_new.c
 
-OBJS = $(SRCS:.c=.o)
-CFLAGS	= -Wall -Wextra -Werror
-READLINEFLAGS	= -I./Readline/lib/readline/include	-L./Readline/lib/readline/lib  -lreadline
-LIBFT	=	libft/libft.a
-READLINE		= 	Readline/.minishell
-PARSER  = Parser/minishell_parser.a
-BUILTINS = Builtins/minishell_builtins.a
+OBJS 			= $(SRCS:.c=.o)
+READLINE		= lib/readline
+CFLAGS			= -Wall -Wextra -Werror -I./lib/lib/readline/include/
+LFLAGS			= -L./lib/lib/readline/lib -lreadline
+LIBFT			= libft/libft.a
+PARSER 			= Parser/minishell_parser.a
+BUILTINS 		= Builtins/minishell_builtins.a
 
 all: $(NAME)
 
 $(READLINE):
-	make -C ./Readline
+	make -C lib
 
 $(LIBFT):
 	@echo $(YELLOW) "Compiling..." Libft $(END)
-	make -C libft
+	make -C Libft
 
 $(PARSER):
 	make -C ./Parser
@@ -48,13 +48,13 @@ $(PARSER):
 $(BUILTINS):
 	make -C ./Builtins
 
-.c.o:
-	$(CC) -c $(CFLAGS) -I./Readline/lib/readline/include $<
+.c.o: $(READLINE)
+	$(CC)  -c  $< $(CFLAGS)
 
 
-$(NAME): $(BUILTINS) $(READLINE) $(LIBFT) $(PARSER) $(OBJS)
+$(NAME): $(READLINE) $(BUILTINS) $(LIBFT) $(PARSER) $(OBJS)
 	@echo $(YELLOW) "Building... $(NAME)" $(END)
-	$(CC) $(OBJS) $(READLINEFLAGS) $(CFLAGS) -o $(NAME) $(LIBFT) $(BUILTINS) $(PARSER) -ggdb
+	$(CC) $(LFLAGS) $(OBJS) -o $(NAME) $(LIBFT) $(BUILTINS) $(PARSER)
 	@echo $(GREEN) "$(NAME) created successfully!\n" $(END)
 
 clean:
@@ -64,7 +64,7 @@ clean:
 	rm -rf $(OBJS)
 
 fclean: clean
-	@make -C ./Readline fclean
+	@make -C lib fclean
 	rm -rf ./minishell
 
 re: clean all

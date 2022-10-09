@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parser_split.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdemirta <42istanbul.com.tr>               +#+  +:+       +#+        */
+/*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:28:24 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:28:25 by gdemirta         ###   ########.tr       */
+/*   Updated: 2022/10/09 13:04:20 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "parser_utils.h"
 
 int	parser_word_count(char *str)
@@ -46,6 +47,18 @@ char	*parser_qoute_span(char *str, int *index, char c)
 	return (tmp);
 }
 
+char	*parser_qoute_join(char *dst, const char *src, int *index, char c)
+{
+	int		len;
+	char	*tmp;
+
+	len = ft_get_chrindex(&src[*index + 1], c) + (1 + (c != ' '));
+	tmp = ft_substr(&src[*index], 0, len);
+	dst = ft_free_strjoin(dst,ft_substr(&src[*index], 0, len));
+	*index += len;
+	return dst;
+}
+
 char	**parser_cmd_split(char *str, char c)
 {
 	t_redir_var	v;
@@ -73,4 +86,51 @@ char	**parser_cmd_split(char *str, char c)
 	}
 	commands[v.n_idx + 1] = NULL;
 	return (commands);
+}
+
+char	**parser_split(char	*str)
+{
+	char	**ret;
+	int		idx;
+	int		len;
+	int		line;
+	char	*n_str;
+	char	*tmp;
+
+	n_str = ft_calloc(1, sizeof(char));
+	ret = ft_calloc(parser_word_count(str) + 2,sizeof(char*));
+	len = ft_strlen(str);
+	if (str[len - 1] != '"' && str[len - 1] != ' ')
+		str = ft_free_strjoin(str, " ");
+	line = -1;
+	idx = 0;
+	while (str[idx] && str[idx] == ' ')
+		idx++;
+	while (idx <= len)
+	{
+		if (str[idx] == '"' || str[idx] == '\'')
+		{
+			printf("asdasdasd str: %s\n",str);
+			tmp = build_quote(str, &idx);
+			n_str = ft_free_strjoin(n_str, tmp);
+			printf("adadas tmp: %s\n",tmp);
+			free(tmp);
+		}
+		else if (str[idx] > 0 && str[idx] != ' ')
+		{
+			tmp = ft_substr(str, idx, 1);
+			n_str = ft_free_strjoin(n_str, tmp);
+			free(tmp);
+			idx++;
+		}
+		else
+		{
+			if (!*n_str)
+				break ;
+			ret[++line] = ft_strdup(n_str);
+			ft_memset(n_str, '\0', ft_strlen(n_str));
+			idx++;
+		}
+	}
+	return (ret);
 }
