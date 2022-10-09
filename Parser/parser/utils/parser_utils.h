@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:39:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:39:39 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 09:40:26 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "../../../minishell_types.h"
 # include "../../../Libft/libft.h"
-
-char	**amazing_split(char	*str);
 
 t_arg	*parser_process(char *str, t_vars *g_data);
 
