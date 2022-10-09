@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 12:53:26 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 16:57:14 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:13:46 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,92 +26,6 @@ int	is_redir(char *str)
 	}
 	return (0);
 }
-
-/*
-char	**parser_split(char	*str)
-{
-	char	**ret;
-	int		idx;
-	int		len;
-	int		line;
-
-	ret = ft_calloc(parser_word_count(str) + 2,sizeof(char*));
-	len = ft_strlen(str);
-	line = -1;
-	idx = 0;
-	while (idx < len)
-	{
-		while(str[idx] == ' ')
-			idx++;
-		if(str[idx] == '"' || str[idx] == '\'')
-		{
-			ret[++line] = parser_qoute_span(str, &idx,str[idx]);
-			if(str[idx] == '"' || str[idx] == '\'' || str[idx] != ' ')
-			{
-				if(str[idx] == '"' || str[idx] == '\'')
-					ret[line] = parser_qoute_join(ret[line],str,&idx,str[idx]);
-				else if(str[idx] != ' ')
-					ret[line] = parser_qoute_join(ret[line], str, &idx, ' ');
-			}
-		}
-		else if(idx <= len)
-			ret[++line] = parser_qoute_span(str,&idx,' ');
-	}
-	return (ret);
-}
-*/
-
-
-
-//word count
-//space gec
-
-/*char	**parser_split(char	*str)
-{
-	char	**ret;
-	int		idx;
-	int		len;
-	int		line;
-	char *n_str;
-	char *tmp;
-
-	n_str = ft_calloc(1, sizeof(char));
-	ret = ft_calloc(parser_word_count(str) + 2,sizeof(char*));
-	len = ft_strlen(str);
-	if (str[len - 1] != '"' && str[len - 1] != ' ')
-		str = ft_free_strjoin(str, " ");
-	line = -1;
-	idx = 0;
-	while (str[idx] && str[idx] == ' ')
-		idx++;
-	while (idx <= len)
-	{
-		if (str[idx] == '"' || str[idx] == '\'')
-		{
-			printf("asdasdasd str: %s\n",str);
-			tmp = build_quote(str, &idx);
-			n_str = ft_free_strjoin(n_str, tmp);
-			printf("adadas tmp: %s\n",tmp);
-			free(tmp);
-		}
-		else if (str[idx] > 0 && str[idx] != ' ')
-		{
-			tmp = ft_substr(str, idx, 1);
-			n_str = ft_free_strjoin(n_str, tmp);
-			free(tmp);
-			idx++;
-		}
-		else
-		{
-			if(!*n_str)
-				break ;
-			ret[++line] = ft_strdup(n_str);
-			ft_memset(n_str, '\0', ft_strlen(n_str));
-			idx++;
-		}
-	}
-	return (ret);
-}*/
 
 char	*ft_str_clearspace2(const char *str)
 {
@@ -140,39 +54,6 @@ char	*ft_str_clearspace2(const char *str)
 	return (ret);
 }
 
-void	build_command(t_command	**command, char **cmd)
-{
-	char	**quote_cleaned_cmd;
-	char	**splited_cmd;
-	char	*tmp;
-	int		line;
-
-	if (!*cmd || ft_space_cntrl(*cmd))
-		*command = NULL;
-	else
-	{
-		tmp = ft_str_clearspace2(*cmd);
-		splited_cmd = parser_split_process(tmp);
-		line = -1;
-		printf("Splitted cmd::::\n");
-		while (splited_cmd[++line])
-		{
-			printf("%d:%s\n", line, splited_cmd[line]);
-		}
-		quote_cleaned_cmd = ft_strdup_multi(splited_cmd);
-		parser_array_clearquotes(quote_cleaned_cmd);
-		*command = new_s_command(quote_cleaned_cmd);
-		ft_double_free(splited_cmd, parser_array_getsize(splited_cmd));
-		printf("cleaned & setted cmd::::\n");
-		line = -1;
-		while (command[0]->command[++line])
-		{
-			printf("%d:%s\n", line, command[0]->command[line]);
-		}
-	}
-	printf("--------%p\n", *command);
-}
-
 int	use_is_redir(char **cmd, int *idx, char **type, int *check_redir)
 {
 	if (*check_redir == 1)
@@ -199,36 +80,6 @@ void	use_is_arg(char **cmd, int *idx, char **arg, int *check_redir)
 	ft_memset(&cmd[0][*idx], ' ', ft_strlen(*arg));
 	*idx += ft_strlen(*arg);
 	*check_redir = 2;
-}
-
-t_syntax_tree	*build_exec(char	*arg_command)
-{
-	char			*tmp_command;
-	t_syntax_tree	*exec;
-	t_command		*command;
-	t_redirection	*redir;
-
-	redir = NULL;
-	command = NULL;
-	tmp_command = ft_strdup(arg_command);
-	exec = new_s_syntax_tree(EXEC);
-
-	build_redirection(&redir, &tmp_command);
-	build_command(&command, &tmp_command);
-	if (redir)
-	{
-		exec->right = new_s_syntax_tree(REDIR);
-		exec->right->s_redir = redir;
-		exec->right->prev = exec;
-	}
-	if (command)
-	{
-		exec->left = new_s_syntax_tree(COMMAND);
-		exec->left->s_command = command;
-		exec->left->prev = exec;
-	}
-	free(tmp_command);
-	return (exec);
 }
 
 void	build_tree_w_pipe(t_syntax_tree *tree, char **arg_commands, int pipe)

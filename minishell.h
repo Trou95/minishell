@@ -44,14 +44,19 @@ int    	ft_freeall();
 
 int	is_redir(char *str);
 
+char	*ft_str_clearspace2(const char *str);
 
 void	build_redirection(t_redirection **redir, char	**cmd);
 void	build_add_redirection(char *arg, char *type, t_redirection **redir, int *check_redir);
 char 	*build_typer(char *str, int *index, int *check_redir);
 char 	*build_arger(char *str, int *index, int *check_redir);
 
-char 	*build_quote(char *str, int *index);
+void	build_command(t_command	**command, char **cmd);
+t_syntax_tree	*build_exec(char *arg_command);
+
+char	*build_quote(char *str, int *index);
 char	*build_quote_join(char *str, int *index);
+
 
 
 t_syntax_tree	*new_list(t_arg *args);

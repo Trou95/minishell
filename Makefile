@@ -10,6 +10,7 @@ NAME	=	minishell
 CC		=	gcc -ggdb
 SRCS	=	allocate_files.c \
 build_redirection.c \
+build_command.c \
 build_quote.c \
 cmd_utils.c \
 execute.c \
