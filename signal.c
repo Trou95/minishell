@@ -12,7 +12,7 @@ void	sig_handler(int sig_num)
 	{
 		printf("\n");
 		rl_on_new_line();
-		//rl_replace_line("", 0); KARABAYA SOR
+		rl_replace_line("", 0);
 		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		//write(1, "\033[A", 3);
 		rl_redisplay();
