@@ -91,7 +91,7 @@ char	**parser_split(char	*str)
 		if (str[idx] == '"' || str[idx] == '\'')
 		{
 			printf("asdasdasd str: %s\n",str);
-			tmp = build_qoete(str, &idx);
+			tmp = build_quote(str, &idx);
 			n_str = ft_free_strjoin(n_str, tmp);
 			printf("adadas tmp: %s\n",tmp);
 			free(tmp);
@@ -214,7 +214,7 @@ t_syntax_tree	*build_exec(char	*arg_command)
 	command = NULL;
 	tmp_command = ft_strdup(arg_command);
 	exec = new_s_syntax_tree(EXEC);
-	
+
 	build_redirection(&redir, &tmp_command);
 	build_command(&command, &tmp_command);
 	if (redir)

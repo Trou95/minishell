@@ -40,18 +40,18 @@ int		ft_strcmp(char *str1, char *str2);
 int		ft_filesize(t_redirection *lst);
 int		ft_errors(int err_num);
 int		ft_matrix_size(char **matrix);
-int    ft_freeall();
+int    	ft_freeall();
 
 int	is_redir(char *str);
 
 
 void	build_redirection(t_redirection **redir, char	**cmd);
-void 	build_add_redirection(char *arg, char *type, t_redirection **redir, int *check_redir);
+void	build_add_redirection(char *arg, char *type, t_redirection **redir, int *check_redir);
 char 	*build_typer(char *str, int *index, int *check_redir);
-char *build_arger(char *str, int *index, int *check_redir);
+char 	*build_arger(char *str, int *index, int *check_redir);
 
-char *build_qoete(char *str, int *index);
-char *build_qouete_join(char *str,int *index);
+char 	*build_quote(char *str, int *index);
+char	*build_quote_join(char *str, int *index);
 
 
 t_syntax_tree	*new_list(t_arg *args);

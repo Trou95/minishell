@@ -4,3 +4,4 @@
 *.o
 minishell.dSYM
 minishell.dSYM/*
+norm_notes.txt
