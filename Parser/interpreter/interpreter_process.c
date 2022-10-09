@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:42:17 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:42:21 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 09:49:59 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,5 @@ char	**interpreter_array_format(char **arr, t_vars *g_data)
 		}
 		i++;
 	}
-	printf("array-writer 1\n");
-	array_writer(arr);
-	printf("asdadsadad\n");
 	return (arr);
 }
