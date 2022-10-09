@@ -72,17 +72,7 @@ int     is_builtin(char *cmd);
 
 void	ft_lstadd_back_redir(t_redirection **redir, t_redirection *new);
 int		ft_quote_cntrl(const char *str, char c);
-
-
-
-
-
-
-
-
-
-
-
-
+void	dup_outfile(int fd_out);
+void	dup_infile(int fd_in);
 
 #endif

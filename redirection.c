@@ -6,27 +6,11 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:27:57 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:27:58 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 01:36:48 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	dup_infile(int fd_in)
-{
-	if (dup2(g_data.infiles[fd_in], 0) == -1)
-		perror("Error on dup2");
-	if (close(g_data.infiles[fd_in]))
-		perror("Error on closing infile");
-}
-
-void	dup_outfile(int fd_out)
-{
-	if (dup2(g_data.outfiles[fd_out], 1) == -1)
-		perror("Error on dup2");
-	if (close(g_data.outfiles[fd_out]) == -1)
-		perror("Error on closing file");
-}
 
 int	last_infile(t_redirection *new, char *redir)
 {
@@ -56,6 +40,20 @@ int	last_infile(t_redirection *new, char *redir)
 	return (1);
 }
 
+int	last_outfile_sub(t_redirection *new)
+{
+	g_data.outfiles[new->out_index] = open(new->args, \
+		O_CREAT | O_RDWR | O_APPEND, 0777);
+	if (g_data.outfiles[new->out_index] == -1)
+	{
+		perror("Opening file error");
+		g_data.exit_num = 258;
+		return (0);
+	}
+	dup_outfile(new->out_index);
+	return (1);
+}
+
 int	last_outfile(t_redirection *new, char *redir)
 {
 	while (new)
@@ -75,15 +73,8 @@ int	last_outfile(t_redirection *new, char *redir)
 		}
 		else if (!ft_strcmp(redir, ">>"))
 		{
-			g_data.outfiles[new->out_index] = open(new->args,
-					O_CREAT | O_RDWR | O_APPEND, 0777);
-			if (g_data.outfiles[new->out_index] == -1)
-			{
-				perror("Opening file error");
-				g_data.exit_num = 258;
+			if (last_outfile_sub(new) == 0)
 				return (0);
-			}
-			dup_outfile(new->out_index);
 		}
 		new = new->next;
 	}
