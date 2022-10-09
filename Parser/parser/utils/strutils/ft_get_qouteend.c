@@ -6,10 +6,11 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:35:42 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 09:37:09 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/09 09:39:54 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../parser_utils.h"
 
 int	ft_get_qoueteend(char *str, char c)
 {
