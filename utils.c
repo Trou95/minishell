@@ -75,6 +75,22 @@ int	ft_space_cntrl(const char *str)
 	return (1);
 }
 
+int	ft_quote_cntrl(const char *str, char c)
+{
+	int	i;
+
+	if (!*str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 t_redirection	*ft_lstlast_redir(t_redirection *redir)
 {
 	if (redir == NULL)

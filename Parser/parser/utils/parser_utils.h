@@ -65,6 +65,10 @@ char	*ft_str_clearquotes(const char *str, char *ptr);
 
 int		ft_error(char *err_msg, char *err_arg, int err_type);
 
+void 	*parser_check_error(char *str);
+int 	parser_check_qoute_error(char *str);
+
+
 void	array_writer(char **arr);
 void	array_cleaner(char **arr);
 

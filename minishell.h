@@ -30,6 +30,7 @@ int		command_w_path(char **command);
 int		ctrl_d();
 int		redirection(t_syntax_tree *tree);
 int 	ft_space_cntrl(const char *str);
+int 	ft_qouete_cntrl(const char *str, char c);
 
 
 char    *get_path(char **env);
@@ -70,6 +71,8 @@ int     is_builtin(char *cmd);
 
 
 void	ft_lstadd_back_redir(t_redirection **redir, t_redirection *new);
+int		ft_quote_cntrl(const char *str, char c);
+
 
 
 

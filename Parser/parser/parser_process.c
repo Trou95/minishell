@@ -6,10 +6,8 @@ t_arg	*parser_process(char *str, t_vars *g_data)
 	char	**ret;
 	char	**tmp;
 
-	if (!ft_strlen(str) || ft_space_cntrl(str))
-		return (NULL);
-	if (parser_check_quotes(str) == 0)
-		return RET_ERR(ft_error("qoute error",NULL,ERR_RET));
+	if(parser_check_error(str) == 0)
+		return NULL;
 	tmp = malloc(sizeof(char **));
 	ret = malloc(sizeof(char **));
 	arg = malloc(sizeof(t_arg));

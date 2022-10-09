@@ -16,6 +16,7 @@ SRC =  	./interpreter/interpreter_process.c \
 		./parser/utils/utils_parser_quote.c \
 		./parser/utils/utils_parser_quote2.c \
 		./parser/utils/utils_parser_split.c \
+		./parser/utils/utils_parser_check_err.c \
 		./parser/parser_process.c \
 		./utils/debug.c
 

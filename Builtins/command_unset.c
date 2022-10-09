@@ -19,7 +19,7 @@ void	command_unset_exp(char ***matrix, char *unset)
 	}
 	else
 	{
-		len = ft_strlen(unset);
+		len = ft_strlen(unset) + 1;
 		find_line = find_line_char_matrix(*matrix, unset, EXP_LIST, len);
 		if (find_line != -1)
 			del_line_char_matrix(matrix, find_line);
