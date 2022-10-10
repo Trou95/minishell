@@ -75,7 +75,9 @@ fclean: clean
 re: clean all
 
 norm :
-	@make norm -C libft
-	@norminette $(SRCS)
+	@norminette *.c
+	@norminette ./Parser
+	@norminette ./Builtins
+	@norminette ./Libft
 
 .PHONY: all, clean, fclean, re

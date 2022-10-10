@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:39:30 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 02:42:59 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 03:00:10 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ typedef struct s_parser
 	char	**ret;
 	char	**tmp;
 }	t_parser;
-
-
 
 char	*build_quote(char *str, int *index);
 

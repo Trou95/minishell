@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:44:57 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/09 10:25:24 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/10 03:00:22 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ char	*ft_envjoin(char *dst, char *src);
 int		ft_get_env_len(const char *str);
 int		ft_get_env(const char *str, char **env);
 int		ft_is_valid_env(const char *str);
-
 
 #endif
