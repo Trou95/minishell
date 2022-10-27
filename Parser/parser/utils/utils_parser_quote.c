@@ -6,7 +6,7 @@
 /*   By: gdemirta <gdemirta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 09:28:48 by gdemirta          #+#    #+#             */
-/*   Updated: 2022/10/10 01:18:14 by gdemirta         ###   ########.fr       */
+/*   Updated: 2022/10/27 10:53:48 by gdemirta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	parser_check_doublequote(char *str, int *count_dquote, int *count_quote)
 			}
 		}
 		else if (str[i] == '\'')
-			count_quote += 2;
+			(*count_quote) += 2;
 		i++;
 	}
 	return (++i);
